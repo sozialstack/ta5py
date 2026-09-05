@@ -1,0 +1,91 @@
+{
+  "profile": "krankentransport",
+  "sammelgruppe": "E",
+  "unb": {
+    "syntax": "UNOC:3",
+    "absender_ik": "123456789",
+    "empfaenger_ik": "987654321",
+    "datum_zeit": "202608171200",
+    "datenaustauschreferenz": "REF0001"
+  },
+  "slla": [
+    {
+      "unh": {
+        "nachrichten_ref": "1",
+        "nachrichtentyp": "SLLA:21:0:0"
+      },
+      "fkt": {
+        "verarbeitungskennzeichen": "01",
+        "ik_rechnungssteller": "123456789",
+        "ik_kostentraeger": "987654321",
+        "ik_krankenkasse": "987654321",
+        "ik_absender": "123456789"
+      },
+      "rec": {
+        "sammel_rechnungsnummer": "R20260001",
+        "einzel_rechnungsnummer": "0",
+        "datum": "20260817",
+        "rechnungsart": "1"
+      },
+      "cases": [
+        {
+          "inv": {
+            "versicherten_id": "A000000001",
+            "versichertenstatus": "10000",
+            "geburtsdatum": "19800101"
+          },
+          "nad": {
+            "name_versicherter": "Mustermann",
+            "vorname_versicherter": "Max"
+          },
+          "trips": [
+            {
+              "ktl": {
+                "identifikationsnummer": "1",
+                "strasse_abholort": "Hauptstrasse 1",
+                "plz_abholort": "10115",
+                "name_abholort": "Berlin",
+                "strasse_zielort": "Klinikweg 2",
+                "plz_zielort": "10117",
+                "name_zielort": "Berlin"
+              },
+              "positions": [
+                {
+                  "ekt": {
+                    "abrechnungscode": "11",
+                    "tarifkennzeichen": "00ABC",
+                    "positionsnummer": "110100",
+                    "anzahl_menge": "1,00",
+                    "einzelbetrag": "85,50",
+                    "leistungsdatum": "20260817",
+                    "gefahrene_kilometer": "12,00"
+                  },
+                  "txt": {
+                    "text": "Synthetic KT Fahrpauschale"
+                  }
+                }
+              ]
+            }
+          ],
+          "zkt": {
+            "verordnungsdatum": "20260816",
+            "unfallkennzeichen": "0",
+            "le_art": "48"
+          },
+          "bes": {
+            "gesamt_brutto": "85,50",
+            "gesamt_zuzahlung": "0,00"
+          }
+        }
+      ],
+      "unt": {
+        "anzahl_segmente": "000012",
+        "nachrichten_ref": "1"
+      }
+    }
+  ],
+  "unz": {
+    "anzahl_nachrichten": "1",
+    "datenaustauschreferenz": "REF0001"
+  }
+}

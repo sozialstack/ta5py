@@ -1,0 +1,6 @@
+package_label: v21
+activated_at: "2026-08-17T00:00:00+00:00"
+activated_by: bootstrap
+approval_ref: bootstrap-initial
+previous_package_label: null
+note: "Bootstrap live binding. Future changes require explicit human approve + go-live."

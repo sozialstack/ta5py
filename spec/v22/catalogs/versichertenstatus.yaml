@@ -1,0 +1,7 @@
+id: versichertenstatus
+version: 21
+source: Anlage 3 (ambulance-referenced)
+codes:
+  - { code: "10000", label: "Mitglied synthetic" }
+  - { code: "30000", label: "Familienversicherter synthetic" }
+  - { code: "50000", label: "Rentner synthetic" }

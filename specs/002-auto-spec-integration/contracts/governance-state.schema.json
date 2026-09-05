@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clearing.local/schemas/format-governance-state.json",
+  "title": "FormatSpecGovernanceState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["live", "detections", "candidates"],
+  "properties": {
+    "live": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_label", "activated_at", "activated_by", "approval_ref"],
+      "properties": {
+        "package_label": {
+          "type": "string",
+          "pattern": "^v[0-9]+$"
+        },
+        "activated_at": { "type": "string", "format": "date-time" },
+        "activated_by": { "type": "string", "minLength": 1 },
+        "approval_ref": { "type": "string", "minLength": 1 },
+        "previous_package_label": {
+          "type": "string",
+          "pattern": "^v[0-9]+$"
+        }
+      }
+    },
+    "detections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "started_at", "finished_at", "status"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "started_at": { "type": "string", "format": "date-time" },
+          "finished_at": { "type": "string", "format": "date-time" },
+          "status": { "enum": ["ok", "failed", "partial"] },
+          "error_message": { "type": ["string", "null"] },
+          "found_publication_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "new_or_changed_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "out_of_scope_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "package_label",
+          "branch_name",
+          "source_publication_ids",
+          "state",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "package_label": {
+            "type": "string",
+            "pattern": "^v[0-9]+$"
+          },
+          "branch_name": { "type": "string", "minLength": 1 },
+          "source_publication_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "state": {
+            "enum": [
+              "detected",
+              "integrating",
+              "awaiting_approval",
+              "live",
+              "failed",
+              "rejected"
+            ]
+          },
+          "change_summary_path": { "type": ["string", "null"] },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "error_message": { "type": ["string", "null"] },
+          "approval": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "required": ["decision", "actor", "decided_at"],
+            "properties": {
+              "decision": { "enum": ["approve", "reject"] },
+              "actor": { "type": "string", "minLength": 1 },
+              "decided_at": { "type": "string", "format": "date-time" },
+              "note": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

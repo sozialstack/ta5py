@@ -1,0 +1,7 @@
+code: ZKT
+name: Verordnung Krankentransport
+fields:
+  - { name: segment_tag, official_label: ZKT, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: verordnungsdatum, official_label: Verordnungsdatum, position: 2, max_length: 8, value_type: N, usage: M }
+  - { name: unfallkennzeichen, official_label: Unfallkennzeichen, position: 3, max_length: 1, value_type: AN, usage: K, catalog_ref: unfall_sonstiges }
+  - { name: le_art, official_label: Leistungserbringerart, position: 4, max_length: 2, value_type: N, usage: M, catalog_ref: le_art_krankentransport, description: "41-49 ambulance types" }

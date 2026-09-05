@@ -1,0 +1,6 @@
+code: SKZ
+name: Kostenzusage/Genehmigung
+fields:
+  - { name: segment_tag, official_label: SKZ, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: genehmigungsnummer, official_label: Genehmigungsnummer, position: 2, max_length: 20, value_type: AN, usage: K }
+  - { name: genehmigungsdatum, official_label: Genehmigungsdatum, position: 3, max_length: 8, value_type: N, usage: K }

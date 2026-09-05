@@ -1,0 +1,6 @@
+code: NAD
+name: Name und Adresse Versicherter
+fields:
+  - { name: segment_tag, official_label: NAD, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: name_versicherter, official_label: Name, position: 2, max_length: 45, value_type: AN, usage: M }
+  - { name: vorname_versicherter, official_label: Vorname, position: 3, max_length: 45, value_type: AN, usage: K }

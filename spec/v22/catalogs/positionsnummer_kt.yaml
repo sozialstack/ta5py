@@ -1,0 +1,5 @@
+id: positionsnummer_kt
+version: 22
+source: Anlage 3 8.2.5 Positionsnummer Krankentransport (v22 preview sample; 210200 removed as delta fixture)
+codes:
+  - { code: "110100", label: "synthetic position" }

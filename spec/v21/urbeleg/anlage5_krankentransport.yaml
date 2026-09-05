@@ -1,0 +1,24 @@
+scope: krankentransport
+source_pdf: official/anlage-5/Anlage_5_TP5_V4_0_20180927.pdf
+required_elements:
+  - id: patient_name
+    description: "Patient name on Verordnung/Urbeleg"
+  - id: versicherten_id
+    description: "Versichertenkennung on Urbeleg"
+  - id: verordnungsdatum
+    description: "Date of prescription"
+  - id: transport_reason
+    description: "Medical reason / indication for transport"
+  - id: abhol_ziel
+    description: "Pickup and destination information"
+  - id: arzt_stempel
+    description: "Prescribing physician identity/stamp"
+conditional_elements:
+  - when:
+      unfallkennzeichen_in: ["1", "2"]
+    required_elements:
+      - id: unfall_datum
+        description: "Accident date required when Unfall/Sonstiges is set"
+      - id: unfall_kennzeichnung
+        description: "Accident/Unfall marking on Urbeleg when Unfallkennzeichen is set"
+notes: "Krankentransport Urbeleg subset from Anlage 5; Unfall-dependent extras when Unfallkennzeichen in {1,2}."

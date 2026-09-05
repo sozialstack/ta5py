@@ -1,0 +1,5 @@
+code: EVO
+name: Elektronische Verordnung
+fields:
+  - { name: segment_tag, official_label: EVO, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: evo_id, official_label: EVO-ID, position: 2, max_length: 70, value_type: AN, usage: K }

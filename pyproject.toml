@@ -1,0 +1,13 @@
+[project]
+name = "gkv-edi"
+version = "0.1.0"
+description = "SGB V TA5/EDIFACT encode, decode, and KK syntactic validation"
+requires-python = ">=3.12"
+dependencies = ["clearing-contracts", "dtapy", "PyYAML>=6.0", "pdfminer.six>=20240706"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

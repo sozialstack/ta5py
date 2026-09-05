@@ -1,0 +1,5 @@
+code: IMG
+name: Image / Belegreferenz
+fields:
+  - { name: segment_tag, official_label: IMG, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: beleg_referenz, official_label: Belegreferenz, position: 2, max_length: 70, value_type: AN, usage: K }

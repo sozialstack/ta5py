@@ -1,0 +1,6 @@
+id: laenderkennzeichen
+version: 21
+codes:
+  - { code: "D", label: "Deutschland" }
+  - { code: "A", label: "Oesterreich" }
+  - { code: "CH", label: "Schweiz" }

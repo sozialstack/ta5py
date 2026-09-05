@@ -1,0 +1,5 @@
+id: tarifkennzeichen
+version: 21
+codes:
+  - { code: "00ABC", label: "synthetic tarif" }
+  - { code: "00XYZ", label: "synthetic tarif alt" }

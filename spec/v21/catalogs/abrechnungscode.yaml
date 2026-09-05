@@ -1,0 +1,5 @@
+id: abrechnungscode
+version: 21
+codes:
+  - { code: "11", label: "synthetic KT code" }
+  - { code: "21", label: "synthetic KT code alt" }

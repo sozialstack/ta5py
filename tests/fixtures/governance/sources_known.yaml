@@ -1,0 +1,28 @@
+# Known publications fixture (matches production manifest shape)
+base_url: "https://www.gkv-datenaustausch.de"
+overview_url: "https://www.gkv-datenaustausch.de/leistungserbringer/sonstige_leistungserbringer/sonstige_leistungserbringer.jsp"
+documents:
+  - id: anlage-1-v21
+    bucket: anlage-1
+    filename: Anlage_1_TP5_V21_20260115.pdf
+    path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_aktuell_4/Anlage_1_TP5_V21_20260115.pdf
+    version: 21
+    stand_date: "2026-01-15"
+  - id: anlage-3-v21
+    bucket: anlage-3
+    filename: Anlage_3_TP5_V21_20250919.pdf
+    path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_aktuell_4/Anlage_3_TP5_V21_20250919.pdf
+    version: 21
+    stand_date: "2025-09-19"
+  - id: anlage-5
+    bucket: anlage-5
+    filename: Anlage_5_TP5_V4_0_20180927.pdf
+    path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_aktuell_4/Anlage_5_TP5_V4_0_20180927.pdf
+    version: 4
+    stand_date: "2018-09-27"
+  - id: anhang-3-v10
+    bucket: anhang-3
+    filename: Anhang_03_Anlage_1_TP5_V10_20260414.pdf
+    path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_aktuell_4/Anhang_03_Anlage_1_TP5_V10_20260414.pdf
+    version: 10
+    stand_date: "2026-04-14"
