@@ -5,8 +5,8 @@ from typing import Any
 
 import yaml
 
-from gkv_edi.governance.models import DetectionRun, IntegrationCandidate, LiveVersionBinding
-from gkv_edi.spec_loader import SPEC_ROOT
+from ta5py.governance.models import DetectionRun, IntegrationCandidate, LiveVersionBinding
+from ta5py.spec_loader import SPEC_ROOT
 
 OPEN_CANDIDATE_STATES = frozenset(
     {"detected", "integrating", "awaiting_approval"}

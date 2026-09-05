@@ -7,11 +7,11 @@ from pathlib import Path
 import pytest
 import yaml
 
-from gkv_edi.governance.detect import run_detection
-from gkv_edi.governance.integrate import DuplicateCandidateError, integrate_candidate
-from gkv_edi.governance.models import LiveVersionBinding
-from gkv_edi.governance.store import list_candidates, load_live_binding, save_live_binding
-from gkv_edi.spec_loader import SPEC_ROOT
+from ta5py.governance.detect import run_detection
+from ta5py.governance.integrate import DuplicateCandidateError, integrate_candidate
+from ta5py.governance.models import LiveVersionBinding
+from ta5py.governance.store import list_candidates, load_live_binding, save_live_binding
+from ta5py.spec_loader import SPEC_ROOT
 
 FIXTURES = Path(__file__).parent / "fixtures" / "governance"
 KNOWN = FIXTURES / "sources_known.yaml"
@@ -82,7 +82,7 @@ def test_integrate_creates_branch_and_scaffold(tmp_path: Path):
         capture_output=True,
         text=True,
     ).stdout.strip()
-    assert branch == "gkv-edi/spec-v23-integration"
+    assert branch == "ta5py/spec-v23-integration"
     assert load_live_binding(spec).package_label == live_before
     prov = yaml.safe_load((spec / "v23" / "provenance.yaml").read_text(encoding="utf-8"))
     by_id = {p["anlage_id"]: p for p in prov["publications"]}
@@ -119,14 +119,14 @@ def test_duplicate_integrate_refuses_second_open(tmp_path: Path):
     )
     from datetime import datetime, timezone
 
-    from gkv_edi.governance.models import IntegrationCandidate
-    from gkv_edi.governance.store import save_candidate
+    from ta5py.governance.models import IntegrationCandidate
+    from ta5py.governance.store import save_candidate
 
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     dup = IntegrationCandidate(
         id="v23-dup",
         package_label="v23",
-        branch_name="gkv-edi/spec-v23-dup-integration",
+        branch_name="ta5py/spec-v23-dup-integration",
         source_publication_ids=["anlage-1-v23"],
         state="detected",
         created_at=now,

@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from gkv_edi.governance.detect import run_detection, should_auto_integrate
-from gkv_edi.governance.discover import parse_overview_html
-from gkv_edi.governance.models import ApprovalDecision, IntegrationCandidate, LiveVersionBinding
-from gkv_edi.governance.store import (
+from ta5py.governance.detect import run_detection, should_auto_integrate
+from ta5py.governance.discover import parse_overview_html
+from ta5py.governance.models import ApprovalDecision, IntegrationCandidate, LiveVersionBinding
+from ta5py.governance.store import (
     list_candidates,
     load_candidate,
     load_check_metadata,
@@ -148,7 +148,7 @@ def test_redetect_preserves_live_and_failed(tmp_path: Path):
         IntegrationCandidate(
             id="v23",
             package_label="v23",
-            branch_name="gkv-edi/spec-v23-integration",
+            branch_name="ta5py/spec-v23-integration",
             source_publication_ids=["anlage-1-v23"],
             state="live",
             created_at=now,

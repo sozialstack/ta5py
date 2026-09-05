@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://local.clearing/format/contracts/anlage1-package.schema.json",
   "title": "Anlage1AmbulancePackage",
-  "description": "Layout contract for packages/gkv-edi/spec/vN ambulance (SLLA:E) Anlage 1 packages. Not the official PDF.",
+  "description": "Layout contract for packages/ta5py/spec/vN ambulance (SLLA:E) Anlage 1 packages. Not the official PDF.",
   "type": "object",
   "additionalProperties": false,
   "required": ["version_label", "provenance", "una", "messages", "segments"],

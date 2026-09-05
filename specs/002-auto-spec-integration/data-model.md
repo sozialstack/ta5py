@@ -1,6 +1,6 @@
 # Data Model: Format Spec Governance
 
-**Feature**: `specs/gkv-edi/002-auto-spec-integration`  
+**Feature**: `specs/ta5py/002-auto-spec-integration`  
 **Date**: 2026-08-17
 
 ## Entities
@@ -41,7 +41,7 @@ Work item for a detected package version.
 | Field | Description | Validation |
 |-------|-------------|------------|
 | `id` | e.g. `v23` or `anlage-1:23` | Required, unique |
-| `package_label` | Target `packages/gkv-edi/spec/vN` label | Required (`v` + digits) |
+| `package_label` | Target `packages/ta5py/spec/vN` label | Required (`v` + digits) |
 | `branch_name` | Dedicated git branch | Required; unique while open |
 | `source_publication_ids` | Publications driving this candidate | Min 1 |
 | `state` | See state machine | Required |

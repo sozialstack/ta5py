@@ -6,9 +6,9 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
-from gkv_edi.governance.models import ApprovalDecision, IntegrationCandidate, LiveVersionBinding
-from gkv_edi.governance.store import load_candidate, load_live_binding, save_candidate, save_live_binding
-from gkv_edi.spec_loader import SPEC_ROOT, load_package, load_package_at, refresh_default_version
+from ta5py.governance.models import ApprovalDecision, IntegrationCandidate, LiveVersionBinding
+from ta5py.governance.store import load_candidate, load_live_binding, save_candidate, save_live_binding
+from ta5py.spec_loader import SPEC_ROOT, load_package, load_package_at, refresh_default_version
 
 _LABEL_RE = re.compile(r"^v(\d+)$")
 

@@ -5,15 +5,15 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from gkv_edi.governance.store import (
+from ta5py.governance.store import (
     latest_detection_run,
     list_candidates,
     list_detection_runs,
     load_check_metadata,
     load_live_binding,
 )
-from gkv_edi.governance.validate_state import validate_status_payload
-from gkv_edi.spec_loader import SPEC_ROOT
+from ta5py.governance.validate_state import validate_status_payload
+from ta5py.spec_loader import SPEC_ROOT
 
 
 def gather_status(spec_root: Path | None = None) -> dict[str, Any]:

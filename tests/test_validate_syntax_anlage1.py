@@ -3,8 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from gkv_edi.encode import encode, encode_slga_wire
-from gkv_edi.validate_syntax import validate_data, validate_slga, validate_wire_segment_order
+from ta5py.encode import encode, encode_slga_wire
+from ta5py.validate_syntax import validate_data, validate_slga, validate_wire_segment_order
 
 FIXTURE = Path(__file__).parent / "fixtures/synthetic/slla_e/happy_claim.json"
 ORDER_BAD = Path(__file__).parent / "fixtures/synthetic/slla_e/wrong_order_claim.json"

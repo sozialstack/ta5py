@@ -1,6 +1,6 @@
 # Tasks: Convert Official PDFs to Markdown
 
-**Input**: Design documents from `specs/gkv-edi/003-pdf-to-md/`
+**Input**: Design documents from `specs/ta5py/003-pdf-to-md/`
 
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/, quickstart.md
 
@@ -18,8 +18,8 @@
 
 **Purpose**: Dependencies and stub entry points for conversion tooling
 
-- [x] T001 Add `pdfminer.six` dependency to `packages/gkv-edi/pyproject.toml` (and sync workspace lock via `uv lock` / `uv sync` at repo root)
-- [x] T002 Create converter stub CLI `scripts/convert_pdfs_to_md.py` with argparse skeleton matching `specs/gkv-edi/003-pdf-to-md/contracts/convert-pdf-cli.md` (modes: paths, `--bulk`, `--repo-root`, `--skip-existing`)
+- [x] T001 Add `pdfminer.six` dependency to `packages/ta5py/pyproject.toml` (and sync workspace lock via `uv lock` / `uv sync` at repo root)
+- [x] T002 Create converter stub CLI `scripts/convert_pdfs_to_md.py` with argparse skeleton matching `specs/ta5py/003-pdf-to-md/contracts/convert-pdf-cli.md` (modes: paths, `--bulk`, `--repo-root`, `--skip-existing`)
 - [x] T003 [P] Add Make target `convert-pdfs` in `Makefile` invoking `uv run python scripts/convert_pdfs_to_md.py --bulk`
 
 ---
@@ -30,11 +30,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [x] T004 Implement PDF text extraction + Markdown writer helpers in `scripts/convert_pdfs_to_md.py` (sibling `{stem}.md`, never delete/modify PDF bytes, empty-text notice, corrupt-file error status per `specs/gkv-edi/003-pdf-to-md/data-model.md`)
-- [x] T005 Implement ignore-dir bulk walker and per-file `ConversionResult` reporting/exit codes in `scripts/convert_pdfs_to_md.py` per `specs/gkv-edi/003-pdf-to-md/contracts/convert-pdf-cli.md`
-- [x] T006 [P] Add a tiny synthetic text PDF fixture under `packages/gkv-edi/tests/fixtures/pdf/sample_text.pdf` for manual/quickstart validation (no real Sozialdaten)
+- [x] T004 Implement PDF text extraction + Markdown writer helpers in `scripts/convert_pdfs_to_md.py` (sibling `{stem}.md`, never delete/modify PDF bytes, empty-text notice, corrupt-file error status per `specs/ta5py/003-pdf-to-md/data-model.md`)
+- [x] T005 Implement ignore-dir bulk walker and per-file `ConversionResult` reporting/exit codes in `scripts/convert_pdfs_to_md.py` per `specs/ta5py/003-pdf-to-md/contracts/convert-pdf-cli.md`
+- [x] T006 [P] Add a tiny synthetic text PDF fixture under `packages/ta5py/tests/fixtures/pdf/sample_text.pdf` for manual/quickstart validation (no real Sozialdaten)
 
-**Checkpoint**: `uv run python scripts/convert_pdfs_to_md.py packages/gkv-edi/tests/fixtures/pdf/sample_text.pdf` can be completed in US1
+**Checkpoint**: `uv run python scripts/convert_pdfs_to_md.py packages/ta5py/tests/fixtures/pdf/sample_text.pdf` can be completed in US1
 
 ---
 
@@ -42,12 +42,12 @@
 
 **Goal**: Single-file conversion produces a sibling `.md` and retains the PDF
 
-**Independent Test**: Convert `packages/gkv-edi/tests/fixtures/pdf/sample_text.pdf`; confirm `.md` exists with readable text and PDF unchanged
+**Independent Test**: Convert `packages/ta5py/tests/fixtures/pdf/sample_text.pdf`; confirm `.md` exists with readable text and PDF unchanged
 
 ### Implementation for User Story 1
 
 - [x] T007 [US1] Wire CLI positional PDF path handling in `scripts/convert_pdfs_to_md.py` to call the foundational converter and print `ok|empty_text|error` lines
-- [x] T008 [US1] Document single-file usage in `packages/gkv-edi/spec/official/README.md` (link retain-PDF rule and `uv run python scripts/convert_pdfs_to_md.py <pdf>`)
+- [x] T008 [US1] Document single-file usage in `packages/ta5py/spec/official/README.md` (link retain-PDF rule and `uv run python scripts/convert_pdfs_to_md.py <pdf>`)
 
 **Checkpoint**: US1 independently usable for one PDF
 
@@ -62,8 +62,8 @@
 ### Implementation for User Story 2
 
 - [x] T009 [US2] Enable and verify `--bulk` / `--repo-root` path in `scripts/convert_pdfs_to_md.py` (skip `.venv`, `.git`, `__pycache__`, `.pytest_cache`, etc.)
-- [x] T010 [US2] Run bulk conversion against the workspace once PDFs are present (`make convert-pdfs`) and confirm companions under `packages/gkv-edi/spec/official/**` when downloads exist
-- [x] T011 [P] [US2] Note in `packages/gkv-edi/README.md` that `make convert-pdfs` generates Markdown companions while keeping PDFs
+- [x] T010 [US2] Run bulk conversion against the workspace once PDFs are present (`make convert-pdfs`) and confirm companions under `packages/ta5py/spec/official/**` when downloads exist
+- [x] T011 [P] [US2] Note in `packages/ta5py/README.md` that `make convert-pdfs` generates Markdown companions while keeping PDFs
 
 **Checkpoint**: US2 delivers repo-wide coverage
 
@@ -77,9 +77,9 @@
 
 ### Implementation for User Story 3
 
-- [x] T012 [US3] Update `packages/gkv-edi/scripts/download_official_pdfs.py` to invoke conversion for each confirmed PDF path (import callable from `scripts/convert_pdfs_to_md.py` or subprocess `uv run python scripts/convert_pdfs_to_md.py`)
-- [x] T013 [US3] Ensure skipped-existing PDF branch still triggers companion generation in `packages/gkv-edi/scripts/download_official_pdfs.py`
-- [x] T014 [US3] Propagate conversion hard-failures to non-zero exit in `packages/gkv-edi/scripts/download_official_pdfs.py` without deleting PDFs
+- [x] T012 [US3] Update `packages/ta5py/scripts/download_official_pdfs.py` to invoke conversion for each confirmed PDF path (import callable from `scripts/convert_pdfs_to_md.py` or subprocess `uv run python scripts/convert_pdfs_to_md.py`)
+- [x] T013 [US3] Ensure skipped-existing PDF branch still triggers companion generation in `packages/ta5py/scripts/download_official_pdfs.py`
+- [x] T014 [US3] Propagate conversion hard-failures to non-zero exit in `packages/ta5py/scripts/download_official_pdfs.py` without deleting PDFs
 - [x] T015 [P] [US3] Align `Makefile` target `download-format-pdfs` docs/comments so download implies convert (script-integrated)
 
 **Checkpoint**: Download path alone yields Markdown companions
@@ -95,7 +95,7 @@
 ### Implementation for User Story 4
 
 - [x] T016 [US4] Create `.cursor/skills/convert-pdf-to-md/SKILL.md` with YAML frontmatter (`name`, `description`), triggers (after PDF download, convert one/all PDFs), commands (`make convert-pdfs`, `make download-format-pdfs`, single-file `uv run`), and explicit retain-PDF + PDF-authoritative rules
-- [x] T017 [P] [US4] Keep the skill short (one screen of procedure); point to `specs/gkv-edi/003-pdf-to-md/quickstart.md` for details rather than duplicating the full contract
+- [x] T017 [P] [US4] Keep the skill short (one screen of procedure); point to `specs/ta5py/003-pdf-to-md/quickstart.md` for details rather than duplicating the full contract
 
 **Checkpoint**: Skill is usable without reading the full feature folder
 
@@ -106,7 +106,7 @@
 **Purpose**: Docs and end-to-end validation
 
 - [x] T018 [P] Update root `README.md` (if it mentions format PDF download) to mention Markdown companions / `convert-pdfs`
-- [x] T019 Run quickstart validation from `specs/gkv-edi/003-pdf-to-md/quickstart.md` (single, bulk, download) and fix any gaps in scripts or docs
+- [x] T019 Run quickstart validation from `specs/ta5py/003-pdf-to-md/quickstart.md` (single, bulk, download) and fix any gaps in scripts or docs
 - [x] T020 [P] Confirm official PDFs remain gitignored and Markdown companions are not blanket-ignored in `.gitignore`
 
 ---
@@ -146,7 +146,7 @@
 ```bash
 # After Foundational:
 Task: "Enable --bulk walker in scripts/convert_pdfs_to_md.py"
-Task: "Note convert-pdfs in packages/gkv-edi/README.md"
+Task: "Note convert-pdfs in packages/ta5py/README.md"
 ```
 
 ---

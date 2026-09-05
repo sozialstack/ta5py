@@ -1,6 +1,6 @@
 # Research: Automatic Format Spec Detection & Integration
 
-**Feature**: `specs/gkv-edi/002-auto-spec-integration`  
+**Feature**: `specs/ta5py/002-auto-spec-integration`  
 **Date**: 2026-08-17  
 **Directive**: Integrate new specs on a **new branch**; strict human approval before go-live.
 
@@ -8,7 +8,7 @@
 
 **Decision**: Track **official GKV-Datenaustausch SLE publications** listed for ambulance-relevant documents (Anlage 1, Anlage 3, Anlage 5, Anhang 3), not Spec Kit feature folders under `specs/`.
 
-**Rationale**: Matches product domain and existing `packages/gkv-edi/spec/official/sources.manifest.yaml` + constitution Principle III.
+**Rationale**: Matches product domain and existing `packages/ta5py/spec/official/sources.manifest.yaml` + constitution Principle III.
 
 **Alternatives considered**:
 - Watch Spec Kit `specs/**` — rejected (wrong layer; user intent is format Anlagen).
@@ -34,7 +34,7 @@ MVP focuses on **new document ids / version numbers / stand dates** appearing re
 **Decision**: `integrate_spec_candidate` MUST:
 
 1. Create/switch to a **new git branch** named `format/spec-v{N}-integration` (or `002-spec-v{N}` if already on a feature branch workflow—final pattern documented in CLI contract; must be unique per package version).
-2. Copy previous closest package tree (e.g. `v22` → `v23`) under `packages/gkv-edi/spec/v{N}/`.
+2. Copy previous closest package tree (e.g. `v22` → `v23`) under `packages/ta5py/spec/v{N}/`.
 3. Update `provenance.yaml` placeholders (version, stand dates, PDF paths) and add/adjust `sources.manifest.yaml` entries for the new PDFs.
 4. Write a `CHANGE_SUMMARY.md` (or governance candidate file) listing detected upstream deltas vs prior version.
 5. **Not** change `live-version.yaml` / `DEFAULT_VERSION`.
@@ -50,7 +50,7 @@ Human maintainers still transcribe field-level YAML deltas from PDFs; automation
 
 ## R4 — Live version binding & approval gate
 
-**Decision**: Introduce `packages/gkv-edi/spec/governance/live-version.yaml` as the **single source of truth** for the live/default package label. `spec_loader.DEFAULT_VERSION` (or equivalent) loads from that file at import/runtime with a safe fallback only for missing file during migration (`v21` until first binding commit).
+**Decision**: Introduce `packages/ta5py/spec/governance/live-version.yaml` as the **single source of truth** for the live/default package label. `spec_loader.DEFAULT_VERSION` (or equivalent) loads from that file at import/runtime with a safe fallback only for missing file during migration (`v21` until first binding commit).
 
 Go-live path:
 

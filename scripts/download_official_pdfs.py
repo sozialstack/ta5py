@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download official GKV SLE PDFs into packages/gkv-edi/spec/docs/."""
+"""Download official GKV SLE PDFs into packages/ta5py/spec/docs/."""
 
 from __future__ import annotations
 

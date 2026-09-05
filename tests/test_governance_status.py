@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from gkv_edi.governance.detect import run_detection
-from gkv_edi.governance.models import IntegrationCandidate, LiveVersionBinding
-from gkv_edi.governance.status import format_status_human, gather_status
-from gkv_edi.governance.store import save_candidate, save_live_binding
-from gkv_edi.governance.validate_state import validate_status_payload
+from ta5py.governance.detect import run_detection
+from ta5py.governance.models import IntegrationCandidate, LiveVersionBinding
+from ta5py.governance.status import format_status_human, gather_status
+from ta5py.governance.store import save_candidate, save_live_binding
+from ta5py.governance.validate_state import validate_status_payload
 
 FIXTURES = Path(__file__).parent / "fixtures" / "governance"
 KNOWN = FIXTURES / "sources_known.yaml"
@@ -31,7 +31,7 @@ def test_status_shows_pending_and_rejected(tmp_path: Path):
         IntegrationCandidate(
             id="v99",
             package_label="v99",
-            branch_name="gkv-edi/spec-v99-integration",
+            branch_name="ta5py/spec-v99-integration",
             source_publication_ids=["x"],
             state="rejected",
             created_at="2026-08-17T01:00:00+00:00",

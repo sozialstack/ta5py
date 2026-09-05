@@ -2,7 +2,7 @@
 
 **Branch**: `003-pdf-to-md` | **Date**: 2026-08-17 | **Spec**: [spec.md](./spec.md)
 
-**Input**: Feature specification from `specs/gkv-edi/003-pdf-to-md/spec.md`
+**Input**: Feature specification from `specs/ta5py/003-pdf-to-md/spec.md`
 
 ## Summary
 
@@ -14,9 +14,9 @@ Add a reusable PDF→Markdown conversion script, run it for every in-scope PDF i
 
 **Primary Dependencies**: `pdfminer.six` (text extraction; MIT/BSD-friendly); existing `PyYAML` for format scripts; stdlib `pathlib`/`argparse`
 
-**Storage**: Filesystem only — PDF binaries + sibling `.md` companions under module `spec/` trees (notably `packages/gkv-edi/spec/official/`)
+**Storage**: Filesystem only — PDF binaries + sibling `.md` companions under module `spec/` trees (notably `packages/ta5py/spec/official/`)
 
-**Testing**: pytest under `packages/gkv-edi/tests/` with tiny synthetic PDF fixtures (no real Sozialdaten)
+**Testing**: pytest under `packages/ta5py/tests/` with tiny synthetic PDF fixtures (no real Sozialdaten)
 
 **Target Platform**: Contributor/CI workstations (Windows, macOS, Linux) via `uv run`
 
@@ -36,20 +36,20 @@ Add a reusable PDF→Markdown conversion script, run it for every in-scope PDF i
 |------|--------|-------|
 | I. English-First | PASS | Spec, plan, skill, script messages/docs in English |
 | II. Modular layers | PASS | Tooling lives as scripts + skill; no cross-layer merge of format/cert/transfer/api |
-| III. Module constitutions | PASS | Feature under `specs/gkv-edi/003-pdf-to-md/`; does not weaken format dual-validation rules |
+| III. Module constitutions | PASS | Feature under `specs/ta5py/003-pdf-to-md/`; does not weaken format dual-validation rules |
 | IV. Synthetic data only | PASS | Tests use synthetic tiny PDFs; no real claim/PII content |
 | V. Certification clarity | PASS | Markdown is a reading aid; official PDF remains authority; no Testat claims |
 | Tooling (`uv`) | PASS | All run/docs use `uv run` / Make targets |
-| Domain path layout | PASS | Specs under `specs/gkv-edi/NNN-…` |
+| Domain path layout | PASS | Specs under `specs/ta5py/NNN-…` |
 
-**Post-design re-check**: PASS — design adds files only under `scripts/`, `packages/gkv-edi/scripts/`, `.cursor/skills/`, and this feature folder; PDF remains authoritative source.
+**Post-design re-check**: PASS — design adds files only under `scripts/`, `packages/ta5py/scripts/`, `.cursor/skills/`, and this feature folder; PDF remains authoritative source.
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/gkv-edi/003-pdf-to-md/
+specs/ta5py/003-pdf-to-md/
 ├── plan.md
 ├── research.md
 ├── data-model.md
@@ -65,7 +65,7 @@ specs/gkv-edi/003-pdf-to-md/
 scripts/
 └── convert_pdfs_to_md.py          # CLI: single file, paths, or repo-wide bulk
 
-packages/gkv-edi/
+packages/ta5py/
 ├── scripts/
 │   └── download_official_pdfs.py  # invoke conversion after each PDF
 ├── tests/

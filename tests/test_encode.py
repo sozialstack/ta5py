@@ -1,4 +1,4 @@
-from gkv_edi import encode, decode, validate_syntax
+from ta5py import encode, decode, validate_syntax
 
 
 def test_encode_decode_roundtrip(tmp_path, monkeypatch):
@@ -20,7 +20,7 @@ def test_encode_decode_roundtrip(tmp_path, monkeypatch):
 
 
 def test_syntax_rejects_bad_ik(tmp_path):
-    from gkv_edi.encode import encode
+    from ta5py.encode import encode
 
     result = encode(
         {

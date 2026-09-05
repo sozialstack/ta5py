@@ -3,9 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from gkv_edi.spec_loader import has_anlage_package, load_package, resolve_spec_version
-from gkv_edi.uri import read_json_uri
-from gkv_edi.wire import split_fields, split_segments
+from ta5py.spec_loader import has_anlage_package, load_package, resolve_spec_version
+from ta5py.uri import read_json_uri
+from ta5py.wire import split_fields, split_segments
 
 
 def _map_segment(seg_def: dict, fields: list[str]) -> dict[str, Any]:

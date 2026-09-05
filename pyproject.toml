@@ -1,9 +1,9 @@
 [project]
-name = "gkv-edi"
+name = "ta5py"
 version = "0.1.0"
 description = "SGB V TA5/EDIFACT encode, decode, and KK syntactic validation"
 requires-python = ">=3.12"
-dependencies = ["clearing-contracts", "dtapy", "PyYAML>=6.0", "pdfminer.six>=20240706"]
+dependencies = ["clearing-contracts", "PyYAML>=6.0", "pdfminer.six>=20240706"]
 
 [build-system]
 requires = ["setuptools>=68"]

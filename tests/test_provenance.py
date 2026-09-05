@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from gkv_edi.spec_loader import load_package
+from ta5py.spec_loader import load_package
 
 
 def test_provenance_required_keys():

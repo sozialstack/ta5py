@@ -2,11 +2,11 @@
 
 **Branch**: `001-gkv-anlagen-specs` | **Date**: 2026-08-17 | **Spec**: [spec.md](./spec.md)
 
-**Input**: Feature specification from `specs/gkv-edi/001-gkv-anlagen-specs/spec.md`. User planning directive: **start with Anlage 1**.
+**Input**: Feature specification from `specs/ta5py/001-gkv-anlagen-specs/spec.md`. User planning directive: **start with Anlage 1**.
 
 ## Summary
 
-Replace the minimal `packages/gkv-edi/spec/v20` stub with governed, versioned, **Krankentransport-only** machine-readable packages derived from official GKV-Datenaustausch Sonstige Leistungserbringer publications.
+Replace the minimal `packages/ta5py/spec/v20` stub with governed, versioned, **Krankentransport-only** machine-readable packages derived from official GKV-Datenaustausch Sonstige Leistungserbringer publications.
 
 **Delivery sequencing (mandatory):**
 
@@ -17,7 +17,7 @@ Replace the minimal `packages/gkv-edi/spec/v20` stub with governed, versioned, *
 | C — Anlage 5 | Krankentransport Urbeleg content rules | Planned after B |
 | D — Anhang 3 | Kostenträgerdatei ingest + IK lookup | Planned after A (can parallelize with B/C) |
 
-Technical approach: YAML segment/field definitions under `packages/gkv-edi/spec/v21/` (default), with provenance; `format` loads them for syntax validation and wire serialization; JSON remains an optional logical interchange, not a substitute for Nutzdaten wire form.
+Technical approach: YAML segment/field definitions under `packages/ta5py/spec/v21/` (default), with provenance; `format` loads them for syntax validation and wire serialization; JSON remains an optional logical interchange, not a substitute for Nutzdaten wire form.
 
 ## Technical Context
 
@@ -25,13 +25,13 @@ Technical approach: YAML segment/field definitions under `packages/gkv-edi/spec/
 
 **Primary Dependencies**: Existing `format` + `clearing-contracts`; PyYAML for segment packages; pytest for fixtures. No new web frameworks for this feature.
 
-**Storage**: Versioned files under `packages/gkv-edi/spec/vN/` (and later Kostenträger artifacts under the kostenträger/sync owner when Slice D lands). No production patient DB.
+**Storage**: Versioned files under `packages/ta5py/spec/vN/` (and later Kostenträger artifacts under the kostenträger/sync owner when Slice D lands). No production patient DB.
 
 **Testing**: pytest; synthetic ambulance fixtures only; golden Nutzdaten strings for SLLA:E round-trips.
 
 **Target Platform**: Library module used locally and in CI (Windows/macOS/Linux); same as rest of clearing monorepo.
 
-**Project Type**: Domain-spec + library enhancement inside `packages/gkv-edi` (Spec Kit docs under `specs/gkv-edi/001-gkv-anlagen-specs/`).
+**Project Type**: Domain-spec + library enhancement inside `packages/ta5py` (Spec Kit docs under `specs/ta5py/001-gkv-anlagen-specs/`).
 
 **Performance Goals**: Validate and encode a typical single-case ambulance message (one INV…BES) in under 1s locally; load default spec package in under 500ms cold.
 
@@ -46,8 +46,8 @@ Technical approach: YAML segment/field definitions under `packages/gkv-edi/spec/
 | Principle | Status | How addressed |
 |-----------|--------|---------------|
 | I. English-First | PASS | Plan/research/data-model/contracts/quickstart in English; German terms explained |
-| II. Modular, Swappable Layers | PASS | Work stays in `format` (core encoding); Spec Kit feature docs under `specs/gkv-edi/001-…`; Kostenträger later remains swappable |
-| III. Machine-Readable, Versioned Domain Specs | PASS | `packages/gkv-edi/spec/v21/` (and future `v22/`) own Anlage packages; fields capture name, order, length, M/K, catalogs |
+| II. Modular, Swappable Layers | PASS | Work stays in `format` (core encoding); Spec Kit feature docs under `specs/ta5py/001-…`; Kostenträger later remains swappable |
+| III. Machine-Readable, Versioned Domain Specs | PASS | `packages/ta5py/spec/v21/` (and future `v22/`) own Anlage packages; fields capture name, order, length, M/K, catalogs |
 | IV. Dual Validation Layers | PASS | Slice A delivers syntactic validation; plausibility remains separate and may stay thin until later slices |
 | V. Privacy-by-Design & Synthetic Data Only | PASS | Synthetic fixtures; CI policy in quickstart |
 | VI. Liability & Certification Clarity | PASS | Provenance + README disclaimer; packages are interpretations, not Testat |
@@ -59,7 +59,7 @@ Technical approach: YAML segment/field definitions under `packages/gkv-edi/spec/
 ### Documentation (this feature)
 
 ```text
-specs/gkv-edi/001-gkv-anlagen-specs/
+specs/ta5py/001-gkv-anlagen-specs/
 ├── plan.md              # This file
 ├── research.md          # Phase 0
 ├── data-model.md        # Phase 1
@@ -75,7 +75,7 @@ specs/gkv-edi/001-gkv-anlagen-specs/
 ### Source Code (repository root)
 
 ```text
-packages/gkv-edi/
+packages/ta5py/
 ├── pyproject.toml
 ├── README.md
 ├── spec/
@@ -123,7 +123,7 @@ packages/gkv-edi/
     └── test_validate_syntax_anlage1.py
 ```
 
-**Structure Decision**: Extend existing `packages/gkv-edi` rather than a new module. Spec Kit governance lives under `specs/gkv-edi/001-gkv-anlagen-specs/` per constitution Principle II. Runtime machine-readable artifacts live under `packages/gkv-edi/spec/vN/`.
+**Structure Decision**: Extend existing `packages/ta5py` rather than a new module. Spec Kit governance lives under `specs/ta5py/001-gkv-anlagen-specs/` per constitution Principle II. Runtime machine-readable artifacts live under `packages/ta5py/spec/vN/`.
 
 ## Complexity Tracking
 

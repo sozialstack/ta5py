@@ -1,6 +1,6 @@
 # Data Model: Ambulance Anlage Packages (Slice A focus)
 
-**Feature**: `specs/gkv-edi/001-gkv-anlagen-specs`  
+**Feature**: `specs/ta5py/001-gkv-anlagen-specs`  
 **Date**: 2026-08-17
 
 ## Entities

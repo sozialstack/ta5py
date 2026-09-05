@@ -1,14 +1,15 @@
 <!--
 Sync Impact Report
-- Version change: (new) → 1.0.0
-- Modified principles: n/a (initial package constitution)
-- Added sections: Core Principles, Domain Scope, Compliance, Governance
-- Source: specs/format module constitution (syntactic / machine-readable rules)
-  under project constitution v3.3.0 Principle II (gkv-edi)
+- Version change: 2.0.0 → 2.0.1
+- Modified principles:
+  - I — MUST NOT import dtapy, leistungen, or kassenclearing
+  - II — billing checks belong in leistungen
+- Added sections: none
+- Removed sections: none
 - Follow-up TODOs: none
 -->
 
-# gkv-edi Package Constitution
+# ta5py Package Constitution
 
 Subordinate to `.specify/memory/constitution.md`. On conflict with cross-cutting
 project rules, the project constitution wins.
@@ -27,10 +28,14 @@ mandatory/optional, and allowed values where defined. Mandatory vs optional rule
 MUST reflect Leistungserbringer type differences where the TA5 defines them.
 
 Spec versioning MUST be explicit and owned under this package’s spec tree
-(e.g. `packages/gkv-edi/spec/v21/`, `packages/gkv-edi/spec/v22/`). Adopting a
+(e.g. `packages/ta5py/spec/v21/`, `packages/ta5py/spec/v22/`). Adopting a
 new published Anlage version is a governed change, not an ad-hoc code edit.
 
-gkv-edi MAY depend on dtapy. gkv-edi MUST NOT import gkv-clearing.
+This package MUST own UNA handling and `wire.py` (`join_segment` / `split_*`).
+It MAY wrap pydifact behind `wire.py`; it MUST NOT require pydifact when the
+local tokenizer is sufficient.
+
+ta5py MUST NOT import dtapy, leistungen, or kassenclearing.
 
 ### II. Syntactic Validation Layer
 
@@ -39,9 +44,9 @@ conformance to the active machine-readable spec (structure, lengths, codes,
 mandatory fields). Passing syntactic validation MUST NOT be treated as proof of
 payer acceptance or certification.
 
-Business plausibility and Leistungsart billing checks belong in gkv-clearing.
+Business plausibility and Leistungsart billing checks belong in leistungen.
 
-Feature specs for this package MUST live under `specs/gkv-edi/NNN-<slug>/`.
+Feature specs for this package MUST live under `specs/ta5py/NNN-<slug>/`.
 
 ## Domain Scope
 
@@ -53,7 +58,7 @@ Trust Center / PKCS#7 / DTA transport (dtapy).
 
 ## Compliance
 
-- gkv-edi PRs MUST name the target package version label(s) and how syntactic
+- ta5py PRs MUST name the target package version label(s) and how syntactic
   tests cover them.
 - New Anlage versions SHOULD be proposed via issue/PR after monitoring official
   publications.
@@ -63,4 +68,4 @@ Trust Center / PKCS#7 / DTA transport (dtapy).
 Amendments MUST bump semantic version, set **Last Amended** (ISO `YYYY-MM-DD`),
 and include a Sync Impact Report HTML comment.
 
-**Version**: 1.0.0 | **Ratified**: 2026-09-05 | **Last Amended**: 2026-09-05
+**Version**: 2.0.1 | **Ratified**: 2026-09-05 | **Last Amended**: 2026-09-05

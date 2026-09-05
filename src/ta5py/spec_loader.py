@@ -7,7 +7,7 @@ from typing import Any
 
 import yaml
 
-from gkv_edi.package_validate import validate_package_dict
+from ta5py.package_validate import validate_package_dict
 
 SPEC_ROOT = Path(__file__).resolve().parents[2] / "spec"
 _FALLBACK_DEFAULT = "v21"

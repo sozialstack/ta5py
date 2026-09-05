@@ -1,6 +1,6 @@
 # Contract: `convert_pdfs_to_md` CLI
 
-**Feature**: `specs/gkv-edi/003-pdf-to-md`  
+**Feature**: `specs/ta5py/003-pdf-to-md`  
 **Entry point**: `uv run python scripts/convert_pdfs_to_md.py`
 
 ## Invocation
@@ -50,7 +50,7 @@ If no text extracted:
 
 ## Download script contract
 
-`packages/gkv-edi/scripts/download_official_pdfs.py` MUST, for each document that ends as a present valid PDF:
+`packages/ta5py/scripts/download_official_pdfs.py` MUST, for each document that ends as a present valid PDF:
 
 1. Invoke conversion for that PDF path (import function or subprocess to the CLI).
 2. Leave the PDF in place if conversion fails.

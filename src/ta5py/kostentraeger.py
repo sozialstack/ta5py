@@ -8,8 +8,8 @@ from typing import Any
 
 import yaml
 
-from gkv_edi.spec_loader import resolve_spec_version, version_dir
-from gkv_edi.wire import split_fields, split_segments
+from ta5py.spec_loader import resolve_spec_version, version_dir
+from ta5py.wire import split_fields, split_segments
 
 
 class KostentraegerStore:

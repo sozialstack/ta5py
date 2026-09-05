@@ -8,9 +8,9 @@ import json
 import sys
 from pathlib import Path
 
-from gkv_edi.governance.integrate import DuplicateCandidateError, integrate_candidate
-from gkv_edi.governance.store import load_live_binding
-from gkv_edi.spec_loader import SPEC_ROOT
+from ta5py.governance.integrate import DuplicateCandidateError, integrate_candidate
+from ta5py.governance.store import load_live_binding
+from ta5py.spec_loader import SPEC_ROOT
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 

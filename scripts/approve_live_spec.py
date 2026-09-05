@@ -7,9 +7,9 @@ import argparse
 import json
 import sys
 
-from gkv_edi.governance.approve import ApprovalError, approve_candidate, go_live
-from gkv_edi.governance.store import load_live_binding
-from gkv_edi.spec_loader import SPEC_ROOT
+from ta5py.governance.approve import ApprovalError, approve_candidate, go_live
+from ta5py.governance.store import load_live_binding
+from ta5py.spec_loader import SPEC_ROOT
 
 
 def main() -> int:

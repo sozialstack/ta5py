@@ -1,6 +1,6 @@
 # Research: Convert Official PDFs to Markdown
 
-**Feature**: `specs/gkv-edi/003-pdf-to-md`  
+**Feature**: `specs/ta5py/003-pdf-to-md`  
 **Date**: 2026-08-17
 
 ## R1 — Extraction library
@@ -26,7 +26,7 @@ Output path: same directory as PDF, `{stem}.md`.
 **Rationale**: Download scripts and Make targets need one stable entry point; root `scripts/` matches existing `download-format-pdfs` / `check_synthetic_fixtures.py` pattern.
 
 **Alternatives considered**:
-- Only under `packages/gkv-edi/scripts/` — weaker for cert/other module PDFs.
+- Only under `packages/ta5py/scripts/` — weaker for cert/other module PDFs.
 - Package inside `format` library API — overkill for file tooling.
 
 ## R3 — Download script integration
@@ -47,7 +47,7 @@ Output path: same directory as PDF, `{stem}.md`.
 
 ## R5 — Git tracking policy for Markdown
 
-**Decision**: **Allow tracking** Markdown companions under `packages/gkv-edi/spec/official/**/*.md` (do not add a blanket ignore for them). PDFs remain gitignored per existing policy. Contributors may commit refreshed `.md` when useful for agents/review without committing binaries.
+**Decision**: **Allow tracking** Markdown companions under `packages/ta5py/spec/official/**/*.md` (do not add a blanket ignore for them). PDFs remain gitignored per existing policy. Contributors may commit refreshed `.md` when useful for agents/review without committing binaries.
 
 **Rationale**: Agents and greppable reviews benefit from text without fetching PDFs; PDF remains authoritative binary.
 

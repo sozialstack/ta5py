@@ -10,8 +10,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
 
-from gkv_edi.governance.models import OfficialPublication
-from gkv_edi.governance.scope import is_in_scope_bucket
+from ta5py.governance.models import OfficialPublication
+from ta5py.governance.scope import is_in_scope_bucket
 
 # Filename patterns seen on gkv-datenaustausch.de SLE technische Anlagen pages.
 _PDF_RE = re.compile(

@@ -11,7 +11,7 @@ Validate the governance pipeline end-to-end with fixtures (no real Sozialdaten; 
 ## 1. Status (baseline)
 
 ```bash
-uv run python packages/gkv-edi/scripts/governance_status.py --json
+uv run python packages/ta5py/scripts/governance_status.py --json
 ```
 
 **Expect**: Current live package label (initially `v21` after migration), empty or existing candidates list.
@@ -19,8 +19,8 @@ uv run python packages/gkv-edi/scripts/governance_status.py --json
 ## 2. Detect with fixture (no network)
 
 ```bash
-uv run python packages/gkv-edi/scripts/check_official_publications.py \
-  --fixture packages/gkv-edi/tests/fixtures/governance/sources_with_new_version.yaml \
+uv run python packages/ta5py/scripts/check_official_publications.py \
+  --fixture packages/ta5py/tests/fixtures/governance/sources_with_new_version.yaml \
   --json
 ```
 
@@ -33,13 +33,13 @@ Re-run the same fixture:
 ## 3. Integrate on a new branch
 
 ```bash
-uv run python packages/gkv-edi/scripts/integrate_spec_candidate.py --from-latest-new
+uv run python packages/ta5py/scripts/integrate_spec_candidate.py --from-latest-new
 ```
 
 **Expect**:
 
 - New git branch created (name printed)
-- `packages/gkv-edi/spec/vN/` scaffold present on that branch
+- `packages/ta5py/spec/vN/` scaffold present on that branch
 - Candidate state `awaiting_approval`
 - `spec/governance/live-version.yaml` **unchanged**
 - Encoding default still previous live version
@@ -47,13 +47,13 @@ uv run python packages/gkv-edi/scripts/integrate_spec_candidate.py --from-latest
 Dry-run check:
 
 ```bash
-uv run python packages/gkv-edi/scripts/integrate_spec_candidate.py --from-latest-new --dry-run
+uv run python packages/ta5py/scripts/integrate_spec_candidate.py --from-latest-new --dry-run
 ```
 
 ## 4. Reject unauthorized go-live
 
 ```bash
-uv run python packages/gkv-edi/scripts/approve_live_spec.py \
+uv run python packages/ta5py/scripts/approve_live_spec.py \
   --candidate <id> --actor ci-bot --go-live
 ```
 
@@ -62,7 +62,7 @@ uv run python packages/gkv-edi/scripts/approve_live_spec.py \
 ## 5. Approve and go live
 
 ```bash
-uv run python packages/gkv-edi/scripts/approve_live_spec.py \
+uv run python packages/ta5py/scripts/approve_live_spec.py \
   --candidate <id> --actor maintainer@example --approve --go-live
 ```
 
@@ -71,9 +71,9 @@ uv run python packages/gkv-edi/scripts/approve_live_spec.py \
 ## 6. Automated tests
 
 ```bash
-uv run pytest packages/gkv-edi/tests/test_publication_detect.py \
-  packages/gkv-edi/tests/test_integrate_on_branch.py \
-  packages/gkv-edi/tests/test_approve_live_gate.py -q
+uv run pytest packages/ta5py/tests/test_publication_detect.py \
+  packages/ta5py/tests/test_integrate_on_branch.py \
+  packages/ta5py/tests/test_approve_live_gate.py -q
 ```
 
 **Expect**: All pass, including negative gate tests (SC-003).
@@ -91,7 +91,7 @@ Periodic detection **auto-integrates** onto a new branch by default and **never*
 Maintainer / cron recipe (daily, ~06:17 UTC):
 
 ```bash
-uv run python packages/gkv-edi/scripts/check_official_publications.py \
+uv run python packages/ta5py/scripts/check_official_publications.py \
   --scheduled \
   --network \
   --update-manifest-metadata
@@ -100,14 +100,14 @@ uv run python packages/gkv-edi/scripts/check_official_publications.py \
 Dry run (detect only, no branch scaffold):
 
 ```bash
-uv run python packages/gkv-edi/scripts/check_official_publications.py \
+uv run python packages/ta5py/scripts/check_official_publications.py \
   --scheduled --detect-only --network
 ```
 
 On-demand equivalent of auto-integrate:
 
 ```bash
-uv run python packages/gkv-edi/scripts/check_official_publications.py \
+uv run python packages/ta5py/scripts/check_official_publications.py \
   --on-demand --fixture <discovered.yaml> --auto-integrate
 ```
 

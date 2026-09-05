@@ -1,6 +1,6 @@
 # Quickstart: PDF → Markdown
 
-**Feature**: `specs/gkv-edi/003-pdf-to-md`
+**Feature**: `specs/ta5py/003-pdf-to-md`
 
 ## Prerequisites
 
@@ -32,7 +32,7 @@ uv run python scripts/convert_pdfs_to_md.py --bulk
 make download-format-pdfs
 ```
 
-**Expect**: PDFs under `packages/gkv-edi/spec/official/**` plus Markdown companions for each; PDFs kept.
+**Expect**: PDFs under `packages/ta5py/spec/official/**` plus Markdown companions for each; PDFs kept.
 
 ## 4. Agent skill
 

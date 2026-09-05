@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from gkv_edi.validate_syntax import validate_data
+from ta5py.validate_syntax import validate_data
 
 FIXTURE = Path(__file__).parent / "fixtures/synthetic/slla_e/happy_claim.json"
 

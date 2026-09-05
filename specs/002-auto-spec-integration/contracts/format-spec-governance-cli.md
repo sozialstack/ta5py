@@ -1,8 +1,8 @@
 # Contract: Format Spec Governance CLI
 
-**Feature**: `specs/gkv-edi/002-auto-spec-integration`  
-**Module**: `packages/gkv-edi`  
-**Invocation**: `uv run python packages/gkv-edi/scripts/<script>.py …` (wrappers may add `make` targets)
+**Feature**: `specs/ta5py/002-auto-spec-integration`  
+**Module**: `packages/ta5py`  
+**Invocation**: `uv run python packages/ta5py/scripts/<script>.py …` (wrappers may add `make` targets)
 
 ## Commands
 

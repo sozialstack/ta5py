@@ -6,8 +6,8 @@ from __future__ import annotations
 import argparse
 import json
 
-from gkv_edi.governance.status import format_status_human, gather_status
-from gkv_edi.spec_loader import SPEC_ROOT
+from ta5py.governance.status import format_status_human, gather_status
+from ta5py.spec_loader import SPEC_ROOT
 
 
 def main() -> int:

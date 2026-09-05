@@ -1,6 +1,6 @@
 # Research: Ambulance GKV Anlagen (Slice A — Anlage 1)
 
-**Feature**: `specs/gkv-edi/001-gkv-anlagen-specs`  
+**Feature**: `specs/ta5py/001-gkv-anlagen-specs`  
 **Date**: 2026-08-17  
 **Directive**: Start with Anlage 1 (Krankentransport / SLLA:E)
 

@@ -5,12 +5,12 @@ from pathlib import Path
 
 import pytest
 
-from gkv_edi.governance.approve import ApprovalError, approve_candidate, go_live
-from gkv_edi.governance.detect import run_detection
-from gkv_edi.governance.integrate import integrate_candidate
-from gkv_edi.governance.models import LiveVersionBinding
-from gkv_edi.governance.store import load_candidate, load_live_binding, save_live_binding
-from gkv_edi.spec_loader import SPEC_ROOT
+from ta5py.governance.approve import ApprovalError, approve_candidate, go_live
+from ta5py.governance.detect import run_detection
+from ta5py.governance.integrate import integrate_candidate
+from ta5py.governance.models import LiveVersionBinding
+from ta5py.governance.store import load_candidate, load_live_binding, save_live_binding
+from ta5py.spec_loader import SPEC_ROOT
 
 FIXTURES = Path(__file__).parent / "fixtures" / "governance"
 KNOWN = FIXTURES / "sources_known.yaml"
@@ -78,14 +78,14 @@ def test_only_approved_candidate_goes_live(tmp_path: Path):
     spec = _spec(tmp_path)
     from datetime import datetime, timezone
 
-    from gkv_edi.governance.models import IntegrationCandidate
-    from gkv_edi.governance.store import save_candidate
+    from ta5py.governance.models import IntegrationCandidate
+    from ta5py.governance.store import save_candidate
 
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     other = IntegrationCandidate(
         id="v24",
         package_label="v24",
-        branch_name="gkv-edi/spec-v24-integration",
+        branch_name="ta5py/spec-v24-integration",
         source_publication_ids=["synthetic"],
         state="awaiting_approval",
         created_at=now,
@@ -128,15 +128,15 @@ def test_go_live_older_over_newer_requires_confirm(tmp_path: Path):
     )
     from datetime import datetime, timezone
 
-    from gkv_edi.governance.models import IntegrationCandidate
-    from gkv_edi.governance.store import save_candidate
+    from ta5py.governance.models import IntegrationCandidate
+    from ta5py.governance.store import save_candidate
 
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     save_candidate(
         IntegrationCandidate(
             id="v21",
             package_label="v21",
-            branch_name="gkv-edi/spec-v21-integration",
+            branch_name="ta5py/spec-v21-integration",
             source_publication_ids=["anlage-1-v21"],
             state="awaiting_approval",
             created_at=now,

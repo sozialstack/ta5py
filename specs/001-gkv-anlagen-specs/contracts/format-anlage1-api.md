@@ -1,6 +1,6 @@
 # Contract: format module — Anlage 1 Slice A
 
-**Owner**: `packages/gkv-edi`  
+**Owner**: `packages/ta5py`  
 **Consumers**: `api` (orchestration), tests, future Kostenträger tooling (IK strings only in Slice A)  
 **Out of scope**: cert packaging, DFÜ transfer, full Anlage 3/5/Anhang 3
 
@@ -8,7 +8,7 @@
 
 ### `load_package(spec_version: str) -> AnlagePackage`
 
-- Loads `packages/gkv-edi/spec/{spec_version}/` conforming to [anlage1-package.schema.json](./anlage1-package.schema.json).
+- Loads `packages/ta5py/spec/{spec_version}/` conforming to [anlage1-package.schema.json](./anlage1-package.schema.json).
 - Default version: `v21`.
 - Raises if version missing or provenance.scope ≠ `krankentransport`.
 

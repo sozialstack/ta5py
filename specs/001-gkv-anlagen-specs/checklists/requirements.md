@@ -34,4 +34,4 @@
 - Validation iteration 1 (2026-08-17): All items pass.
 - Validation iteration 2 (2026-08-17): Scope tightened to **Krankentransport (ambulance) only** per user clarification — other SLE areas are out of scope (not deferred). FR-003, FR-012, FR-017, SC-009 enforce this. Checklist re-validated; all items still pass.
 - Defaults: currently applicable Anlage 1/3 Version 21; official PDFs authoritative; ambulance-relevant excerpts only from shared SLE publications.
-- Feature directory: `specs/gkv-edi/001-gkv-anlagen-specs` (constitution Principle II).
+- Feature directory: `specs/ta5py/001-gkv-anlagen-specs` (constitution Principle II).

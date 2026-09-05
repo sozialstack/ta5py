@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from gkv_edi.kostentraeger import ingest_kostentraeger_file
+from ta5py.kostentraeger import ingest_kostentraeger_file
 
 FIXTURE = Path(__file__).parent / "fixtures/synthetic/kostentraeger/anhang3_kotr.edifact"
 LEGACY_ALIAS = Path(__file__).parent / "fixtures/synthetic/kostentraeger/sample_kt.txt"

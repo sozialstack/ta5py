@@ -6,10 +6,10 @@ from typing import Any
 
 from clearing_contracts.types import FieldError, FormatResult
 
-from gkv_edi.models_slla_e import ensure_ambulance_profile, iter_slla_cases
-from gkv_edi.spec_loader import has_anlage_package, load_dataset_schema, load_package
-from gkv_edi.uri import read_json_uri
-from gkv_edi.wire import split_fields, split_segments
+from ta5py.models_slla_e import ensure_ambulance_profile, iter_slla_cases
+from ta5py.spec_loader import has_anlage_package, load_dataset_schema, load_package
+from ta5py.uri import read_json_uri
+from ta5py.wire import split_fields, split_segments
 
 def _type_ok(value: Any, expected: str) -> bool:
     return {
@@ -487,6 +487,6 @@ def validate_syntax(dataset_uri: str, spec_version: str) -> FormatResult:
 
 def _wire_to_minimal_claim(wire: str, spec_version: str) -> dict[str, Any]:
     """Best-effort parse for syntax checks on wire files."""
-    from gkv_edi.decode import decode_wire
+    from ta5py.decode import decode_wire
 
     return decode_wire(wire, spec_version)

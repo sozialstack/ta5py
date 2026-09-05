@@ -1,10 +1,10 @@
-"""gkv-edi: SGB V TA5/EDIFACT encode, decode, and syntactic KK validation."""
+"""ta5py: SGB V TA5/EDIFACT encode, decode, and syntactic KK validation."""
 
-from gkv_edi.decode import decode
-from gkv_edi.encode import encode, encode_slga_wire
-from gkv_edi.kostentraeger import ingest_kostentraeger_file, load_store
-from gkv_edi.spec_loader import DEFAULT_VERSION, get_default_version, load_package
-from gkv_edi.validate_syntax import validate_slga, validate_syntax, validate_wire_segment_order
+from ta5py.decode import decode
+from ta5py.encode import encode, encode_slga_wire
+from ta5py.kostentraeger import ingest_kostentraeger_file, load_store
+from ta5py.spec_loader import DEFAULT_VERSION, get_default_version, load_package
+from ta5py.validate_syntax import validate_slga, validate_syntax, validate_wire_segment_order
 
 __all__ = [
     "DEFAULT_VERSION",

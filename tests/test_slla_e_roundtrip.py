@@ -3,8 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from gkv_edi import encode, decode, validate_syntax
-from gkv_edi.spec_loader import load_package
+from ta5py import encode, decode, validate_syntax
+from ta5py.spec_loader import load_package
 
 FIXTURE = Path(__file__).parent / "fixtures/synthetic/slla_e/happy_claim.json"
 

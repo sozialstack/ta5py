@@ -9,9 +9,9 @@ from typing import Any
 
 import yaml
 
-from gkv_edi.governance.gitops import GitOpsError, create_branch
-from gkv_edi.governance.models import IntegrationCandidate
-from gkv_edi.governance.store import (
+from ta5py.governance.gitops import GitOpsError, create_branch
+from ta5py.governance.models import IntegrationCandidate
+from ta5py.governance.store import (
     list_candidates,
     load_candidate,
     load_live_binding,
@@ -19,7 +19,7 @@ from gkv_edi.governance.store import (
     save_candidate,
     upsert_manifest_documents,
 )
-from gkv_edi.spec_loader import SPEC_ROOT, load_package_at
+from ta5py.spec_loader import SPEC_ROOT, load_package_at
 
 
 class DuplicateCandidateError(ValueError):
@@ -210,7 +210,7 @@ def integrate_candidate(
     spec_root: Path | None = None,
 ) -> IntegrationCandidate:
     root = spec_root if spec_root is not None else SPEC_ROOT
-    repo = repo_root if repo_root is not None else root.resolve().parents[3]  # packages/gkv-edi/spec -> repo
+    repo = repo_root if repo_root is not None else root.resolve().parents[3]  # packages/ta5py/spec -> repo
 
     cand: IntegrationCandidate | None = None
     if candidate_id:

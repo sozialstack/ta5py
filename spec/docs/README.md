@@ -1,6 +1,6 @@
 # Official GKV-Datenaustausch source PDFs
 
-These PDFs are **authoritative**. Machine-readable YAML under `packages/gkv-edi/spec/vN/` is a Krankentransport-only project interpretation.
+These PDFs are **authoritative**. Machine-readable YAML under `packages/ta5py/spec/vN/` is a Krankentransport-only project interpretation.
 
 - Discovery: https://www.gkv-datenaustausch.de/leistungserbringer/sonstige_leistungserbringer/sonstige_leistungserbringer.jsp
 - Scope: ambulance / SLLA:E only — do not treat other SLE Leistungsbereiche as in-product
@@ -9,7 +9,7 @@ These PDFs are **authoritative**. Machine-readable YAML under `packages/gkv-edi/
 - Fetch PDFs (and generate Markdown companions; PDFs are kept):
 
 ```bash
-uv run python packages/gkv-edi/scripts/download_official_pdfs.py
+uv run python packages/ta5py/scripts/download_official_pdfs.py
 # or: make download-format-pdfs
 ```
 
@@ -24,15 +24,15 @@ See `sources.manifest.yaml` for exact URLs and stand dates.
 
 ## Checking for new publications
 
-Use the governance check (fixture or maintainer workflow) — see `packages/gkv-edi/spec/governance/README.md` and:
+Use the governance check (fixture or maintainer workflow) — see `packages/ta5py/spec/governance/README.md` and:
 
 ```bash
-uv run python packages/gkv-edi/scripts/check_official_publications.py --fixture <discovered-manifest.yaml>
+uv run python packages/ta5py/scripts/check_official_publications.py --fixture <discovered-manifest.yaml>
 ```
 
 New packages are integrated on a **new branch**; live default changes only after human approve + go-live.
 
 Scheduled/periodic checks (`--scheduled` / `--periodic`) auto-integrate unless `--detect-only`.
 On-demand CLI remains detect-only unless `--auto-integrate`. See
-[`specs/gkv-edi/002-auto-spec-integration/quickstart.md`](../../../../specs/gkv-edi/002-auto-spec-integration/quickstart.md)
+[`specs/ta5py/002-auto-spec-integration/quickstart.md`](../../../../specs/ta5py/002-auto-spec-integration/quickstart.md)
 for the daily cron recipe.

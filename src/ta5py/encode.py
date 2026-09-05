@@ -7,10 +7,10 @@ from uuid import uuid4
 
 from clearing_contracts.types import FormatResult
 
-from gkv_edi.models_slla_e import ensure_ambulance_profile
-from gkv_edi.spec_loader import has_anlage_package, load_package, resolve_spec_version
-from gkv_edi.validate_syntax import validate_data
-from gkv_edi.wire import join_segment
+from ta5py.models_slla_e import ensure_ambulance_profile
+from ta5py.spec_loader import has_anlage_package, load_package, resolve_spec_version
+from ta5py.validate_syntax import validate_data
+from ta5py.wire import join_segment
 
 
 def _seg_fields(seg_def: dict, data: dict[str, Any]) -> list[str]:

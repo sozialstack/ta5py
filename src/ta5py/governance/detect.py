@@ -8,15 +8,15 @@ from typing import Any
 
 import yaml
 
-from gkv_edi.governance.discover import (
+from ta5py.governance.discover import (
     fetch_overview,
     load_overview_html,
     parse_overview_html,
     publications_to_docs,
 )
-from gkv_edi.governance.models import DetectionRun, IntegrationCandidate, OfficialPublication
-from gkv_edi.governance.scope import is_in_scope_bucket
-from gkv_edi.governance.store import (
+from ta5py.governance.models import DetectionRun, IntegrationCandidate, OfficialPublication
+from ta5py.governance.scope import is_in_scope_bucket
+from ta5py.governance.store import (
     find_candidate_for_package,
     find_open_candidate_for_package,
     load_manifest,
@@ -26,7 +26,7 @@ from gkv_edi.governance.store import (
     save_detection_run,
     update_manifest_check_metadata,
 )
-from gkv_edi.spec_loader import SPEC_ROOT
+from ta5py.spec_loader import SPEC_ROOT
 
 TERMINAL_CANDIDATE_STATES = frozenset({"rejected", "live", "failed"})
 
@@ -111,7 +111,7 @@ def _ensure_detected_candidate(
     cand = IntegrationCandidate(
         id=package_label,
         package_label=package_label,
-        branch_name=f"gkv-edi/spec-{package_label}-integration",
+        branch_name=f"ta5py/spec-{package_label}-integration",
         source_publication_ids=[p.id for p in pubs],
         state="detected",
         created_at=now,

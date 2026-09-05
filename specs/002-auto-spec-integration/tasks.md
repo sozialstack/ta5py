@@ -1,6 +1,6 @@
 # Tasks: Automatic Format Spec Detection & Integration
 
-**Input**: Design documents from `specs/gkv-edi/002-auto-spec-integration/`
+**Input**: Design documents from `specs/ta5py/002-auto-spec-integration/`
 
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/, quickstart.md
 
@@ -16,12 +16,12 @@
 
 ## Path Conventions
 
-- Spec Kit docs: `specs/gkv-edi/002-auto-spec-integration/`
-- Format code: `packages/gkv-edi/src/format/`
-- Governance package: `packages/gkv-edi/src/format/governance/`
-- Scripts: `packages/gkv-edi/scripts/`
-- Governance state: `packages/gkv-edi/spec/governance/`
-- Tests: `packages/gkv-edi/tests/`
+- Spec Kit docs: `specs/ta5py/002-auto-spec-integration/`
+- Format code: `packages/ta5py/src/format/`
+- Governance package: `packages/ta5py/src/format/governance/`
+- Scripts: `packages/ta5py/scripts/`
+- Governance state: `packages/ta5py/spec/governance/`
+- Tests: `packages/ta5py/tests/`
 
 ---
 
@@ -29,9 +29,9 @@
 
 **Purpose**: Governance directories, fixtures, and package skeleton
 
-- [x] T001 Create governance directories `packages/gkv-edi/spec/governance/{detections,candidates}/` and placeholder `packages/gkv-edi/spec/governance/README.md` describing live binding + audit files (no Sozialdaten)
-- [x] T002 [P] Create test fixture dirs and files `packages/gkv-edi/tests/fixtures/governance/sources_known.yaml`, `packages/gkv-edi/tests/fixtures/governance/sources_with_new_version.yaml`, and `packages/gkv-edi/tests/fixtures/governance/overview_snapshot.html`
-- [x] T003 [P] Add empty package init `packages/gkv-edi/src/format/governance/__init__.py` exporting public governance API surface (filled in later phases)
+- [x] T001 Create governance directories `packages/ta5py/spec/governance/{detections,candidates}/` and placeholder `packages/ta5py/spec/governance/README.md` describing live binding + audit files (no Sozialdaten)
+- [x] T002 [P] Create test fixture dirs and files `packages/ta5py/tests/fixtures/governance/sources_known.yaml`, `packages/ta5py/tests/fixtures/governance/sources_with_new_version.yaml`, and `packages/ta5py/tests/fixtures/governance/overview_snapshot.html`
+- [x] T003 [P] Add empty package init `packages/ta5py/src/format/governance/__init__.py` exporting public governance API surface (filled in later phases)
 
 ---
 
@@ -41,12 +41,12 @@
 
 **⚠️ CRITICAL**: No user story work until this phase completes
 
-- [x] T004 Implement governance dataclasses/models in `packages/gkv-edi/src/format/governance/models.py` (OfficialPublication, DetectionRun, IntegrationCandidate, ApprovalDecision, LiveVersionBinding) per `data-model.md`
-- [x] T005 [P] Implement governance path helpers + YAML read/write in `packages/gkv-edi/src/format/governance/store.py` under `packages/gkv-edi/spec/governance/`
-- [x] T006 Create initial `packages/gkv-edi/spec/governance/live-version.yaml` binding to `v21` with bootstrap actor `bootstrap` and note that future changes require approval
-- [x] T007 Update `packages/gkv-edi/src/format/spec_loader.py` so `DEFAULT_VERSION` / default package resolution reads `live-version.yaml` (fallback `v21` if missing); clear `load_package` cache on binding change helpers
-- [x] T008 [P] Copy/adapt JSON schema validation helper for governance state against `specs/gkv-edi/002-auto-spec-integration/contracts/governance-state.schema.json` in `packages/gkv-edi/src/format/governance/validate_state.py`
-- [x] T009 Add allowlist constant for in-scope buckets (`anlage-1`, `anlage-3`, `anlage-5`, `anhang-3`) in `packages/gkv-edi/src/format/governance/scope.py`
+- [x] T004 Implement governance dataclasses/models in `packages/ta5py/src/format/governance/models.py` (OfficialPublication, DetectionRun, IntegrationCandidate, ApprovalDecision, LiveVersionBinding) per `data-model.md`
+- [x] T005 [P] Implement governance path helpers + YAML read/write in `packages/ta5py/src/format/governance/store.py` under `packages/ta5py/spec/governance/`
+- [x] T006 Create initial `packages/ta5py/spec/governance/live-version.yaml` binding to `v21` with bootstrap actor `bootstrap` and note that future changes require approval
+- [x] T007 Update `packages/ta5py/src/format/spec_loader.py` so `DEFAULT_VERSION` / default package resolution reads `live-version.yaml` (fallback `v21` if missing); clear `load_package` cache on binding change helpers
+- [x] T008 [P] Copy/adapt JSON schema validation helper for governance state against `specs/ta5py/002-auto-spec-integration/contracts/governance-state.schema.json` in `packages/ta5py/src/format/governance/validate_state.py`
+- [x] T009 Add allowlist constant for in-scope buckets (`anlage-1`, `anlage-3`, `anlage-5`, `anhang-3`) in `packages/ta5py/src/format/governance/scope.py`
 
 **Checkpoint**: Live binding loads; models/store ready — US1 can start
 
@@ -60,14 +60,14 @@
 
 ### Tests for User Story 1
 
-- [x] T010 [P] [US1] Add failing tests in `packages/gkv-edi/tests/test_publication_detect.py` for new-version detection, no-change, out-of-scope, and unreachable/failed check
+- [x] T010 [P] [US1] Add failing tests in `packages/ta5py/tests/test_publication_detect.py` for new-version detection, no-change, out-of-scope, and unreachable/failed check
 
 ### Implementation for User Story 1
 
-- [x] T011 [US1] Implement publication catalog load/compare in `packages/gkv-edi/src/format/governance/detect.py` (manifest vs discovered; classify in/out of scope)
-- [x] T012 [US1] Persist DetectionRun YAML under `packages/gkv-edi/spec/governance/detections/` and create `detected` candidate stubs for new in-scope package labels without duplicating open candidates
-- [x] T013 [US1] Implement CLI `packages/gkv-edi/scripts/check_official_publications.py` (`--fixture`, `--json`) per `contracts/format-spec-governance-cli.md`
-- [x] T014 [US1] Make `packages/gkv-edi/tests/test_publication_detect.py` pass against fixtures (no live network)
+- [x] T011 [US1] Implement publication catalog load/compare in `packages/ta5py/src/format/governance/detect.py` (manifest vs discovered; classify in/out of scope)
+- [x] T012 [US1] Persist DetectionRun YAML under `packages/ta5py/spec/governance/detections/` and create `detected` candidate stubs for new in-scope package labels without duplicating open candidates
+- [x] T013 [US1] Implement CLI `packages/ta5py/scripts/check_official_publications.py` (`--fixture`, `--json`) per `contracts/format-spec-governance-cli.md`
+- [x] T014 [US1] Make `packages/ta5py/tests/test_publication_detect.py` pass against fixtures (no live network)
 
 **Checkpoint**: US1 MVP — detection works offline via fixtures
 
@@ -81,15 +81,15 @@
 
 ### Tests for User Story 2
 
-- [x] T015 [P] [US2] Add failing tests in `packages/gkv-edi/tests/test_integrate_on_branch.py` for branch creation, scaffold presence, live unchanged, duplicate refusal, dry-run
+- [x] T015 [P] [US2] Add failing tests in `packages/ta5py/tests/test_integrate_on_branch.py` for branch creation, scaffold presence, live unchanged, duplicate refusal, dry-run
 
 ### Implementation for User Story 2
 
-- [x] T016 [US2] Implement package scaffold + change summary writer in `packages/gkv-edi/src/format/governance/integrate.py` (copy base package tree to `packages/gkv-edi/spec/vN/`, update provenance placeholders, write `CHANGE_SUMMARY.md`)
-- [x] T017 [US2] Implement git branch create/checkout helper in `packages/gkv-edi/src/format/governance/gitops.py` (subprocess git; branch name `format/spec-v{N}-integration`)
+- [x] T016 [US2] Implement package scaffold + change summary writer in `packages/ta5py/src/format/governance/integrate.py` (copy base package tree to `packages/ta5py/spec/vN/`, update provenance placeholders, write `CHANGE_SUMMARY.md`)
+- [x] T017 [US2] Implement git branch create/checkout helper in `packages/ta5py/src/format/governance/gitops.py` (subprocess git; branch name `format/spec-v{N}-integration`)
 - [x] T018 [US2] Wire integrate flow: state `integrating` → scaffold → `awaiting_approval`; never touch `live-version.yaml`
-- [x] T019 [US2] Implement CLI `packages/gkv-edi/scripts/integrate_spec_candidate.py` (`--candidate`, `--from-latest-new`, `--base-package`, `--dry-run`)
-- [x] T020 [US2] Make `packages/gkv-edi/tests/test_integrate_on_branch.py` pass (use temp git repo or dry-run + isolated SPEC_ROOT override as appropriate)
+- [x] T019 [US2] Implement CLI `packages/ta5py/scripts/integrate_spec_candidate.py` (`--candidate`, `--from-latest-new`, `--base-package`, `--dry-run`)
+- [x] T020 [US2] Make `packages/ta5py/tests/test_integrate_on_branch.py` pass (use temp git repo or dry-run + isolated SPEC_ROOT override as appropriate)
 
 **Checkpoint**: US2 — branch scaffold ready for human review; default still prior live
 
@@ -103,14 +103,14 @@
 
 ### Tests for User Story 3
 
-- [x] T021 [P] [US3] Add failing tests in `packages/gkv-edi/tests/test_approve_live_gate.py` for unauthorized go-live, approve+go-live, reject leaves live unchanged, only approved candidate goes live
+- [x] T021 [P] [US3] Add failing tests in `packages/ta5py/tests/test_approve_live_gate.py` for unauthorized go-live, approve+go-live, reject leaves live unchanged, only approved candidate goes live
 
 ### Implementation for User Story 3
 
-- [x] T022 [US3] Implement approval + go-live in `packages/gkv-edi/src/format/governance/approve.py` (write ApprovalDecision; update `live-version.yaml` only with approve+go-live; validate package loads)
-- [x] T023 [US3] Implement CLI `packages/gkv-edi/scripts/approve_live_spec.py` (`--candidate`, `--actor`, `--approve`/`--reject`, `--go-live`, `--note`)
+- [x] T022 [US3] Implement approval + go-live in `packages/ta5py/src/format/governance/approve.py` (write ApprovalDecision; update `live-version.yaml` only with approve+go-live; validate package loads)
+- [x] T023 [US3] Implement CLI `packages/ta5py/scripts/approve_live_spec.py` (`--candidate`, `--actor`, `--approve`/`--reject`, `--go-live`, `--note`)
 - [x] T024 [US3] Ensure `spec_loader` reflects new live binding after go-live (cache clear) and encoding defaults follow binding
-- [x] T025 [US3] Make `packages/gkv-edi/tests/test_approve_live_gate.py` pass including SC-003 negative cases
+- [x] T025 [US3] Make `packages/ta5py/tests/test_approve_live_gate.py` pass including SC-003 negative cases
 
 **Checkpoint**: US3 — zero unauthorized go-lives in tests
 
@@ -124,13 +124,13 @@
 
 ### Tests for User Story 4
 
-- [x] T026 [P] [US4] Add failing tests in `packages/gkv-edi/tests/test_governance_status.py` for pending vs rejected/live rendering and JSON shape
+- [x] T026 [P] [US4] Add failing tests in `packages/ta5py/tests/test_governance_status.py` for pending vs rejected/live rendering and JSON shape
 
 ### Implementation for User Story 4
 
-- [x] T027 [US4] Implement status aggregation in `packages/gkv-edi/src/format/governance/status.py`
-- [x] T028 [US4] Implement CLI `packages/gkv-edi/scripts/governance_status.py` (human table + `--json`)
-- [x] T029 [US4] Make `packages/gkv-edi/tests/test_governance_status.py` pass
+- [x] T027 [US4] Implement status aggregation in `packages/ta5py/src/format/governance/status.py`
+- [x] T028 [US4] Implement CLI `packages/ta5py/scripts/governance_status.py` (human table + `--json`)
+- [x] T029 [US4] Make `packages/ta5py/tests/test_governance_status.py` pass
 
 **Checkpoint**: US4 — status usable in under 2 minutes (SC-004)
 
@@ -140,11 +140,11 @@
 
 **Purpose**: Docs, ignore rules, quickstart validation
 
-- [x] T030 [P] Update `packages/gkv-edi/README.md` with detection/integrate/approve/status commands and approval-gate warning
-- [x] T031 [P] Update `packages/gkv-edi/spec/official/README.md` with pointer to governance check workflow
+- [x] T030 [P] Update `packages/ta5py/README.md` with detection/integrate/approve/status commands and approval-gate warning
+- [x] T031 [P] Update `packages/ta5py/spec/official/README.md` with pointer to governance check workflow
 - [x] T032 [P] Ensure root `.gitignore` does not ignore committed governance YAML (only PDFs remain ignored under official/)
-- [x] T033 Run quickstart validation scenarios from `specs/gkv-edi/002-auto-spec-integration/quickstart.md` (fixture detect → integrate dry-run/path → unauthorized go-live fail → approve go-live) and fix gaps
-- [x] T034 [P] Export governance public API from `packages/gkv-edi/src/format/governance/__init__.py` and mention in `packages/gkv-edi/src/format/__init__.py` if appropriate
+- [x] T033 Run quickstart validation scenarios from `specs/ta5py/002-auto-spec-integration/quickstart.md` (fixture detect → integrate dry-run/path → unauthorized go-live fail → approve go-live) and fix gaps
+- [x] T034 [P] Export governance public API from `packages/ta5py/src/format/governance/__init__.py` and mention in `packages/ta5py/src/format/__init__.py` if appropriate
 
 ---
 
@@ -178,7 +178,7 @@
 
 ```bash
 # Tests first:
-Task: "Add failing tests in packages/gkv-edi/tests/test_publication_detect.py"
+Task: "Add failing tests in packages/ta5py/tests/test_publication_detect.py"
 
 # Then implement detect + CLI sequentially (shared detect.py/store):
 Task: "Implement detect.py"
@@ -221,7 +221,7 @@ Task: "CLI check_official_publications.py"
 ## Phase 8: Convergence
 
 - [x] T035 Add official-source discovery (manifest/HTML snapshot parse ± optional network) with failed DetectionRun on unreachable/parse error; stop requiring fixture-only for FR-001 / research R2 (partial)
-- [x] T036 On integrate, append/adjust packages/gkv-edi/spec/official/sources.manifest.yaml entries for new publication ids/paths/versions/stand dates on the integration branch per plan / research R3 (missing)
+- [x] T036 On integrate, append/adjust packages/ta5py/spec/official/sources.manifest.yaml entries for new publication ids/paths/versions/stand dates on the integration branch per plan / research R3 (missing)
 - [x] T037 Before writing live-version.yaml, call load_package(candidate.package_label) (or equivalent) and refuse go-live on validation errors per FR-010 / T022 (partial)
 - [x] T038 Abort candidate to failed (block go-live) when package material is incomplete/corrupt; set DetectionStatus.partial where applicable; add SC-006 fault-injection tests per FR-010 / SC-006 (missing)
 - [x] T039 On re-detect of rejected/live/failed same-id candidates, link to existing terminal record without overwriting approval/rejection audit history per edge re-detect / FR-008 / FR-011 (contradicts)

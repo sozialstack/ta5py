@@ -1,6 +1,6 @@
 # Data Model: PDF → Markdown Companions
 
-**Feature**: `specs/gkv-edi/003-pdf-to-md`  
+**Feature**: `specs/ta5py/003-pdf-to-md`  
 **Date**: 2026-08-17
 
 ## Entities

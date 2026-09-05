@@ -12,7 +12,7 @@
 
 ### User Story 1 - Convert a PDF to a Markdown companion (Priority: P1)
 
-A contributor has an official regulatory PDF (for example an Anlage under `packages/gkv-edi/spec/official/`) and needs a readable Markdown file next to it so humans and agents can search and cite text without opening the binary PDF.
+A contributor has an official regulatory PDF (for example an Anlage under `packages/ta5py/spec/official/`) and needs a readable Markdown file next to it so humans and agents can search and cite text without opening the binary PDF.
 
 **Why this priority**: Markdown companions are the core deliverable; without conversion, nothing else in this feature delivers value.
 
@@ -114,11 +114,11 @@ A Cursor agent (or contributor following agent skills) needs a small project ski
 
 ## Assumptions
 
-- Scope is repository tooling and official/spec PDFs (especially `packages/gkv-edi` download path and any other module PDFs under `spec/`); not a general end-user document product.
+- Scope is repository tooling and official/spec PDFs (especially `packages/ta5py` download path and any other module PDFs under `spec/`); not a general end-user document product.
 - “Keep the PDF” means retain the binary; Markdown is additive.
 - If a Markdown companion already exists, conversion may overwrite it to refresh from the PDF (idempotent refresh), unless the run is explicitly skip-if-present—default is refresh-from-PDF for consistency with re-downloads.
 - Bulk conversion skips `.venv`, `.git`, `__pycache__`, `.pytest_cache`, and similar tooling directories.
 - Text extraction quality follows what the chosen converter can obtain from text-based PDFs; perfect layout fidelity is not required.
-- Only one download script currently exists (`packages/gkv-edi/scripts/download_official_pdfs.py`); FR-004 applies to that script and any future PDF download scripts.
+- Only one download script currently exists (`packages/ta5py/scripts/download_official_pdfs.py`); FR-004 applies to that script and any future PDF download scripts.
 - The Cursor skill lives under the project’s `.cursor/skills/` (or equivalent project skills path) and is intentionally small (when to run, commands, retention rule).
 - PDFs may remain gitignored while Markdown companions MAY be gitignored or tracked per existing official-spec policy; this feature does not require committing large binaries.

@@ -16,10 +16,10 @@ uv sync --group dev
 
 Confirm package layout exists (after implementation):
 
-- `packages/gkv-edi/spec/v21/provenance.yaml`
-- `packages/gkv-edi/spec/v21/messages/slla_e.yaml`
-- `packages/gkv-edi/spec/v21/segments/*.yaml`
-- Official PDFs via `make download-format-pdfs` → `packages/gkv-edi/spec/official/`
+- `packages/ta5py/spec/v21/provenance.yaml`
+- `packages/ta5py/spec/v21/messages/slla_e.yaml`
+- `packages/ta5py/spec/v21/segments/*.yaml`
+- Official PDFs via `make download-format-pdfs` → `packages/ta5py/spec/official/`
 
 Contract references:
 
@@ -30,7 +30,7 @@ Contract references:
 ## Run Slice A tests
 
 ```bash
-uv run pytest packages/gkv-edi/tests/test_slla_e_roundtrip.py packages/gkv-edi/tests/test_validate_syntax_anlage1.py -q
+uv run pytest packages/ta5py/tests/test_slla_e_roundtrip.py packages/ta5py/tests/test_validate_syntax_anlage1.py -q
 ```
 
 ### Expected
@@ -44,7 +44,7 @@ uv run pytest packages/gkv-edi/tests/test_slla_e_roundtrip.py packages/gkv-edi/t
 ## Manual smoke (after API surface exists)
 
 ```bash
-uv run python -c "from gkv_edi.spec_loader import load_package; p=load_package('v21'); print(p['provenance']['scope'], list(p['messages']))"
+uv run python -c "from ta5py.spec_loader import load_package; p=load_package('v21'); print(p['provenance']['scope'], list(p['messages']))"
 ```
 
 Expected: prints `krankentransport` and includes `slla_e`.
@@ -53,7 +53,7 @@ Expected: prints `krankentransport` and includes `slla_e`.
 
 ```bash
 # Fixtures must be synthetic; fail CI if real-looking Versichertennummer patterns are introduced
-uv run pytest packages/gkv-edi/tests -q
+uv run pytest packages/ta5py/tests -q
 ```
 
 ## Out of scope for this quickstart

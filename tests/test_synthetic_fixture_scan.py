@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from gkv_edi.synthetic_guard import scan_text, scan_tree
+from ta5py.synthetic_guard import scan_text, scan_tree
 
 FIX = Path(__file__).parent / "fixtures"
 
