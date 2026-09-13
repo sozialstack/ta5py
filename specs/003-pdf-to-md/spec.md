@@ -92,7 +92,7 @@ A Cursor agent (or contributor following agent skills) needs a small project ski
 - **FR-005**: Converted Markdown MUST preserve extractable text content in a form useful for search and citation (headings where detectable are desirable but plain structured text is acceptable).
 - **FR-006**: Conversion failures MUST be reported clearly per file without removing the PDF.
 - **FR-007**: The project MUST include a small Cursor Agent Skill documenting when and how to run PDF→Markdown conversion and that PDFs are retained.
-- **FR-008**: Existing official PDF locations under module `spec/` trees (notably format official Anlagen) MUST be in scope for bulk conversion once PDFs are present locally.
+- **FR-008**: Existing official PDF locations under package `spec/` trees (notably `packages/ta5py/spec/official/` Anlagen) MUST be in scope for bulk conversion once PDFs are present locally.
 - **FR-009**: Bulk and download-triggered conversion MUST be runnable via the project’s standard contributor toolchain entry points (documented commands / Make targets as already used for PDF download).
 
 ### Key Entities
@@ -110,7 +110,7 @@ A Cursor agent (or contributor following agent skills) needs a small project ski
 - **SC-002**: A single-file conversion completes for a typical multi-page regulatory PDF in under 2 minutes on a standard developer machine.
 - **SC-003**: After running an updated PDF download workflow, every successfully obtained PDF has a Markdown companion without a separate manual conversion step.
 - **SC-004**: A new contributor following project docs or the skill can produce a Markdown companion for one PDF on the first attempt without deleting the PDF.
-- **SC-005**: At least 95% of text-extractable PDFs in the official format set yield Markdown whose body is non-empty and human-readable (image-only PDFs are excluded from this rate and labeled per edge cases).
+- **SC-005**: At least 95% of text-extractable PDFs in the official ta5py official-Anlagen set yield Markdown whose body is non-empty and human-readable (image-only PDFs are excluded from this rate and labeled per edge cases).
 
 ## Assumptions
 

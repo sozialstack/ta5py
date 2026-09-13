@@ -14,7 +14,7 @@ Replace the minimal `packages/ta5py/spec/v20` stub with governed, versioned, **K
 |-------|--------|---------------------|
 | **A — Anlage 1 first** | Separators, file/message structure, service segments, SLGA (ambulance-needed), **SLLA:E** segments/fields, logical model ↔ EDIFACT-like Nutzdaten encode/decode, syntactic validation | **Primary MVP — implement first** |
 | B — Anlage 3 | Ambulance-referenced Schlüsselverzeichnisse (e.g. Sammelgruppe E, Versichertenstatus, Unfall, Positionsnummern) | Planned after A |
-| C — Anlage 5 | Krankentransport Urbeleg content rules | Planned after B |
+| C — Anlage 5 | Krankentransport Urbeleg **content** rules in **leistungen** (not ta5py) | Planned in leistungen; ta5py does not implement content validation |
 | D — Anhang 3 | Kostenträgerdatei ingest + IK lookup | Planned after A (can parallelize with B/C) |
 
 Technical approach: YAML segment/field definitions under `packages/ta5py/spec/v21/` (default), with provenance; `format` loads them for syntax validation and wire serialization; JSON remains an optional logical interchange, not a substitute for Nutzdaten wire form.
@@ -23,7 +23,7 @@ Technical approach: YAML segment/field definitions under `packages/ta5py/spec/v2
 
 **Language/Version**: Python 3.12 (existing monorepo / `uv`)
 
-**Primary Dependencies**: Existing `format` + `clearing-contracts`; PyYAML for segment packages; pytest for fixtures. No new web frameworks for this feature.
+**Primary Dependencies**: Existing `packages/ta5py`; PyYAML for segment packages; pytest for fixtures. No new web frameworks. Plausibility stays in leistungen.
 
 **Storage**: Versioned files under `packages/ta5py/spec/vN/` (and later Kostenträger artifacts under the kostenträger/sync owner when Slice D lands). No production patient DB.
 
@@ -46,9 +46,9 @@ Technical approach: YAML segment/field definitions under `packages/ta5py/spec/v2
 | Principle | Status | How addressed |
 |-----------|--------|---------------|
 | I. English-First | PASS | Plan/research/data-model/contracts/quickstart in English; German terms explained |
-| II. Modular, Swappable Layers | PASS | Work stays in `format` (core encoding); Spec Kit feature docs under `specs/ta5py/001-…`; Kostenträger later remains swappable |
+| II. Three-package architecture | PASS | Work stays in ta5py (syntax/wire); Spec Kit under `specs/ta5py/001-…`; Urbeleg content in leistungen |
 | III. Machine-Readable, Versioned Domain Specs | PASS | `packages/ta5py/spec/v21/` (and future `v22/`) own Anlage packages; fields capture name, order, length, M/K, catalogs |
-| IV. Dual Validation Layers | PASS | Slice A delivers syntactic validation; plausibility remains separate and may stay thin until later slices |
+| IV. Dual Validation Layers | PASS | Slice A delivers syntactic validation; plausibility is leistungen |
 | V. Privacy-by-Design & Synthetic Data Only | PASS | Synthetic fixtures; CI policy in quickstart |
 | VI. Liability & Certification Clarity | PASS | Provenance + README disclaimer; packages are interpretations, not Testat |
 
@@ -113,7 +113,6 @@ packages/ta5py/
 │   ├── encode.py                     # Logical claim → Nutzdaten wire (+ optional JSON debug)
 │   ├── decode.py                     # Nutzdaten wire → logical claim
 │   ├── validate_syntax.py            # Structure/length/M|K/order against package
-│   ├── validate_plausibility.py      # Separate layer (thin in Slice A)
 │   ├── wire.py                       # Separators, escaping, segment join/split
 │   └── uri.py
 └── tests/

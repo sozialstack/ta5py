@@ -121,16 +121,16 @@ A compliance-minded contributor wants every ambulance machine-readable package t
 
 ### Functional Requirements
 
-- **FR-001**: The project MUST provide versioned, machine-readable domain packages covering **only Krankentransport (ambulance)–relevant** content from the official SLE publications for Anlage 1 (Satzaufbau, segments, and transfer-procedure hooks needed for ambulance dataset construction), Anlage 3 (ambulance-referenced Schlüsselverzeichnisse), Anlage 5 (ambulance Urbeleg content rules), and Anhang 3 zur Anlage 1 (Kostenträgerdatei specification for ambulance recipient resolution).
+- **FR-001**: The project MUST provide versioned, machine-readable domain packages covering **only Krankentransport (ambulance)–relevant** content from the official SLE publications for Anlage 1 (Satzaufbau, segments, and transfer-procedure hooks needed for ambulance dataset construction), Anlage 3 (ambulance-referenced Schlüsselverzeichnisse), and Anhang 3 zur Anlage 1 (Kostenträgerdatei specification for ambulance recipient resolution). Anlage 5 Urbeleg **content** rules are executed in **leistungen**, not in ta5py.
 - **FR-002**: Each ambulance-mapped field (or equivalent atomic element) in Anlage 1 packages MUST capture at least: name, position/order, length or size constraint, mandatory/optional status for Krankentransport, and allowed values or catalog references where the official Anlage defines them for that use.
 - **FR-003**: The **only** supported Leistungserbringer type for this feature MUST be Krankentransport (ambulance). Segments, fields, codes, and Urbeleg rules that apply exclusively to other SLE types MUST NOT be required for success and SHOULD NOT be transcribed except where needed to correctly exclude them.
 - **FR-004**: Anlage 3 packages MUST expose named code catalogs for codes referenced by ambulance fields so unknown or non-permitted codes fail closed.
-- **FR-005**: Anlage 5 packages MUST express which original-document content elements are required for ambulance claims so content validation can pass or fail unambiguously.
-- **FR-006**: Anhang 3 packages MUST define the Kostenträger file structure sufficiently to ingest published files and resolve IK-based recipient addressing for ambulance delivery lookups.
+- **FR-005**: ta5py MUST NOT implement ambulance Urbeleg **content** validation. Those Anlage 5 checks MUST live in leistungen (`validate_urbeleg` / plausibility). ta5py MAY cite official Anlage 5 documents for exclusion/scope notes only.
+- **FR-006**: Anhang 3 packages MUST define the Kostenträger file **structure** sufficiently to ingest published files. IK-based recipient **addressing strings** for ambulance dataset construction are in scope here. Recipient **certificate** resolution for encryption remains dtapy (`specs/dtapy/001-itsg-trust-center`).
 - **FR-007**: Spec versioning MUST allow multiple ambulance Anlage versions to coexist (currently applicable and next announced), with an explicit default for encode/validate.
 - **FR-008**: Default supported versions MUST track the currently applicable publications on the official Sonstige Leistungserbringer overview (as of feature creation: Anlage 1 and Anlage 3 Version 21 with published applicability from 2026-01-01; Kostenträger Anhang 3 at the latest adopted published version). Older stands (including Version 20) MAY remain for historical ambulance decode only.
 - **FR-009**: Every machine-readable package MUST include provenance metadata citing official document identity (name, version, stand date), the GKV-Datenaustausch SLE overview as discovery source, and an explicit Krankentransport-only scope statement.
-- **FR-010**: Syntactic validation against ambulance Anlage 1/3 packages MUST be independently testable from business-plausibility checks.
+- **FR-010**: Syntactic validation against ambulance Anlage 1/3 packages MUST be independently testable from business-plausibility checks (plausibility is leistungen).
 - **FR-011**: All fixtures, examples, and automated tests for this feature MUST use synthetic ambulance claim/insured data only; real Sozialdaten MUST never appear in the repository.
 - **FR-012**: Non-ambulance Leistungsbereiche and their area-specific Anlagen (e.g. Heilmittel, HKP and XSD, Hebammen, Rehabilitationssport) are **OUT OF SCOPE** and MUST NOT be delivered by this feature.
 - **FR-013**: Imageverfahren, digital rescue-protocol annexes (unless a field is mandatory for Krankentransport billing), and Korrekturverfahren recommendation PDFs for other areas are OUT OF SCOPE unless required to interpret a core ambulance field rule.
@@ -145,7 +145,7 @@ A compliance-minded contributor wants every ambulance machine-readable package t
 - **Ambulance Anlage Package**: Structured project artifact set representing Krankentransport-relevant rules from one Official Publication version.
 - **Segment / Field Definition**: Atomic Anlage 1 structural element applicable to ambulance billing, with constraints and catalog links.
 - **Code Catalog**: Named Anlage 3 Schlüsselverzeichnis subset used by ambulance fields for a given version.
-- **Urbeleg Content Rule**: Anlage 5 requirement for what must be present on original documents for ambulance claims.
+- **Urbeleg Content Rule**: Owned by leistungen (Anlage 5); not a ta5py runtime validator.
 - **Kostenträger Directory Entry**: IK-centric payer/acceptance addressing record derived from a Kostenträgerdatei per Anhang 3, used for ambulance recipient resolution.
 - **Spec Provenance Record**: Citation linking an Ambulance Anlage Package to its Official Publication and declaring Krankentransport-only scope.
 - **Krankentransport Profile**: The sole supported Leistungserbringer profile selecting ambulance mandatory/optional subsets.
@@ -156,7 +156,7 @@ A compliance-minded contributor wants every ambulance machine-readable package t
 
 - **SC-001**: 100% of mandatory Anlage 1 segments/fields required for Krankentransport in the default version are represented in the ambulance package and covered by at least one synthetic encode or validation fixture.
 - **SC-002**: 100% of Anlage 3 catalogs referenced by ambulance fields are present and reject at least one synthetic invalid or non-permitted code in automated tests.
-- **SC-003**: Anlage 5 ambulance content validation correctly flags missing required Urbeleg elements in at least 5 distinct synthetic negative fixtures and passes at least 5 complete positive ambulance fixtures.
+- **SC-003**: Anlage 5 ambulance Urbeleg content validation is **not** a ta5py success criterion. It is covered by leistungen tests (`packages/leistungen/tests/`, at least 5 synthetic negative and 5 positive fixtures).
 - **SC-004**: Kostenträger ingest + IK lookup succeeds for a representative synthetic (or published non-patient) file with at least 20 fixture IK lookups usable for ambulance addressing, including at least 3 not-found cases.
 - **SC-005**: A contributor can determine the official source version, stand date, and ambulance-only scope for each default package within 5 minutes from provenance records alone.
 - **SC-006**: Switching the selected Anlage version in a dry-run changes ambulance validation outcomes for at least one known version-delta fixture without editing package files by hand.
@@ -172,6 +172,7 @@ A compliance-minded contributor wants every ambulance machine-readable package t
 - User-cited Anlage 1 Version 20 (Stand 24.01.2024) is historical context; as of 2026-08-17 the official overview marks Version 21 as accepted from 2026-01-01, with Version 22 announced for a later date—defaults follow currently applicable publications for ambulance use.
 - Official PDFs remain authoritative; if a transcription conflict is found, the PDF wins until a governed package correction lands.
 - Kostenträger sync may live in a separate replaceable module, but Anhang 3 structural rules and ingest semantics needed for ambulance recipient resolution are in scope.
-- Transfer-procedure text in Anlage 1 that overlaps crypto/transport modules is referenced for ambulance dataset/procedure hooks only; full DFÜ and Trust Center workflows remain owned by those modules (see `specs/api/001-dfue-kv-api`).
+- Transfer-procedure text in Anlage 1 that overlaps crypto/transport is referenced for ambulance dataset/procedure hooks only; full DFÜ and Trust Center workflows remain owned by dtapy (see `specs/dtapy/` and the HTTP caller `specs/kassenclearing/001-dfue-kv-api`).
+- Anlage 5 Urbeleg content validation is owned by leistungen, not this feature.
 - English is used for Spec Kit governance artifacts; German official terms appear as domain vocabulary with English explanations.
 - Source discovery path: GKV-Datenaustausch → Leistungserbringer → Sonstige Leistungserbringer (`sonstige_leistungserbringer.jsp`).

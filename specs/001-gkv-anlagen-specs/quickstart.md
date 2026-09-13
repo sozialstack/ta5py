@@ -61,8 +61,9 @@ uv run pytest packages/ta5py/tests -q
 - Anlage 3 catalog membership  
 - Anlage 5 Urbeleg checks  
 - Kostenträgerdatei ingest  
-- cert / transfer / api job orchestration (see `specs/api/001-dfue-kv-api`)
+- cert / transfer / api job orchestration (see `specs/kassenclearing/001-dfue-kv-api`)
+- Anlage 5 Urbeleg content checks (see `packages/leistungen`)
 
 ## Next slices
 
-After Slice A is green: add Anlage 3 catalogs → Anlage 5 rules → Anhang 3 Kostenträger (see [plan.md](./plan.md) sequencing table).
+After Slice A is green: add Anlage 3 catalogs → Anhang 3 Kostenträger (see [plan.md](./plan.md)). Anlage 5 Urbeleg content remains leistungen.

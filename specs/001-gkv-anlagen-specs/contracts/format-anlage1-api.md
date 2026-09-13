@@ -1,8 +1,8 @@
 # Contract: format module — Anlage 1 Slice A
 
 **Owner**: `packages/ta5py`  
-**Consumers**: `api` (orchestration), tests, future Kostenträger tooling (IK strings only in Slice A)  
-**Out of scope**: cert packaging, DFÜ transfer, full Anlage 3/5/Anhang 3
+**Consumers**: kassenclearing (orchestration), tests, Kostenträger tooling (IK strings only in Slice A)  
+**Out of scope**: dtapy packaging/transfer, Anlage 5 Urbeleg **content** (leistungen), full Anlage 3/Anhang 3
 
 ## Public operations (Slice A)
 
@@ -29,9 +29,10 @@
 - Parses wire text using package UNA separators and SLLA:E grammar.
 - Round-trip: `decode(encode(x))` equals `x` for supported fields (modulo empty Kann elision rules).
 
-### `validate_plausibility(...)` (unchanged boundary)
+### `validate_plausibility(...)` — **not ta5py**
 
-- Remains a separate entry point; Slice A may keep minimal checks.
+- Business plausibility and Urbeleg content validation belong in **leistungen**.
+- Slice A MUST NOT grow a ta5py plausibility implementation.
 
 ## Required SLLA:E segments (package must define)
 
@@ -40,7 +41,7 @@ plus service segments used in files: `UNB`, `UNH`, `UNT`, `UNZ`, and SLGA Nutzse
 
 ## Error shape
 
-Reuse `clearing_contracts.types.FormatResult` / `FieldError`:
+Reuse existing result types (`syntax_ok`, field errors). Do not add a new shared `clearing-contracts` dependency for this slice.
 
 | Field | Meaning |
 |-------|---------|
