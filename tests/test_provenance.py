@@ -19,7 +19,7 @@ def test_provenance_required_keys():
             assert pub.get("stand_date")
             assert pub.get("local_pdf")
             pdf = Path(__file__).resolve().parents[1] / "spec" / pub["local_pdf"]
-            assert pdf.is_file(), f"missing PDF {pdf} — run download_official_pdfs.py"
+            assert pdf.is_file(), f"missing tracked PDF {pdf} — restore from git or run download_official_pdfs.py"
 
 
 def test_replaced_stand_retained_on_v22():

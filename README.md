@@ -7,7 +7,7 @@ SGB V TA5/EDIFACT encode/decode and syntactic KK validation for Krankentransport
 - Live/default: `spec/governance/live-version.yaml` (bootstrap `v21`) — **human approve + go-live required to change**
 - Preview packages: e.g. `spec/v22/` (selectable explicitly; not live until approved)
 - Legacy stub: `spec/v20/` (non-default JSON schema)
-- Official PDFs (gitignored): `spec/docs/` — fetch with `make download-format-pdfs` (also writes Markdown companions; PDFs kept)
+- Official PDFs (tracked): `spec/docs/` — refresh with `make download-format-pdfs` (also writes Markdown companions; PDFs kept)
 - Refresh Markdown for all local PDFs: `make convert-pdfs` (never deletes PDFs)
 
 This project is **not** payer-certified (no Testat). Deployers own Trust Center registration and operational compliance.

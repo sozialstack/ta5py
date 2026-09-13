@@ -121,4 +121,4 @@ A Cursor agent (or contributor following agent skills) needs a small project ski
 - Text extraction quality follows what the chosen converter can obtain from text-based PDFs; perfect layout fidelity is not required.
 - Only one download script currently exists (`packages/ta5py/scripts/download_official_pdfs.py`); FR-004 applies to that script and any future PDF download scripts.
 - The Cursor skill lives under the project’s `.cursor/skills/` (or equivalent project skills path) and is intentionally small (when to run, commands, retention rule).
-- PDFs may remain gitignored while Markdown companions MAY be gitignored or tracked per existing official-spec policy; this feature does not require committing large binaries.
+- Official PDFs under `packages/ta5py/spec/docs/` are tracked in git (authoritative sources stay in-repo). Markdown companions are also tracked as reading aids.

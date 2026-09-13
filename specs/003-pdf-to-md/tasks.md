@@ -108,6 +108,7 @@
 - [x] T018 [P] Update root `README.md` (if it mentions format PDF download) to mention Markdown companions / `convert-pdfs`
 - [x] T019 Run quickstart validation from `specs/ta5py/003-pdf-to-md/quickstart.md` (single, bulk, download) and fix any gaps in scripts or docs
 - [x] T020 [P] Confirm official PDFs remain gitignored and Markdown companions are not blanket-ignored in `.gitignore`
+  - **Superseded**: official PDFs under `packages/ta5py/spec/docs/` are now tracked in git (gitignore entry removed).
 
 ---
 
