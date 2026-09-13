@@ -32,11 +32,17 @@
           "inv": {
             "versicherten_id": "A000000001",
             "versichertenstatus": "10000",
-            "geburtsdatum": "19800101"
+            "beleginformation": "0",
+            "belegnummer": "B20260001"
           },
           "nad": {
             "name_versicherter": "Mustermann",
-            "vorname_versicherter": "Max"
+            "vorname_versicherter": "Max",
+            "geburtsdatum": "19800101",
+            "strasse": "Musterweg 1",
+            "plz": "10115",
+            "wohnort": "Berlin",
+            "laenderkennzeichen": "D"
           },
           "trips": [
             {
@@ -52,7 +58,7 @@
               "positions": [
                 {
                   "ekt": {
-                    "abrechnungscode": "11",
+                    "abrechnungscode": "48",
                     "tarifkennzeichen": "00ABC",
                     "positionsnummer": "110100",
                     "anzahl_menge": "1,00",
@@ -68,6 +74,9 @@
             }
           ],
           "zkt": {
+            "betriebsstaettennummer": "999999999",
+            "lanr": "999999999",
+            "zuzahlungskennzeichen": "0",
             "verordnungsdatum": "20260816",
             "unfallkennzeichen": "0",
             "le_art": "48"

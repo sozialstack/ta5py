@@ -10,11 +10,12 @@ from pathlib import Path
 
 from ta5py.governance.detect import run_detection, should_auto_integrate
 from ta5py.governance.integrate import DuplicateCandidateError, integrate_candidate
+from ta5py.governance.gitops import persist_integration_branch
 from ta5py.governance.store import list_candidates, load_live_binding
 from ta5py.spec_loader import SPEC_ROOT
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_KNOWN = ROOT / "spec" / "official" / "sources.manifest.yaml"
+DEFAULT_KNOWN = ROOT / "spec" / "docs" / "sources.manifest.yaml"
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
@@ -40,7 +41,7 @@ def main() -> int:
         "--known",
         type=Path,
         default=DEFAULT_KNOWN,
-        help="Known sources manifest (default: official sources.manifest.yaml)",
+        help="Known sources manifest (default: spec/docs/sources.manifest.yaml)",
     )
     parser.add_argument(
         "--network",
@@ -70,6 +71,12 @@ def main() -> int:
         help="After on-demand detection, scaffold each newly detected candidate on a branch",
     )
     parser.add_argument("--no-git", action="store_true", help="Skip git when auto-integrating")
+    parser.add_argument(
+        "--push",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="After auto-integrate, commit and push the integration branch (scheduled CI should pass --push)",
+    )
     parser.add_argument("--json", action="store_true", help="Machine-readable DetectionRun")
     parser.add_argument(
         "--fail",
@@ -132,6 +139,14 @@ def main() -> int:
                 print(f"auto-integrate skip duplicate: {exc}", file=sys.stderr)
             except Exception as exc:  # noqa: BLE001
                 print(f"auto-integrate ERROR: {exc}", file=sys.stderr)
+                return 1
+        if not args.no_git:
+            try:
+                persisted = persist_integration_branch(REPO_ROOT, push=args.push)
+                if persisted:
+                    print(f"persisted integration branch={persisted}")
+            except Exception as exc:  # noqa: BLE001
+                print(f"persist integration branch ERROR: {exc}", file=sys.stderr)
                 return 1
         live_after = load_live_binding(SPEC_ROOT)
         before_label = live_before.package_label if live_before else None

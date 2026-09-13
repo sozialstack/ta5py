@@ -1,6 +1,16 @@
 id: laenderkennzeichen
 version: 21
+source: Anlage 3 Abschnitt 8.5 (Anlage 8 Rundschreiben; ambulance-referenced subset)
 codes:
   - { code: "D", label: "Deutschland" }
   - { code: "A", label: "Oesterreich" }
   - { code: "CH", label: "Schweiz" }
+  - { code: "F", label: "Frankreich" }
+  - { code: "I", label: "Italien" }
+  - { code: "NL", label: "Niederlande" }
+  - { code: "B", label: "Belgien" }
+  - { code: "L", label: "Luxemburg" }
+  - { code: "PL", label: "Polen" }
+  - { code: "CZ", label: "Tschechien" }
+  - { code: "DK", label: "Daenemark" }
+  - { code: "E", label: "Spanien" }

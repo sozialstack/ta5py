@@ -85,6 +85,7 @@ def _min_len(spec: str | int | None) -> int | None:
 
 
 _N_RE = re.compile(r"^[0-9]+(,[0-9]+)?$")
+_AMBULANCE_LE_ART = {str(n) for n in range(41, 50)}
 
 
 def _check_field(value: Any, field: dict, path: str, errors: list[FieldError], catalogs: dict) -> None:
@@ -107,7 +108,10 @@ def _check_field(value: Any, field: dict, path: str, errors: list[FieldError], c
         errors.append(FieldError(path, "value_type N expected numeric"))
 
     catalog_ref = field.get("catalog_ref")
-    if catalog_ref and catalog_ref in catalogs:
+    if catalog_ref:
+        if catalog_ref not in catalogs:
+            errors.append(FieldError(path, f"catalog {catalog_ref} missing or unloadable"))
+            return
         allowed = {str(c.get("code") if isinstance(c, dict) else c) for c in catalogs[catalog_ref].get("codes", [])}
         if s not in allowed:
             errors.append(
@@ -379,6 +383,9 @@ def validate_slla_e_claim(claim: dict[str, Any], spec_version: str, dataset_id: 
                     errors.append(FieldError(f"{cpath}.{req}", "required field missing"))
                 else:
                     _validate_segment_dict(case[req], segments[code], f"{cpath}.{req}", errors, catalogs)
+            le_art = str((case.get("zkt") or {}).get("le_art") or "")
+            if le_art and le_art not in _AMBULANCE_LE_ART:
+                errors.append(FieldError(f"{cpath}.zkt.le_art", "unsupported_scope"))
             for opt, code in (("img", "IMG"), ("evo", "EVO"), ("skz", "SKZ")):
                 if case.get(opt):
                     _validate_segment_dict(case[opt], segments[code], f"{cpath}.{opt}", errors, catalogs)

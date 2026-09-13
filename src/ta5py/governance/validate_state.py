@@ -9,7 +9,7 @@ from typing import Any
 SCHEMA_PATH = (
     Path(__file__).resolve().parents[5]
     / "specs"
-    / "format"
+    / "ta5py"
     / "002-auto-spec-integration"
     / "contracts"
     / "governance-state.schema.json"
@@ -23,7 +23,10 @@ SCHEMA_PATH = (
 
 
 def load_governance_schema() -> dict[str, Any]:
-    return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    try:
+        return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise FileNotFoundError(f"governance schema unreadable: {SCHEMA_PATH}") from exc
 
 
 def _check_detection(item: Any, index: int, errors: list[str]) -> None:
@@ -120,21 +123,32 @@ def validate_status_payload(payload: dict[str, Any]) -> list[str]:
         import jsonschema  # type: ignore[import-not-found]
 
         schema = load_governance_schema()
-        # Validate only known schema keys to allow intentional operator extras elsewhere
-        core = {
-            "live": payload.get("live"),
-            "detections": payload.get("detections"),
-            "candidates": [
-                {k: v for k, v in c.items() if k != "source_publications"}
-                if isinstance(c, dict)
-                else c
-                for c in (payload.get("candidates") or [])
-            ],
-        }
+
+        def _omit_none(obj: Any) -> Any:
+            if isinstance(obj, dict):
+                return {k: _omit_none(v) for k, v in obj.items() if v is not None}
+            if isinstance(obj, list):
+                return [_omit_none(v) for v in obj]
+            return obj
+
+        core = _omit_none(
+            {
+                "live": payload.get("live"),
+                "detections": payload.get("detections"),
+                "candidates": [
+                    {k: v for k, v in c.items() if k != "source_publications"}
+                    if isinstance(c, dict)
+                    else c
+                    for c in (payload.get("candidates") or [])
+                ],
+            }
+        )
         validator_cls = jsonschema.Draft202012Validator
         for err in sorted(validator_cls(schema).iter_errors(core), key=lambda e: e.path):
             errors.append(f"schema: {err.message}")
     except ImportError:
         pass
+    except (OSError, json.JSONDecodeError, FileNotFoundError) as exc:
+        errors.append(f"schema: failed to load {SCHEMA_PATH.name}: {exc}")
 
     return errors

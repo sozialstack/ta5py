@@ -6,6 +6,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
+from ta5py.governance.integrate import _candidate_in_scope
 from ta5py.governance.models import ApprovalDecision, IntegrationCandidate, LiveVersionBinding
 from ta5py.governance.store import load_candidate, load_live_binding, save_candidate, save_live_binding
 from ta5py.spec_loader import SPEC_ROOT, load_package, load_package_at, refresh_default_version
@@ -90,6 +91,11 @@ def go_live(
     if cand.state == "failed":
         raise ApprovalError(
             f"go-live rejected: candidate is failed ({cand.error_message or 'no detail'})"
+        )
+
+    if not _candidate_in_scope(cand):
+        raise ApprovalError(
+            f"go-live rejected: candidate {cand.id} is out of ambulance product scope"
         )
 
     if require_approval:

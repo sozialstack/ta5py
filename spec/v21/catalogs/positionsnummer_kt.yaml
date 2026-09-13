@@ -1,6 +1,0 @@
-id: positionsnummer_kt
-version: 21
-source: Anlage 3 8.2.5 Positionsnummer Krankentransport (structure 6 digits; sample codes)
-codes:
-  - { code: "110100", label: "synthetic position" }
-  - { code: "210200", label: "synthetic position km" }

@@ -161,3 +161,42 @@ def test_corrupt_package_marks_failed(tmp_path: Path):
     failed = [c for c in list_candidates(spec) if c.package_label == "v23"]
     assert failed and failed[0].state == "failed"
     assert failed[0].error_message
+
+
+def test_integrate_refuses_out_of_scope(tmp_path: Path):
+    from datetime import datetime, timezone
+
+    from ta5py.governance.integrate import IntegrateError
+    from ta5py.governance.models import IntegrationCandidate
+    from ta5py.governance.store import save_candidate
+
+    repo, spec = _spec_with_v21(tmp_path)
+    now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    cand = IntegrationCandidate(
+        id="oos-hand-seed",
+        package_label="v99",
+        branch_name="ta5py/spec-v99-integration",
+        source_publication_ids=["heilmittel-other-v99"],
+        state="detected",
+        created_at=now,
+        updated_at=now,
+        source_publications=[{"id": "heilmittel-other-v99", "bucket": "heilmittel"}],
+    )
+    save_candidate(cand, spec)
+    with pytest.raises(IntegrateError, match="out of ambulance"):
+        integrate_candidate(
+            "oos-hand-seed",
+            create_git_branch=False,
+            repo_root=repo,
+            spec_root=spec,
+            base_package="v21",
+        )
+
+
+def test_default_repo_root_is_sozialstack():
+    from ta5py.governance.gitops import sozialstack_root
+
+    root = sozialstack_root(SPEC_ROOT)
+    assert (root / "packages" / "ta5py").is_dir()
+    assert (root / "pyproject.toml").is_file()
+    assert SPEC_ROOT.resolve().parents[3] != root

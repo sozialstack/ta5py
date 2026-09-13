@@ -2,5 +2,10 @@ code: NAD
 name: Name und Adresse Versicherter
 fields:
   - { name: segment_tag, official_label: NAD, position: 1, max_length: 3, value_type: AN, usage: M }
-  - { name: name_versicherter, official_label: Name, position: 2, max_length: 45, value_type: AN, usage: M }
-  - { name: vorname_versicherter, official_label: Vorname, position: 3, max_length: 45, value_type: AN, usage: K }
+  - { name: name_versicherter, official_label: Vers.-Nachname, position: 2, max_length: 47, value_type: AN, usage: M }
+  - { name: vorname_versicherter, official_label: Vers.-Vorname, position: 3, max_length: 30, value_type: AN, usage: M }
+  - { name: geburtsdatum, official_label: Vers.-Geburtsdatum, position: 4, max_length: 8, value_type: N, usage: M }
+  - { name: strasse, official_label: Vers.-Strasse-/Nr., position: 5, max_length: 30, value_type: AN, usage: K }
+  - { name: plz, official_label: Vers.-PLZ, position: 6, max_length: 7, value_type: AN, usage: K }
+  - { name: wohnort, official_label: Vers.-Wohnort, position: 7, max_length: 25, value_type: AN, usage: K }
+  - { name: laenderkennzeichen, official_label: Vers.-Laenderkennzeichen, position: 8, max_length: 3, value_type: AN, usage: K, catalog_ref: laenderkennzeichen }

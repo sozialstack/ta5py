@@ -2,6 +2,8 @@ code: INV
 name: Informationsdaten Versicherung
 fields:
   - { name: segment_tag, official_label: INV, position: 1, max_length: 3, value_type: AN, usage: M }
-  - { name: versicherten_id, official_label: Versicherungsnummer/Kennung, position: 2, max_length: 12, value_type: AN, usage: M, description: "Synthetic only in fixtures" }
-  - { name: versichertenstatus, official_label: Versichertenstatus, position: 3, max_length: 5, value_type: AN, usage: M, catalog_ref: versichertenstatus }
-  - { name: geburtsdatum, official_label: Geburtsdatum, position: 4, max_length: 8, value_type: N, usage: K }
+  - { name: versicherten_id, official_label: Versicherten-Nummer, position: 2, max_length: 12, value_type: AN, usage: K, description: "Synthetic only in fixtures; K per Anlage 1" }
+  - { name: versichertenstatus, official_label: Versichertenstatus, position: 3, max_length: 5, value_type: AN, usage: K, catalog_ref: versichertenstatus }
+  - { name: beleginformation, official_label: Beleginformation, position: 4, max_length: 1, value_type: AN, usage: K, catalog_ref: beleginformation }
+  - { name: belegnummer, official_label: Belegnummer, position: 5, max_length: 10, value_type: AN, usage: M }
+  - { name: versorgungsform, official_label: Kennzeichen Besondere Versorgungsform, position: 6, max_length: 25, value_type: AN, usage: K }

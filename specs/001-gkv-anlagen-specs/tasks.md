@@ -283,3 +283,14 @@ Task: "T021 Transcribe KTL/EKT/TXT/MWS/ZUK/ZKT/SKZ/BES into packages/ta5py/spec/
 - [x] T069 On stand adoption, retain prior/replaced stand identity in provenance (`replaced_stand` or equivalent) for v21/v22 packages and cover with a test per US6/AC2 / FR-009 / FR-015 (partial)
 - [x] T070 Drive intra-case segment/repetition order from `messages/slla_e.yaml` (replace hardcoded `_validate_case_group_order` flow) so package and validator cannot drift per US1/AC2 / FR-010 / residual T061 (partial)
 - [x] T071 Include the full `packages/ta5py/tests` suite (or SC-critical subset: round-trip, catalogs, Urbeleg, Kostenträger, version, provenance) in CI Focused pytest per SC-001…SC-006 (partial)
+
+## Phase 12: Convergence
+
+- [x] T072 CRITICAL: Move Anlage 5 Urbeleg **content** rule YAML out of `packages/ta5py/spec/v21/urbeleg/` (and v22) into leistungen; leave ta5py with citation/scope notes only, and stop loading those rules via `ta5py.spec_loader.version_dir` per FR-005 / Constitution II (contradicts)
+- [x] T073 CRITICAL: Relocate Leistungsarten and Positionsnummer membership/semantics from ta5py catalogs (`le_art_krankentransport`, `positionsnummer_kt`) into leistungen; keep ta5py to wire/shape and ambulance-scope rejection only per Constitution II (contradicts)
+- [x] T074 CRITICAL: Re-transcribe INV from Anlage 1 (Belegnummer, Beleginfo/Versorgungsform, correct M/K including Versichertenstatus K; move Geburtsdatum off INV) and cover mandatory fields with synthetic fixtures per FR-002 / SC-001 / US1/AC1 (partial)
+- [x] T075 CRITICAL: Complete NAD ambulance field inventory (Vers.-Nachname/Vorname/Geburtsdatum M plus applicable address Kann fields) and fixtures per FR-002 / SC-001 / US1/AC1 (partial)
+- [x] T076 CRITICAL: Complete ZKT mandatory fields (Betriebsstättennummer, LANR, Zuzahlungskennzeichen) with catalogs/fixtures per FR-002 / SC-001 / US1/AC1 (partial)
+- [x] T077 Fail closed when a field `catalog_ref` is set but the catalog is absent/unloadable in `packages/ta5py/src/ta5py/validate_syntax.py` per FR-004 / US2/AC2 (partial)
+- [x] T078 Transcribe ambulance-referenced Anlage 3 catalogs beyond tiny stubs (at least Positionsnummer structure/membership, Abrechnungscode, Tarifkennzeichen, Länderkennzeichen) so official permitted codes are not rejected per FR-004 / SC-002 / US2 (partial)
+- [x] T079 Align IMG/EVO ambulance-applicable field definitions with Anlage 1 (structured Beleg/Jahr vs single optional `beleg_referenz`) per FR-002 / plan Slice A (partial)

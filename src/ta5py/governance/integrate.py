@@ -9,8 +9,9 @@ from typing import Any
 
 import yaml
 
-from ta5py.governance.gitops import GitOpsError, create_branch
+from ta5py.governance.gitops import GitOpsError, create_branch, sozialstack_root
 from ta5py.governance.models import IntegrationCandidate
+from ta5py.governance.scope import is_in_scope_bucket
 from ta5py.governance.store import (
     list_candidates,
     load_candidate,
@@ -187,7 +188,20 @@ def _write_change_summary(
 
 
 def _official_manifest_path(spec_root: Path) -> Path:
+    docs = spec_root / "docs" / "sources.manifest.yaml"
+    if docs.is_file():
+        return docs
     return spec_root / "official" / "sources.manifest.yaml"
+
+
+def _candidate_in_scope(cand: IntegrationCandidate) -> bool:
+    pubs = list(cand.source_publications or [])
+    if pubs:
+        return all(is_in_scope_bucket(str(p.get("bucket") or "")) for p in pubs)
+    ids = list(cand.source_publication_ids or [])
+    if not ids:
+        return True
+    return all(not str(i).startswith("oos-") for i in ids)
 
 
 def _mark_failed(cand: IntegrationCandidate, root: Path, message: str) -> IntegrationCandidate:
@@ -210,7 +224,7 @@ def integrate_candidate(
     spec_root: Path | None = None,
 ) -> IntegrationCandidate:
     root = spec_root if spec_root is not None else SPEC_ROOT
-    repo = repo_root if repo_root is not None else root.resolve().parents[3]  # packages/ta5py/spec -> repo
+    repo = repo_root if repo_root is not None else sozialstack_root(root)
 
     cand: IntegrationCandidate | None = None
     if candidate_id:
@@ -225,6 +239,11 @@ def integrate_candidate(
 
     if cand is None:
         raise ValueError(f"candidate not found: {candidate_id}")
+
+    if not _candidate_in_scope(cand):
+        raise IntegrateError(
+            f"candidate {cand.id} is out of ambulance product scope and will not be scaffolded"
+        )
 
     if cand.state in {"rejected", "live"}:
         raise IntegrateError(

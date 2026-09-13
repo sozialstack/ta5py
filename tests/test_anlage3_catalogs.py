@@ -10,7 +10,6 @@ from ta5py.validate_syntax import validate_data
 
 FIXTURE = Path(__file__).parent / "fixtures/synthetic/slla_e/happy_claim.json"
 
-# catalog_ref → (path into claim dict as tuple of keys, invalid code)
 _INVALID_BY_CATALOG = {
     "versichertenstatus": (("slla", 0, "cases", 0, "inv", "versichertenstatus"), "99999"),
     "rechnungsart": (("slla", 0, "rec", "rechnungsart"), "9"),
@@ -20,6 +19,8 @@ _INVALID_BY_CATALOG = {
     "unfall_sonstiges": (("slla", 0, "cases", 0, "zkt", "unfallkennzeichen"), "9"),
     "zuzahlungsart": (("slla", 0, "cases", 0, "trips", 0, "zuk", "zuzahlungsart"), "99"),
     "laenderkennzeichen": (("slla", 0, "cases", 0, "trips", 0, "ktl", "laenderkennzeichen_abholort"), "XX"),
+    "beleginformation": (("slla", 0, "cases", 0, "inv", "beleginformation"), "9"),
+    "zuzahlungskennzeichen": (("slla", 0, "cases", 0, "zkt", "zuzahlungskennzeichen"), "9"),
 }
 
 
@@ -46,23 +47,26 @@ def test_rejects_invalid_code_per_catalog(catalog_id, path_and_code):
     assert any(catalog_id in e.message for e in result.errors), result.errors
 
 
-def test_catalog_accepts_known_le_art():
+def test_catalog_accepts_known_abrechnungscode():
     claim = json.loads(FIXTURE.read_text(encoding="utf-8"))
     result = validate_data(claim, "v21")
     assert result.syntax_ok, result.errors
 
 
-def test_catalog_rejects_unknown_code():
-    claim = json.loads(FIXTURE.read_text(encoding="utf-8"))
-    claim["slla"][0]["cases"][0]["zkt"]["le_art"] = "99"
-    result = validate_data(claim, "v21")
-    assert not result.syntax_ok
-    assert any("catalog le_art_krankentransport" in e.message for e in result.errors)
+def test_missing_catalog_fail_closed(monkeypatch):
+    import importlib
 
-
-def test_catalog_rejects_bad_positionsnummer():
     claim = json.loads(FIXTURE.read_text(encoding="utf-8"))
-    claim["slla"][0]["cases"][0]["trips"][0]["positions"][0]["ekt"]["positionsnummer"] = "999999"
-    result = validate_data(claim, "v21")
+    from ta5py.spec_loader import load_package as real_load
+
+    vs = importlib.import_module("ta5py.validate_syntax")
+
+    def fake_load(spec_version):
+        pkg = copy.deepcopy(real_load(spec_version))
+        pkg["catalogs"].pop("versichertenstatus", None)
+        return pkg
+
+    monkeypatch.setattr(vs, "load_package", fake_load)
+    result = vs.validate_data(claim, "v21")
     assert not result.syntax_ok
-    assert any("positionsnummer_kt" in e.message for e in result.errors)
+    assert any("versichertenstatus" in e.message and "missing" in e.message for e in result.errors)

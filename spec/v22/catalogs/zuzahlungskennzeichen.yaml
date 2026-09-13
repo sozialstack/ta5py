@@ -1,0 +1,10 @@
+id: zuzahlungskennzeichen
+version: 22
+source: Anlage 3 Abschnitt 8.1.3
+codes:
+  - { code: "0", label: "keine gesetzliche Zuzahlung" }
+  - { code: "1", label: "Zuzahlungsbefreit" }
+  - { code: "2", label: "keine Zuzahlung trotz Zahlungsaufforderung" }
+  - { code: "3", label: "Zuzahlungspflichtig" }
+  - { code: "4", label: "Uebergang zuzahlungspflichtig zu zuzahlungsfrei" }
+  - { code: "5", label: "Uebergang zuzahlungsfrei zu zuzahlungspflichtig" }

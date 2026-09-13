@@ -107,3 +107,57 @@ def test_legacy_v20_still_works(tmp_path):
         output_dir=tmp_path,
     )
     assert result.syntax_ok
+
+
+def test_rejects_missing_inv_belegnummer():
+    claim = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    claim["slla"][0]["cases"][0]["inv"]["belegnummer"] = ""
+    result = validate_data(claim, "v21")
+    assert not result.syntax_ok
+    assert any("belegnummer" in e.field for e in result.errors)
+
+
+def test_rejects_missing_nad_geburtsdatum():
+    claim = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    claim["slla"][0]["cases"][0]["nad"]["geburtsdatum"] = ""
+    result = validate_data(claim, "v21")
+    assert not result.syntax_ok
+    assert any("geburtsdatum" in e.field for e in result.errors)
+
+
+def test_rejects_missing_zkt_bsnr_lanr_zuzahlung():
+    claim = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    zkt = claim["slla"][0]["cases"][0]["zkt"]
+    zkt["betriebsstaettennummer"] = ""
+    zkt["lanr"] = ""
+    zkt["zuzahlungskennzeichen"] = ""
+    result = validate_data(claim, "v21")
+    assert not result.syntax_ok
+    fields = {e.field for e in result.errors}
+    assert any("betriebsstaettennummer" in f for f in fields)
+    assert any("lanr" in f for f in fields)
+    assert any("zuzahlungskennzeichen" in f for f in fields)
+
+
+def test_rejects_non_ambulance_le_art_scope():
+    claim = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    claim["slla"][0]["cases"][0]["zkt"]["le_art"] = "11"
+    result = validate_data(claim, "v21")
+    assert not result.syntax_ok
+    assert any(e.message == "unsupported_scope" for e in result.errors)
+
+
+def test_img_evo_structured_fields():
+    claim = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    claim["slla"][0]["cases"][0]["img"] = {
+        "abrechnungsjahr": "2026",
+        "abrechnungsmonat": "08",
+        "identifikation_stelle": "123456789",
+    }
+    claim["slla"][0]["cases"][0]["evo"] = {"evo_id": "E" * 22}
+    result = validate_data(claim, "v21")
+    assert result.syntax_ok, result.errors
+    claim["slla"][0]["cases"][0]["img"]["abrechnungsjahr"] = ""
+    result = validate_data(claim, "v21")
+    assert not result.syntax_ok
+    assert any("abrechnungsjahr" in e.field for e in result.errors)
