@@ -2,6 +2,14 @@
 
 SGB V TA5/EDIFACT encode/decode and syntactic KK validation for Krankentransport (SLLA:E).
 
+## Institutskennung (IK) formal check
+
+Offline Prüfziffer validation via the `Ik` value type: `Ik.parse`, `Ik.is_valid`, `Ik.compute_check_digit`, parts + `is_formally_valid`, and seven-digit Kassennummer expansion with prefix `10` (`Ik.from_kassennummer`). Formal OK does not mean registry existence or payer Testat; Ersatzkennzeichen that satisfy the check digit pass the default check. German operator note: `docs/de/ik.md`.
+
+## Kostenträger IK verification (§ 302)
+
+Registry check against the loaded GKV-Spitzenverband SLE Kostenträgerdatei (EDIFACT from [gkv-datenaustausch.de](https://www.gkv-datenaustausch.de/leistungserbringer/sonstige_leistungserbringer/kostentraegerdateien_sle/kostentraegerdateien.jsp)): `verify_kostentraeger_ik` / `resolve_acceptance_ik` answer existence and the selected acceptance/billing recipient IK. Refresh with `make download-kostentraeger` (gitignored `var/kostentraeger/`); verify itself is offline against the ingested store. A registry hit is not a Testat. German operator note: `docs/de/kostentraeger-ik.md`.
+
 ## Specs
 
 - Live/default: `spec/governance/live-version.yaml` (bootstrap `v21`) — **human approve + go-live required to change**
@@ -9,6 +17,7 @@ SGB V TA5/EDIFACT encode/decode and syntactic KK validation for Krankentransport
 - Legacy stub: `spec/v20/` (non-default JSON schema)
 - Official PDFs (tracked): `spec/docs/` — refresh with `make download-format-pdfs` (also writes Markdown companions; PDFs kept)
 - Refresh Markdown for all local PDFs: `make convert-pdfs` (never deletes PDFs)
+- Current SLE Kostenträgerdateien (gitignored cache): `make download-kostentraeger` → `var/kostentraeger/` + `store.json`
 
 This project is **not** payer-certified (no Testat). Deployers own Trust Center registration and operational compliance.
 

@@ -1,8 +1,21 @@
+"""Kostenträgerdatei ingest and § 302 registry verification.
+
+The GKV-Spitzenverband SLE Kostenträgerdatei (EDIFACT KOTR via
+gkv-datenaustausch.de) is the authoritative source for card/Kostenträger IK
+existence and acceptance/billing recipient resolution. Verification reads a
+locally loaded store only — refresh/download is a separate operator step.
+
+This module does **not** run formal Prüfziffer checks (see ``ta5py.ik``) and a
+registry hit is **not** a project Testat or payer Community-Testat.
+"""
+
 from __future__ import annotations
 
 import json
 import os
 import tempfile
+from dataclasses import dataclass
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -12,15 +25,109 @@ from ta5py.spec_loader import resolve_spec_version, version_dir
 from ta5py.wire import split_fields, split_segments
 
 
+class VerificationStatus(StrEnum):
+    """Outcome of Kostenträgerdatei registry verification."""
+
+    FOUND = "found"
+    NOT_FOUND = "not_found"
+    REGISTRY_UNAVAILABLE = "registry_unavailable"
+
+
+@dataclass(frozen=True, slots=True)
+class KostentraegerVerificationResult:
+    """Result of verifying a card/Kostenträger IK against a loaded store."""
+
+    status: VerificationStatus
+    card_ik: str | None = None
+    recipient_ik: str = ""
+    recipient_determined: bool = False
+    name: str = ""
+    abrechnungscode: str = ""
+    dfue_hint: str = ""
+    dfue_protocol: str = ""
+    source: str = ""
+    provenance: tuple[str, ...] = ()
+
+
 class KostentraegerStore:
-    def __init__(self, entries: dict[str, dict[str, str]]):
+    def __init__(
+        self,
+        entries: dict[str, dict[str, str]],
+        provenance: list[str] | tuple[str, ...] | None = None,
+    ):
         self._entries = entries
+        self._provenance = tuple(provenance or ())
+
+    @property
+    def provenance(self) -> tuple[str, ...]:
+        """Filenames (or other edition markers) used when this store was built."""
+        return self._provenance
 
     def lookup(self, ik: str) -> dict[str, str] | None:
         return self._entries.get(ik)
 
+    def as_dict(self) -> dict[str, dict[str, str]]:
+        return dict(self._entries)
+
     def __len__(self) -> int:
         return len(self._entries)
+
+    def verify(self, ik: str) -> KostentraegerVerificationResult:
+        """Verify a card IK against this store (existence + § 302 recipient)."""
+        return verify_kostentraeger_ik(self, ik)
+
+
+def verify_kostentraeger_ik(
+    store: KostentraegerStore | None,
+    ik: str,
+) -> KostentraegerVerificationResult:
+    """Registry-verify a card/Kostenträger IK for § 302 addressing.
+
+    Does not call the network and does not perform formal Prüfziffer validation.
+    ``store is None`` yields ``registry_unavailable`` (never a positive hit).
+    """
+    if store is None:
+        return KostentraegerVerificationResult(status=VerificationStatus.REGISTRY_UNAVAILABLE)
+
+    cleaned = ik.strip()
+    provenance = store.provenance
+    if len(cleaned) != 9 or not cleaned.isdigit():
+        return KostentraegerVerificationResult(
+            status=VerificationStatus.NOT_FOUND,
+            card_ik=cleaned or None,
+            provenance=provenance,
+        )
+
+    entry = store.lookup(cleaned)
+    if entry is None:
+        return KostentraegerVerificationResult(
+            status=VerificationStatus.NOT_FOUND,
+            card_ik=cleaned,
+            provenance=provenance,
+        )
+
+    acceptance = (entry.get("acceptance_ik") or "").strip()
+    determined = bool(acceptance)
+    return KostentraegerVerificationResult(
+        status=VerificationStatus.FOUND,
+        card_ik=cleaned,
+        recipient_ik=acceptance,
+        recipient_determined=determined,
+        name=entry.get("name", ""),
+        abrechnungscode=entry.get("abrechnungscode", ""),
+        dfue_hint=entry.get("dfue_hint", ""),
+        dfue_protocol=entry.get("dfue_protocol", ""),
+        source=entry.get("source", ""),
+        provenance=provenance,
+    )
+
+
+def resolve_acceptance_ik(store: KostentraegerStore | None, ik: str) -> str | None:
+    """Return the § 302 recipient IK when found and determined; otherwise ``None``."""
+    result = verify_kostentraeger_ik(store, ik)
+    if result.status != VerificationStatus.FOUND or not result.recipient_determined:
+        return None
+    return result.recipient_ik
 
 
 def _default_una(schema: dict[str, Any]) -> dict[str, str]:
@@ -50,8 +157,8 @@ def _pick_acceptance(
             preferred.append(v)
         else:
             fallback.append(v)
-    chosen = (preferred or fallback or [None])[0]
-    if not chosen:
+    chosen = preferred[0] if preferred else (fallback[0] if fallback else None)
+    if chosen is None:
         return "", ""
     return chosen.get("partner_ik", ""), chosen.get("abrechnungscode", "")
 
@@ -65,9 +172,10 @@ def _parse_kotr_edifact(text: str, schema: dict[str, Any]) -> dict[str, dict[str
     current: dict[str, Any] | None = None
     vkgs: list[dict[str, str]] = []
     dfu_channel = ""
+    dfu_protocol = ""
 
     def flush() -> None:
-        nonlocal current, vkgs, dfu_channel
+        nonlocal current, vkgs, dfu_channel, dfu_protocol
         if current is None:
             return
         ik = current.get("ik", "")
@@ -81,11 +189,13 @@ def _parse_kotr_edifact(text: str, schema: dict[str, Any]) -> dict[str, dict[str
             "name": current.get("name", ""),
             "acceptance_ik": acceptance_ik,
             "dfue_hint": dfu_channel,
+            "dfue_protocol": dfu_protocol,
             "abrechnungscode": abr_code,
         }
         current = None
         vkgs = []
         dfu_channel = ""
+        dfu_protocol = ""
 
     for raw in split_segments(text.replace("\r\n", "").replace("\n", ""), una):
         fields = split_fields(raw, una)
@@ -98,6 +208,7 @@ def _parse_kotr_edifact(text: str, schema: dict[str, Any]) -> dict[str, dict[str
             current = {}
             vkgs = []
             dfu_channel = ""
+            dfu_protocol = ""
         elif tag == "IDK":
             if current is None:
                 current = {}
@@ -127,6 +238,8 @@ def _parse_kotr_edifact(text: str, schema: dict[str, Any]) -> dict[str, dict[str
             vkgs.append(row)
         elif tag == "DFU":
             if vals:
+                if len(vals) > 1:
+                    dfu_protocol = vals[1]
                 if len(vals) >= 7:
                     dfu_channel = vals[6]
                 else:
@@ -145,6 +258,31 @@ def _parse_kotr_edifact(text: str, schema: dict[str, Any]) -> dict[str, dict[str
     return entries
 
 
+def read_kotr_text(path: str | Path, encoding: str | None = None) -> str:
+    """Read a Kostenträger file. Official UNOC:3 files are ISO-8859-1; fixtures may be UTF-8."""
+    raw = Path(path).read_bytes()
+    if encoding:
+        return raw.decode(encoding)
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw.decode("latin-1")
+
+
+def _write_store(entries: dict[str, dict[str, str]], store_path: str | Path) -> None:
+    dest = Path(store_path)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix="kt-", suffix=".json", dir=str(dest.parent))
+    os.close(fd)
+    tmp_path = Path(tmp)
+    try:
+        tmp_path.write_text(json.dumps(entries, indent=2, sort_keys=True), encoding="utf-8")
+        os.replace(tmp_path, dest)
+    finally:
+        if tmp_path.exists():
+            tmp_path.unlink(missing_ok=True)
+
+
 def ingest_kostentraeger_file(
     path: str | Path,
     spec_version: str | None = None,
@@ -154,27 +292,40 @@ def ingest_kostentraeger_file(
     spec_version = resolve_spec_version(spec_version)
     root = version_dir(spec_version)
     schema = yaml.safe_load((root / "kostentraeger" / "anhang3.yaml").read_text(encoding="utf-8"))
-    text = Path(path).read_text(encoding=schema.get("encoding", "utf-8"))
+    encoding = schema.get("encoding")
+    text = read_kotr_text(path, encoding if isinstance(encoding, str) else None)
     if not text.strip():
         raise ValueError("Kostentraeger file is empty")
 
     entries = _parse_kotr_edifact(text, schema)
-    store = KostentraegerStore(entries)
+    source_name = Path(path).name
+    store = KostentraegerStore(entries, provenance=(source_name,))
     if store_path is not None:
-        dest = Path(store_path)
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        fd, tmp = tempfile.mkstemp(prefix="kt-", suffix=".json", dir=str(dest.parent))
-        os.close(fd)
-        tmp_path = Path(tmp)
-        try:
-            tmp_path.write_text(json.dumps(entries, indent=2, sort_keys=True), encoding="utf-8")
-            os.replace(tmp_path, dest)
-        finally:
-            if tmp_path.exists():
-                tmp_path.unlink(missing_ok=True)
+        _write_store(entries, store_path)
+    return store
+
+
+def ingest_kostentraeger_files(
+    paths: list[str | Path],
+    spec_version: str | None = None,
+    store_path: str | Path | None = None,
+) -> KostentraegerStore:
+    """Ingest several Kostenträger files; later files overwrite the same IK."""
+    merged: dict[str, dict[str, str]] = {}
+    ordered = sorted(paths, key=lambda p: Path(p).name.upper())
+    provenance: list[str] = []
+    for path in ordered:
+        store = ingest_kostentraeger_file(path, spec_version=spec_version)
+        source = Path(path).name
+        provenance.append(source)
+        for ik, entry in store.as_dict().items():
+            merged[ik] = {**entry, "source": source}
+    store = KostentraegerStore(merged, provenance=tuple(provenance))
+    if store_path is not None:
+        _write_store(merged, store_path)
     return store
 
 
 def load_store(store_path: str | Path) -> KostentraegerStore:
     data = json.loads(Path(store_path).read_text(encoding="utf-8"))
-    return KostentraegerStore(data)
+    return KostentraegerStore(data, provenance=(Path(store_path).name,))
