@@ -6,6 +6,15 @@ SGB V TA5/EDIFACT encode/decode and syntactic KK validation for Krankentransport
 
 Offline Prüfziffer validation via the `Ik` value type: `Ik.parse`, `Ik.is_valid`, `Ik.compute_check_digit`, parts + `is_formally_valid`, and seven-digit Kassennummer expansion with prefix `10` (`Ik.from_kassennummer`). Formal OK does not mean registry existence or payer Testat; Ersatzkennzeichen that satisfy the check digit pass the default check. German operator note: `docs/de/ik.md`.
 
+## LANR and BSNR formal checks
+
+Offline formal validators mirroring the `Ik` pattern:
+
+- **LANR** (`Lanr`): nine digits; Prüfziffer at position 7 from positions 1–6 (weights 4,9,4,9,4,9). Specialty (positions 8–9) is not catalog-validated. German operator note: `docs/de/lanr.md`.
+- **BSNR** (`Bsnr`): nine digits structure only (no public Prüfziffer). KV-prefix catalogs are not enforced by default. German operator note: `docs/de/bsnr.md`.
+
+Formal OK does not mean physician/practice assignment or payer Testat.
+
 ## Kostenträger IK verification (§ 302)
 
 Registry check against the loaded GKV-Spitzenverband SLE Kostenträgerdatei (EDIFACT from [gkv-datenaustausch.de](https://www.gkv-datenaustausch.de/leistungserbringer/sonstige_leistungserbringer/kostentraegerdateien_sle/kostentraegerdateien.jsp)): `verify_kostentraeger_ik` / `resolve_acceptance_ik` answer existence and the selected acceptance/billing recipient IK. Refresh with `make download-kostentraeger` (gitignored `var/kostentraeger/`); verify itself is offline against the ingested store. A registry hit is not a Testat. German operator note: `docs/de/kostentraeger-ik.md`.
