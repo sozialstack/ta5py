@@ -11,11 +11,15 @@ Testat dar.
 
 ## Themen
 
+- [Glossar](glossar.md) — TA5/TP5, EDIFACT, Nutzsegmente, IK, LANR, BSNR, KVNR,
+  Kostenträgerdatei
 - [Institutskennung (IK) — formale Prüfung](ik.md) — Prüfziffer, Ersatzkennzeichen,
   siebenstellige Kassennummer (Präfix `10`)
 - [Lebenslange Arztnummer (LANR) — formale Prüfung](lanr.md) — Prüfziffer,
   formal ≠ Zuweisung / Fachgruppe / Testat
 - [Betriebsstättennummer (BSNR) — formale Prüfung](bsnr.md) — nur Struktur
   (keine öffentliche Prüfziffer)
+- [Krankenversichertennummer (KVNR) — formale Prüfung](kvnr.md) — zehnstellige
+  Kartennummer, Prüfziffer Summe modulo 10, formal ≠ vergeben / versichert / Testat
 - [Kostenträger-IK — Registerprüfung (§ 302)](kostentraeger-ik.md) —
   Kostenträgerdatei als Quelle, Existenz und Empfänger-IK
