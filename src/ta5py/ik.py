@@ -16,6 +16,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from ta5py.checkdigit import cross_sum_mod10
+
+_IK_WEIGHTS = (2, 1, 2, 1, 2, 1)
+
 
 class IkError(ValueError):
     """Invalid input for IK parse / helpers that must fail fast."""
@@ -71,11 +75,7 @@ class Ik:
         cleaned = body8.strip()
         if len(cleaned) != 8 or not cleaned.isdigit():
             raise IkError("IK body must be exactly eight digits")
-        total = 0
-        for i, ch in enumerate(cleaned[2:8]):
-            product = int(ch) * (2 if i % 2 == 0 else 1)
-            total += product - 9 if product > 9 else product
-        return str(total % 10)
+        return cross_sum_mod10(cleaned[2:8], _IK_WEIGHTS)
 
     @classmethod
     def parse(cls, text: str) -> Ik:

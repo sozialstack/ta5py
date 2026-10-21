@@ -15,6 +15,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from ta5py.checkdigit import complement_mod10, weighted_sum
+
+_LANR_WEIGHTS = (4, 9, 4, 9, 4, 9)
+
 
 class LanrError(ValueError):
     """Invalid input for LANR parse / helpers that must fail fast."""
@@ -68,11 +72,7 @@ class Lanr:
         cleaned = body6.strip()
         if len(cleaned) != 6 or not cleaned.isdigit():
             raise LanrError("LANR physician body must be exactly six digits")
-        total = 0
-        for i, ch in enumerate(cleaned):
-            weight = 4 if i % 2 == 0 else 9
-            total += int(ch) * weight
-        return str((10 - (total % 10)) % 10)
+        return complement_mod10(weighted_sum(cleaned, _LANR_WEIGHTS))
 
     @classmethod
     def parse(cls, text: str) -> Lanr:
