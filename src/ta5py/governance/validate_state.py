@@ -7,9 +7,8 @@ from pathlib import Path
 from typing import Any
 
 SCHEMA_PATH = (
-    Path(__file__).resolve().parents[5]
+    Path(__file__).resolve().parents[3]
     / "specs"
-    / "ta5py"
     / "002-auto-spec-integration"
     / "contracts"
     / "governance-state.schema.json"
@@ -24,9 +23,12 @@ SCHEMA_PATH = (
 
 def load_governance_schema() -> dict[str, Any]:
     try:
-        return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+        data = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise FileNotFoundError(f"governance schema unreadable: {SCHEMA_PATH}") from exc
+    if not isinstance(data, dict):
+        raise TypeError(f"governance schema must be a JSON object: {SCHEMA_PATH}")
+    return data
 
 
 def _check_detection(item: Any, index: int, errors: list[str]) -> None:
@@ -120,7 +122,7 @@ def validate_status_payload(payload: dict[str, Any]) -> list[str]:
 
     # Optional: full Draft 2020-12 validation when jsonschema is installed
     try:
-        import jsonschema  # type: ignore[import-not-found]
+        import jsonschema
 
         schema = load_governance_schema()
 

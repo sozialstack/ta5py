@@ -12,7 +12,7 @@ from ta5py.governance.integrate import DuplicateCandidateError, integrate_candid
 from ta5py.governance.store import load_live_binding
 from ta5py.spec_loader import SPEC_ROOT
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> int:

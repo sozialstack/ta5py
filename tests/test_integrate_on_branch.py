@@ -193,10 +193,10 @@ def test_integrate_refuses_out_of_scope(tmp_path: Path):
         )
 
 
-def test_default_repo_root_is_sozialstack():
+def test_default_repo_root_is_package_checkout():
     from ta5py.governance.gitops import sozialstack_root
 
     root = sozialstack_root(SPEC_ROOT)
-    assert (root / "packages" / "ta5py").is_dir()
+    assert (root / "src" / "ta5py").is_dir()
     assert (root / "pyproject.toml").is_file()
-    assert SPEC_ROOT.resolve().parents[3] != root
+    assert root == SPEC_ROOT.resolve().parents[2]

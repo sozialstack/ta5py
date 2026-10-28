@@ -9,12 +9,12 @@ class GitOpsError(RuntimeError):
 
 
 def sozialstack_root(start: Path | None = None) -> Path:
-    """Walk up from ``start`` (or this file) to the sozialstack workspace root."""
+    """Walk up from ``start`` (or this file) to the ta5py repository root."""
     here = (start or Path(__file__)).resolve()
     for path in [here, *here.parents]:
-        if (path / "packages" / "ta5py").is_dir() and (path / "pyproject.toml").is_file():
+        if (path / "src" / "ta5py").is_dir() and (path / "pyproject.toml").is_file():
             return path
-    raise FileNotFoundError("sozialstack repository root not found")
+    raise FileNotFoundError("ta5py repository root not found")
 
 
 def run_git(args: list[str], *, cwd: Path) -> str:
@@ -62,10 +62,10 @@ def persist_integration_branch(
     when the workflow workspace is deleted. Maintainers without push credentials
     can run the same detect/integrate command on a long-lived host.
     """
-    status = run_git(["status", "--porcelain", "--", "packages/ta5py/spec"], cwd=repo_root)
+    status = run_git(["status", "--porcelain", "--", "src/ta5py/spec"], cwd=repo_root)
     if not status:
         return None
-    run_git(["add", "--", "packages/ta5py/spec"], cwd=repo_root)
+    run_git(["add", "--", "src/ta5py/spec"], cwd=repo_root)
     run_git(["commit", "-m", message], cwd=repo_root)
     branch = current_branch(repo_root)
     if push:

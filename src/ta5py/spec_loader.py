@@ -9,7 +9,7 @@ import yaml
 
 from ta5py.package_validate import validate_package_dict
 
-SPEC_ROOT = Path(__file__).resolve().parents[2] / "spec"
+SPEC_ROOT = Path(__file__).resolve().parent / "spec"
 _FALLBACK_DEFAULT = "v21"
 
 
@@ -51,12 +51,15 @@ def version_dir(spec_version: str) -> Path:
 
 
 @lru_cache(maxsize=8)
-def load_dataset_schema(spec_version: str) -> dict:
+def load_dataset_schema(spec_version: str) -> dict[str, Any]:
     """Legacy v20 JSON Schema stub."""
     path = version_dir(spec_version) / "dataset.schema.json"
     if not path.is_file():
         raise FileNotFoundError(f"Unknown format spec version: {spec_version} ({path})")
-    return json.loads(path.read_text(encoding="utf-8"))
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise TypeError(f"dataset schema must be a JSON object: {path}")
+    return data
 
 
 def has_anlage_package(spec_version: str) -> bool:

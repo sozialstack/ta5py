@@ -1,0 +1,44 @@
+name: Format spec detect
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+    inputs:
+      detect_only:
+        description: Dry-run detection without auto-integrate (--detect-only)
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Sync
+        run: uv sync --group dev
+      - name: Detect official publications
+        env:
+          DETECT_ONLY: ${{ inputs.detect_only }}
+        run: |
+          extra=""
+          if [ "${DETECT_ONLY}" = "true" ]; then
+            extra="--detect-only"
+          fi
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          uv run python scripts/check_official_publications.py \
+            --scheduled \
+            --network \
+            --update-manifest-metadata \
+            --push \
+            $extra
+          # Auto-integrate commits and pushes the integration branch.
+          # If this workflow cannot push, run the same command on a long-lived host.

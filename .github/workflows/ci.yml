@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Sync
+        run: uv sync --group dev
+      - name: Synthetic-only fixture gate
+        run: uv run python scripts/check_synthetic_fixtures.py
+      - name: Typecheck
+        run: uv run mypy
+      - name: Pytest
+        run: uv run pytest -q

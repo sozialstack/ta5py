@@ -5,9 +5,8 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-from clearing_contracts.types import FormatResult
-
 from ta5py.models_slla_e import ensure_ambulance_profile
+from ta5py.result import FieldError, FormatResult
 from ta5py.spec_loader import has_anlage_package, load_package, resolve_spec_version
 from ta5py.validate_syntax import validate_data
 from ta5py.wire import join_segment
@@ -122,8 +121,6 @@ def encode(
     if has_anlage_package(spec_version):
         scope_err = ensure_ambulance_profile(payload)
         if scope_err:
-            from clearing_contracts.types import FieldError
-
             return FormatResult(
                 dataset_id=dataset_id,
                 output_uri=None,

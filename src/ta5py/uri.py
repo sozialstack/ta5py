@@ -12,4 +12,7 @@ def read_json_uri(uri: str) -> dict[str, Any]:
         if raw.startswith("//"):
             raw = raw[2:]
     path = Path(raw)
-    return json.loads(path.read_text(encoding="utf-8"))
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise TypeError(f"JSON URI must decode to an object: {uri}")
+    return data

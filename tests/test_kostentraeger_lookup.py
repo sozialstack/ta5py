@@ -16,6 +16,8 @@ def test_ingest_anhang3_edifact_and_lookup(tmp_path):
     assert hit is not None
     assert hit["acceptance_ik"] == "111222333"
     assert "Synthetic Ambulance" in hit["name"]
+    assert hit["dfue_protocol"] == "016"
+    assert hit["dfue_hint"] == "sftp://example.invalid/in"
     assert store.lookup("000000000") is None
     assert store.lookup("900000001") is None
     assert store.lookup("900000002") is None

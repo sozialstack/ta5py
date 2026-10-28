@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from clearing_contracts.types import FieldError, FormatResult
+from ta5py.result import FieldError, FormatResult
 
 from ta5py.models_slla_e import ensure_ambulance_profile, iter_slla_cases
 from ta5py.spec_loader import has_anlage_package, load_dataset_schema, load_package
