@@ -1,0 +1,7 @@
+code: BES
+name: Betrags-Summe Abrechnungsfall
+fields:
+  - { name: segment_tag, official_label: BES, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: gesamt_brutto, official_label: Gesamtbruttobetrag, position: 2, max_length: "10,2", value_type: N, usage: M }
+  - { name: gesamt_zuzahlung, official_label: Gesamtbetrag gesetzliche Zuzahlung, position: 3, max_length: "10,2", value_type: N, usage: K }
+  - { name: gesamt_eigenanteil, official_label: Gesamtbetrag Eigenanteil, position: 4, max_length: "10,2", value_type: N, usage: K }

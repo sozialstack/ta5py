@@ -1,0 +1,7 @@
+id: unfall_sonstiges
+version: 21
+source: Anlage 3 Unfall/Sonstiges
+codes:
+  - { code: "0", label: "kein Unfall" }
+  - { code: "1", label: "Arbeitsunfall" }
+  - { code: "2", label: "Sonstiger Unfall" }

@@ -1,0 +1,7 @@
+id: verarbeitungskennzeichen
+version: 21
+codes:
+  - { code: "01", label: "Normal" }
+  - { code: "02", label: "Korrektur" }
+  - { code: "03", label: "Gutschrift" }
+  - { code: "04", label: "Storno" }

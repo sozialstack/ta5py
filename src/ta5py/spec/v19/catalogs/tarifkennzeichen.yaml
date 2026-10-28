@@ -1,0 +1,9 @@
+id: tarifkennzeichen
+version: 21
+source: Anlage 3 Abschnitt 8.1.5.2 (5 Stellen; Stellen 1-2 Tarifbereich)
+codes:
+  - { code: "00ABC", label: "Bundestarif synthetic" }
+  - { code: "00XYZ", label: "Bundestarif synthetic alt" }
+  - { code: "01ABC", label: "Baden-Wuerttemberg synthetic" }
+  - { code: "02ABC", label: "Bayern synthetic" }
+  - { code: "03ABC", label: "Berlin Ost synthetic" }

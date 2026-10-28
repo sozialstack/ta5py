@@ -1,0 +1,16 @@
+# Change summary: v7
+
+- Base package: `v21`
+- Source publication ids: anlage-1-v7, anlage-3-v7
+
+## Detected publication deltas
+
+- **Changed** `anlage-1`: stand `2026-01-15` → `2011-06-10`; file `Anlage_1_TP5_V21_20260115.pdf` → `Anlage_1_TP5_V7_20110610.pdf`; version `21` → `7`; path changed
+- **Changed** `anlage-3`: stand `2025-09-19` → `2011-06-17`; file `Anlage_3_TP5_V21_20250919.pdf` → `Anlage_3_TP5_V7_20110617.pdf`; version `21` → `7`; path changed
+
+## Notes
+
+This tree is an automated scaffold. Field-level YAML transcription from official
+PDFs remains a human review step. Catalog/message/segment field notes should be
+updated on this branch after PDF review. Live/default version is **unchanged** until
+explicit approve + go-live.

@@ -1,0 +1,9 @@
+code: UNB
+name: Nutzdatendatei-Kopf
+fields:
+  - { name: segment_tag, official_label: UNB, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: syntax, official_label: Syntax, position: 2, max_length: 14, value_type: AN, usage: M, description: "UNOC:3 style" }
+  - { name: absender_ik, official_label: Absender, position: 3, max_length: 9, value_type: N, usage: M }
+  - { name: empfaenger_ik, official_label: Empfaenger, position: 4, max_length: 9, value_type: N, usage: M }
+  - { name: datum_zeit, official_label: Datum/Zeit, position: 5, max_length: 12, value_type: N, usage: M }
+  - { name: datenaustauschreferenz, official_label: Datenaustauschreferenz, position: 6, max_length: 14, value_type: AN, usage: M }

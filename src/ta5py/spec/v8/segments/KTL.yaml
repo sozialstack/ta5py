@@ -1,0 +1,13 @@
+code: KTL
+name: Krankentransportleistungen
+fields:
+  - { name: segment_tag, official_label: KTL, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: identifikationsnummer, official_label: Identifikationsnummer, position: 2, max_length: 3, value_type: N, usage: M }
+  - { name: strasse_abholort, official_label: Strasse Abholort/Notfallort, position: 3, max_length: 30, value_type: AN, usage: M }
+  - { name: plz_abholort, official_label: PLZ Abholort, position: 4, max_length: 7, value_type: AN, usage: K }
+  - { name: laenderkennzeichen_abholort, official_label: Laenderkennzeichen Abholort, position: 5, max_length: 3, value_type: AN, usage: K, catalog_ref: laenderkennzeichen }
+  - { name: name_abholort, official_label: Name Abholort, position: 6, max_length: 25, value_type: AN, usage: K }
+  - { name: strasse_zielort, official_label: Strasse Zielort, position: 7, max_length: 30, value_type: AN, usage: M }
+  - { name: plz_zielort, official_label: PLZ Zielort, position: 8, max_length: 7, value_type: AN, usage: M }
+  - { name: laenderkennzeichen_zielort, official_label: Laenderkennzeichen Zielort, position: 9, max_length: 3, value_type: AN, usage: K, catalog_ref: laenderkennzeichen }
+  - { name: name_zielort, official_label: Name Zielort, position: 10, max_length: 25, value_type: AN, usage: M }

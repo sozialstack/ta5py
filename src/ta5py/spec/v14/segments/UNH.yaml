@@ -1,0 +1,6 @@
+code: UNH
+name: Nachrichtentyp-Kopf
+fields:
+  - { name: segment_tag, official_label: UNH, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: nachrichten_ref, official_label: Nachrichten-Referenznummer, position: 2, max_length: 14, value_type: AN, usage: M }
+  - { name: nachrichtentyp, official_label: Nachrichtenkennung, position: 3, max_length: 20, value_type: AN, usage: M, description: "e.g. SLLA:21:0:0" }

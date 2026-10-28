@@ -1,0 +1,5 @@
+component: ":"
+element: "+"
+decimal: ","
+release: "?"
+segment_end: "'"

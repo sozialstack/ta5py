@@ -1,0 +1,11 @@
+code: ZKT
+name: Verordnung Krankentransport
+fields:
+  - { name: segment_tag, official_label: ZKT, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: betriebsstaettennummer, official_label: Betriebsstaettennummer, position: 2, max_length: 9, value_type: AN, usage: M }
+  - { name: lanr, official_label: Lebenslange Arztnummer, position: 3, max_length: 9, value_type: AN, usage: M }
+  - { name: zuzahlungskennzeichen, official_label: Zuzahlungskennzeichen, position: 4, max_length: 1, value_type: N, usage: M, catalog_ref: zuzahlungskennzeichen }
+  - { name: verordnungsdatum, official_label: Verordnungs-, Ausstell- oder Einsatzdatum, position: 5, max_length: 8, value_type: N, usage: K }
+  - { name: unfallkennzeichen, official_label: Unfallkennzeichen, position: 6, max_length: 1, value_type: N, usage: K, catalog_ref: unfall_sonstiges }
+  - { name: kennzeichen_bvg, official_label: Kennzeichen BVG/Sonstiges/SER, position: 7, max_length: 1, value_type: N, usage: K }
+  - { name: le_art, official_label: Leistungserbringerart, position: 8, max_length: 2, value_type: N, usage: M, description: "Ambulance LE types 41-49; membership catalogs live in leistungen" }

@@ -1,0 +1,7 @@
+id: beleginformation
+version: 21
+source: Anlage 3 Abschnitt 8.1.18
+codes:
+  - { code: "0", label: "keine Beleguebermittlung zum Fall" }
+  - { code: "1", label: "Belege zum Fall per Post" }
+  - { code: "2", label: "Belege zum Fall elektronisch" }

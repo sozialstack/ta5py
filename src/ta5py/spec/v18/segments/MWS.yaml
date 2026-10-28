@@ -1,0 +1,6 @@
+code: MWS
+name: Mehrwertsteuer
+fields:
+  - { name: segment_tag, official_label: MWS, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: mehrwertsteuersatz, official_label: Mehrwertsteuersatz, position: 2, max_length: "5,2", value_type: N, usage: M }
+  - { name: betrag_mehrwertsteuer, official_label: Betrag Mehrwertsteuer, position: 3, max_length: "10,2", value_type: N, usage: M }

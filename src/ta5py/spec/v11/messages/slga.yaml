@@ -1,0 +1,16 @@
+code: SLGA
+profile: ambulance
+segments:
+  - segment: FKT
+    usage: M
+    repeat: "1"
+  - segment: REC
+    usage: M
+    repeat: "1"
+  - segment: NAM
+    usage: M
+    repeat: "1"
+  - segment: GES
+    usage: M
+    repeat: "2-9"
+notes: "Minimal SLGA composition for ambulance file envelopes; expand from PDF as needed."

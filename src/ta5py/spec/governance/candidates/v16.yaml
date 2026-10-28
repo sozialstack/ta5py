@@ -1,0 +1,25 @@
+id: v16
+package_label: v16
+branch_name: ta5py/spec-v16-integration
+source_publication_ids:
+- anlage-1-v16
+- anlage-3-v16
+state: awaiting_approval
+created_at: '2026-10-28T12:55:31+00:00'
+updated_at: '2026-10-28T12:55:32+00:00'
+change_summary_path: v16/CHANGE_SUMMARY.md
+approval: null
+error_message: null
+source_publications:
+- id: anlage-1-v16
+  bucket: anlage-1
+  filename: Anlage_1_TP5_V16_20210317.pdf
+  path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_archiv_4/Anlage_1_TP5_V16_20210317.pdf
+  version: 16
+  stand_date: '2021-03-17'
+- id: anlage-3-v16
+  bucket: anlage-3
+  filename: Anlage_3_TP5_V16_20210331.pdf
+  path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_archiv_4/Anlage_3_TP5_V16_20210331.pdf
+  version: 16
+  stand_date: '2021-03-31'

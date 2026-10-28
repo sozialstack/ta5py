@@ -1,0 +1,62 @@
+version: "10"
+source_pdf: official/anhang-3/Anhang_03_Anlage_1_TP5_V10_20260414.pdf
+scope: krankentransport
+format: edifact_kotr
+notes: >
+  Kostenträgerdatei layout per Anhang 3 §7 (UNA optional, UNB…UNZ envelope,
+  KOTR messages with IDK/VDT/FKT/NAM/ANS and optional VKG/UEM/DFU).
+  Synthetic fixtures use the published segment order; PDFs remain authoritative.
+una:
+  component: ":"
+  element: "+"
+  decimal: ","
+  release: "?"
+  segment_end: "'"
+message:
+  type: KOTR
+  segment_order:
+    - { segment: UNH, usage: M, repeat: "1" }
+    - { segment: IDK, usage: M, repeat: "1" }
+    - { segment: VDT, usage: M, repeat: "1 (with IDK)" }
+    - { segment: FKT, usage: M, repeat: "1" }
+    - { segment: KTO, usage: K, repeat: "0-1" }
+    - { segment: VKG, usage: K, repeat: "0-n" }
+    - { segment: NAM, usage: M, repeat: "1" }
+    - { segment: ANS, usage: M, repeat: "1-2" }
+    - { segment: ASP, usage: K, repeat: "0-n" }
+    - { segment: UEM, usage: K, repeat: "0-n" }
+    - { segment: DFU, usage: K, repeat: "0-n (required if UEM says DFÜ)" }
+    - { segment: UNT, usage: M, repeat: "1" }
+segments:
+  IDK:
+    fields: [ik, art_institution, kurzbezeichnung, vknr]
+  VKG:
+    fields:
+      [
+        art_verknuepfung,
+        partner_ik,
+        le_gruppe,
+        abrechnungsstelle_ik,
+        art_datenlieferung,
+        uebermittlungsmedium,
+        bundesland,
+        kv_bezirk,
+        abrechnungscode,
+        tarifkennzeichen,
+        unterverfahren,
+      ]
+  NAM:
+    fields: [laufende_nr, name1, name2, name3, name4]
+  DFU:
+    fields:
+      [
+        laufende_nr,
+        protokoll,
+        benutzerkennung,
+        von,
+        bis,
+        tage,
+        kommunikationskanal,
+      ]
+acceptance_link_types: ["02", "03"]
+ambulance_abrechnungscodes: ["00", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49"]

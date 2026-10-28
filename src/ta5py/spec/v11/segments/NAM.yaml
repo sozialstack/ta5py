@@ -1,0 +1,5 @@
+code: NAM
+name: Namen Rechnungssteller
+fields:
+  - { name: segment_tag, official_label: NAM, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: name, official_label: Name/Firmenbezeichnung, position: 2, max_length: 30, value_type: AN, usage: M }

@@ -1,0 +1,5 @@
+code: TXT
+name: Textfeld
+fields:
+  - { name: segment_tag, official_label: TXT, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: text, official_label: Text, position: 2, max_length: 70, value_type: AN, usage: M }

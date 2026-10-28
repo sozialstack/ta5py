@@ -1,0 +1,14 @@
+code: EKT
+name: Einzelfallnachweis Krankentransport
+fields:
+  - { name: segment_tag, official_label: EKT, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: abrechnungscode, official_label: Abrechnungscode, position: 2, max_length: 2, value_type: AN, usage: M, catalog_ref: abrechnungscode }
+  - { name: tarifkennzeichen, official_label: Tarifkennzeichen, position: 3, max_length: 5, value_type: AN, usage: M, catalog_ref: tarifkennzeichen }
+  - { name: positionsnummer, official_label: Abrechnungspositionsnummer, position: 4, max_length: 10, value_type: AN, usage: M, description: "6-digit KT structure; membership catalogs live in leistungen" }
+  - { name: anzahl_menge, official_label: Anzahl/Menge, position: 5, max_length: "4,2", value_type: N, usage: M }
+  - { name: einzelbetrag, official_label: Einzelbetrag, position: 6, max_length: "10,2", value_type: N, usage: M }
+  - { name: leistungsdatum, official_label: Datum der Leistungserbringung, position: 7, max_length: 8, value_type: N, usage: M }
+  - { name: gefahrene_kilometer, official_label: Gefahrene Kilometer, position: 8, max_length: "4,2", value_type: N, usage: K }
+  - { name: uhrzeit_von, official_label: Uhrzeit, position: 9, max_length: 4, value_type: N, usage: K }
+  - { name: uhrzeit_bis, official_label: Uhrzeit bis, position: 10, max_length: 4, value_type: N, usage: K }
+  - { name: dauer_minuten, official_label: Dauer, position: 11, max_length: 4, value_type: N, usage: K }

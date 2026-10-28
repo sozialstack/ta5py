@@ -1,0 +1,25 @@
+id: v7
+package_label: v7
+branch_name: ta5py/spec-v7-integration
+source_publication_ids:
+- anlage-1-v7
+- anlage-3-v7
+state: awaiting_approval
+created_at: '2026-10-28T12:55:31+00:00'
+updated_at: '2026-10-28T12:55:33+00:00'
+change_summary_path: v7/CHANGE_SUMMARY.md
+approval: null
+error_message: null
+source_publications:
+- id: anlage-1-v7
+  bucket: anlage-1
+  filename: Anlage_1_TP5_V7_20110610.pdf
+  path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_archiv_4/Anlage_1_TP5_V7_20110610.pdf
+  version: 7
+  stand_date: '2011-06-10'
+- id: anlage-3-v7
+  bucket: anlage-3
+  filename: Anlage_3_TP5_V7_20110617.pdf
+  path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_archiv_4/Anlage_3_TP5_V7_20110617.pdf
+  version: 7
+  stand_date: '2011-06-17'

@@ -1,0 +1,7 @@
+code: IMG
+name: Imagename
+fields:
+  - { name: segment_tag, official_label: IMG, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: abrechnungsjahr, official_label: Abrechnungsjahr, position: 2, max_length: 4, value_type: N, usage: M }
+  - { name: abrechnungsmonat, official_label: Abrechnungsmonat, position: 3, max_length: 2, value_type: AN, usage: M }
+  - { name: identifikation_stelle, official_label: Identifikationsmerkmal der Stelle, position: 4, max_length: 9, value_type: N, usage: M }

@@ -1,0 +1,6 @@
+code: UNT
+name: Nachrichtentyp-Ende
+fields:
+  - { name: segment_tag, official_label: UNT, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: anzahl_segmente, official_label: Anzahl Einheiten, position: 2, max_length: 6, value_type: N, usage: M }
+  - { name: nachrichten_ref, official_label: Nachrichten-Referenznummer, position: 3, max_length: 14, value_type: AN, usage: M }

@@ -1,0 +1,5 @@
+scope: krankentransport
+source_pdf: docs/anlage-5/Anlage_5_TP5_V4_0_20180927.pdf
+notes: >
+  ta5py cites Anlage 5 for ambulance / SLLA:E scope only.
+  Urbeleg content rules are owned by packages/leistungen/spec/v21/urbeleg/.

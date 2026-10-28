@@ -1,0 +1,6 @@
+id: rechnungsart
+version: 21
+codes:
+  - { code: "1", label: "Abrechnung" }
+  - { code: "2", label: "Nachforderung" }
+  - { code: "3", label: "Korrektur" }

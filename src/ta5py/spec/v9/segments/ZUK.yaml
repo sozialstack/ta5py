@@ -1,0 +1,7 @@
+code: ZUK
+name: Zuzahlung
+fields:
+  - { name: segment_tag, official_label: ZUK, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: identifikationsnummer, official_label: Identifikationsnummer, position: 2, max_length: 3, value_type: N, usage: M }
+  - { name: bruttobetrag, official_label: Bruttobetrag, position: 3, max_length: "10,2", value_type: N, usage: M }
+  - { name: zuzahlungsart, official_label: Zuzahlungsart, position: 4, max_length: 2, value_type: N, usage: K, catalog_ref: zuzahlungsart }

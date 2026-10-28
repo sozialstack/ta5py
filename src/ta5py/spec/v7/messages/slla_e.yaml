@@ -1,0 +1,46 @@
+code: SLLA
+profile: E
+segments:
+  - segment: FKT
+    usage: M
+    repeat: "1"
+  - segment: REC
+    usage: M
+    repeat: "1"
+  - segment: INV
+    usage: M
+    repeat: "1-n (Abrechnungsfall)"
+    notes: "INV..BES repeats per case"
+  - segment: NAD
+    usage: M
+    repeat: "1 je INV"
+  - segment: IMG
+    usage: K
+    repeat: "0-1 je INV"
+  - segment: EVO
+    usage: K
+    repeat: "0-1 je INV"
+  - segment: KTL
+    usage: M
+    repeat: "1-n je INV"
+  - segment: EKT
+    usage: M
+    repeat: "1-n je KTL"
+  - segment: TXT
+    usage: K
+    repeat: "0-1 je EKT"
+  - segment: MWS
+    usage: K
+    repeat: "0-1 je EKT"
+  - segment: ZUK
+    usage: K
+    repeat: "0-1 je KTL"
+  - segment: ZKT
+    usage: M
+    repeat: "1 je INV"
+  - segment: SKZ
+    usage: K
+    repeat: "0-1 je ZKT"
+  - segment: BES
+    usage: M
+    repeat: "1 je INV"

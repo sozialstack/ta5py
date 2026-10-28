@@ -1,0 +1,18 @@
+id: v4
+package_label: v4
+branch_name: ta5py/spec-v4-integration
+source_publication_ids:
+- anlage-5
+state: awaiting_approval
+created_at: '2026-10-28T12:55:31+00:00'
+updated_at: '2026-10-28T12:55:33+00:00'
+change_summary_path: v4/CHANGE_SUMMARY.md
+approval: null
+error_message: null
+source_publications:
+- id: anlage-5
+  bucket: anlage-5
+  filename: Anlage_5_TP5_V4_0_20180927.pdf
+  path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_aktuell_4/Anlage_5_TP5_V4_0_20180927.pdf
+  version: 4
+  stand_date: null

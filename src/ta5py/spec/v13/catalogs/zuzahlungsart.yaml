@@ -1,0 +1,5 @@
+id: zuzahlungsart
+version: 21
+codes:
+  - { code: "01", label: "gesetzliche Zuzahlung" }
+  - { code: "02", label: "Eigenanteil" }

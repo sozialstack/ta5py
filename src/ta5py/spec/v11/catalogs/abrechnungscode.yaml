@@ -1,0 +1,13 @@
+id: abrechnungscode
+version: 21
+source: Anlage 3 Abschnitt 8.1.5.1 (ambulance-referenced 41-49)
+codes:
+  - { code: "41", label: "Oeffentlicher Anbieter qualifizierter Krankentransport" }
+  - { code: "42", label: "DRK" }
+  - { code: "43", label: "ASB" }
+  - { code: "44", label: "JUH" }
+  - { code: "45", label: "MHD" }
+  - { code: "46", label: "Nichtqualifizierter Krankentransport (Taxi/Mietwagen)" }
+  - { code: "47", label: "Flugrettung/-transport" }
+  - { code: "48", label: "Sonstiger nichtoeffentlicher qualifizierter Anbieter" }
+  - { code: "49", label: "Sonstiger Anbieter (z.B. Bergwacht)" }

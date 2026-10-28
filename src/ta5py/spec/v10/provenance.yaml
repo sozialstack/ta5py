@@ -1,0 +1,29 @@
+version_label: v10
+scope: krankentransport
+publications:
+- anlage_id: anlage-3
+  version: 10
+  stand_date: '2016-02-18'
+  source_url: https://www.gkv-datenaustausch.de/leistungserbringer/sonstige_leistungserbringer/sonstige_leistungserbringer.jsp
+  local_pdf: official/anlage-3/Anlage_3_TP5_V10_20160218.pdf
+  replaced_stand: '2025-09-19'
+- anlage_id: anlage-1
+  version: 10
+  stand_date: '2016-02-18'
+  source_url: https://www.gkv-datenaustausch.de/leistungserbringer/sonstige_leistungserbringer/sonstige_leistungserbringer.jsp
+  local_pdf: official/anlage-1/Anlage_1_TP5_V10_20160218.pdf
+  applicable_from: '2025-10-01'
+  replaced_stand: '2026-01-15'
+- anlage_id: anlage-5
+  version: '4.0'
+  stand_date: '2018-09-27'
+  source_url: https://www.gkv-datenaustausch.de/leistungserbringer/sonstige_leistungserbringer/sonstige_leistungserbringer.jsp
+  local_pdf: docs/anlage-5/Anlage_5_TP5_V4_0_20180927.pdf
+- anlage_id: anhang-3
+  version: 10
+  stand_date: '2026-04-14'
+  applicable_from: '2027-02-01'
+  source_url: https://www.gkv-datenaustausch.de/leistungserbringer/sonstige_leistungserbringer/sonstige_leistungserbringer.jsp
+  local_pdf: docs/anhang-3/Anhang_03_Anlage_1_TP5_V10_20260414.pdf
+notes: Scaffolded integration candidate for v10. Krankentransport / SLLA:E subset
+  only. Official PDFs remain authoritative.

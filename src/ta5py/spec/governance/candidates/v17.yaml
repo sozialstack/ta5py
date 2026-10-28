@@ -1,0 +1,25 @@
+id: v17
+package_label: v17
+branch_name: ta5py/spec-v17-integration
+source_publication_ids:
+- anlage-1-v17
+- anlage-3-v17
+state: awaiting_approval
+created_at: '2026-10-28T12:55:31+00:00'
+updated_at: '2026-10-28T12:55:32+00:00'
+change_summary_path: v17/CHANGE_SUMMARY.md
+approval: null
+error_message: null
+source_publications:
+- id: anlage-1-v17
+  bucket: anlage-1
+  filename: Anlage_1_TP5_V17_20220413.pdf
+  path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_archiv_4/Anlage_1_TP5_V17_20220413.pdf
+  version: 17
+  stand_date: '2022-04-13'
+- id: anlage-3-v17
+  bucket: anlage-3
+  filename: Anlage_3_TP5_V17_20220413.pdf
+  path: /media/dokumente/leistungserbringer_1/sonstige_leistungserbringer/technische_anlagen_archiv_4/Anlage_3_TP5_V17_20220413.pdf
+  version: 17
+  stand_date: '2022-04-13'

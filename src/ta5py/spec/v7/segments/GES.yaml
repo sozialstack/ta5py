@@ -1,0 +1,6 @@
+code: GES
+name: Rechnungssummen
+fields:
+  - { name: segment_tag, official_label: GES, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: status, official_label: Status, position: 2, max_length: 1, value_type: N, usage: M }
+  - { name: gesamt_brutto, official_label: Gesamtbrutto, position: 3, max_length: "10,2", value_type: N, usage: M }

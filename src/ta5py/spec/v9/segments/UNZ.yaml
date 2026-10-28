@@ -1,0 +1,6 @@
+code: UNZ
+name: Datei-Ende
+fields:
+  - { name: segment_tag, official_label: UNZ, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: anzahl_nachrichten, official_label: Anzahl Nachrichten, position: 2, max_length: 6, value_type: N, usage: M }
+  - { name: datenaustauschreferenz, official_label: Datenaustauschreferenz, position: 3, max_length: 14, value_type: AN, usage: M }

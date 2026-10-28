@@ -1,0 +1,8 @@
+code: REC
+name: Rechnung/Zahlung
+fields:
+  - { name: segment_tag, official_label: REC, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: sammel_rechnungsnummer, official_label: Sammel-Rechnungsnummer, position: 2, max_length: 14, value_type: AN, usage: M }
+  - { name: einzel_rechnungsnummer, official_label: Einzel-Rechnungsnummer, position: 3, max_length: 6, value_type: AN, usage: M }
+  - { name: datum, official_label: Rechnungsdatum, position: 4, max_length: 8, value_type: N, usage: M }
+  - { name: rechnungsart, official_label: Rechnungsart, position: 5, max_length: 1, value_type: N, usage: M, catalog_ref: rechnungsart }

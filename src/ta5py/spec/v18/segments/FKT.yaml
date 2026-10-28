@@ -1,0 +1,10 @@
+code: FKT
+name: Funktion
+fields:
+  - { name: segment_tag, official_label: FKT, position: 1, max_length: 3, value_type: AN, usage: M }
+  - { name: verarbeitungskennzeichen, official_label: Verarbeitungskennzeichen, position: 2, max_length: 2, value_type: N, usage: M, catalog_ref: verarbeitungskennzeichen }
+  - { name: sammelrechnung, official_label: Sammelrechnung, position: 3, max_length: 1, value_type: AN, usage: K }
+  - { name: ik_rechnungssteller, official_label: IK Rechnungssteller/LE, position: 4, max_length: 9, value_type: N, usage: M }
+  - { name: ik_kostentraeger, official_label: IK Kostentraeger, position: 5, max_length: 9, value_type: N, usage: M }
+  - { name: ik_krankenkasse, official_label: IK Krankenkasse KV-Karte/VO, position: 6, max_length: 9, value_type: N, usage: K }
+  - { name: ik_absender, official_label: IK Absender der Datei, position: 7, max_length: 9, value_type: N, usage: M }
