@@ -193,6 +193,163 @@ def test_integrate_refuses_out_of_scope(tmp_path: Path):
         )
 
 
+def test_remote_integration_branch_is_not_recreated(tmp_path: Path):
+    repo, spec = _spec_with_v21(tmp_path)
+    origin = tmp_path / "origin.git"
+    subprocess.run(["git", "init", "--bare", "-b", "main", str(origin)], check=True, capture_output=True)
+    subprocess.run(["git", "branch", "-M", "main"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "remote", "add", "origin", str(origin)], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "push", "-u", "origin", "HEAD"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(
+        ["git", "branch", "ta5py/spec-v23-integration"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        ["git", "push", "-u", "origin", "ta5py/spec-v23-integration"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        ["git", "branch", "-D", "ta5py/spec-v23-integration"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+    run_detection(known_manifest=KNOWN, fixture=NEW, spec_root=spec)
+    with pytest.raises(DuplicateCandidateError, match="branch ta5py/spec-v23-integration exists"):
+        integrate_candidate(
+            from_latest_new=True,
+            create_git_branch=True,
+            repo_root=repo,
+            spec_root=spec,
+            base_package="v21",
+            known_manifest=spec / "official" / "sources.manifest.yaml",
+        )
+    branch = subprocess.run(
+        ["git", "branch", "--show-current"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    assert branch == "main"
+    assert not (spec / "v23").exists()
+
+
+def test_detected_candidates_land_on_separate_branches(tmp_path: Path):
+    from datetime import datetime, timezone
+
+    from ta5py.governance.integrate import integrate_detected_candidates
+    from ta5py.governance.models import IntegrationCandidate
+    from ta5py.governance.store import save_candidate
+
+    repo, spec = _spec_with_v21(tmp_path)
+    subprocess.run(["git", "add", "."], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-m", "spec"], cwd=repo, check=True, capture_output=True)
+    now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    for label in ("v22", "v23"):
+        save_candidate(
+            IntegrationCandidate(
+                id=label,
+                package_label=label,
+                branch_name=f"ta5py/spec-{label}-integration",
+                source_publication_ids=[],
+                state="detected",
+                created_at=now,
+                updated_at=now,
+            ),
+            spec,
+        )
+    integrated, skips = integrate_detected_candidates(
+        repo_root=repo,
+        spec_root=spec,
+        known_manifest=spec / "official" / "sources.manifest.yaml",
+        create_git_branch=True,
+        push=False,
+    )
+    assert skips == []
+    assert [c.package_label for c in integrated] == ["v22", "v23"]
+
+    def tracked(branch: str) -> str:
+        proc = subprocess.run(
+            ["git", "ls-tree", "-r", "--name-only", branch],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        return proc.stdout.replace("\\", "/")
+
+    v22_tree = tracked("ta5py/spec-v22-integration")
+    v23_tree = tracked("ta5py/spec-v23-integration")
+    assert "spec/v22/provenance.yaml" in v22_tree
+    assert "spec/v23/" not in v22_tree
+    assert "spec/v23/provenance.yaml" in v23_tree
+    assert "spec/v22/" not in v23_tree
+    current = subprocess.run(
+        ["git", "branch", "--show-current"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    assert current == "master" or current == "main"
+
+
+def test_persist_leaves_remote_ahead_branch_unchanged(tmp_path: Path):
+    from ta5py.governance.gitops import RemoteAheadError, persist_integration_branch
+
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    _init_repo(repo)
+    origin = tmp_path / "origin.git"
+    subprocess.run(["git", "init", "--bare", "-b", "main", str(origin)], check=True, capture_output=True)
+    subprocess.run(["git", "branch", "-M", "main"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "remote", "add", "origin", str(origin)], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "push", "-u", "origin", "HEAD"], cwd=repo, check=True, capture_output=True)
+    spec = repo / "src" / "ta5py" / "spec"
+    spec.mkdir(parents=True)
+    (spec / "base.txt").write_text("base", encoding="utf-8")
+    subprocess.run(["git", "add", "src"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-m", "base spec"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "push", "-u", "origin", "HEAD"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "checkout", "-b", "ta5py/spec-v9-integration"], cwd=repo, check=True, capture_output=True)
+    (spec / "remote.txt").write_text("remote", encoding="utf-8")
+    subprocess.run(["git", "add", "src"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-m", "remote scaffold"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(
+        ["git", "push", "-u", "origin", "ta5py/spec-v9-integration"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+    remote_sha = subprocess.run(
+        ["git", "rev-parse", "ta5py/spec-v9-integration"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    subprocess.run(["git", "checkout", "main"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "branch", "-D", "ta5py/spec-v9-integration"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "checkout", "-b", "ta5py/spec-v9-integration"], cwd=repo, check=True, capture_output=True)
+    (spec / "local.txt").write_text("local", encoding="utf-8")
+    with pytest.raises(RemoteAheadError, match="left the remote unchanged"):
+        persist_integration_branch(repo, push=True, spec_relpath="src/ta5py/spec")
+    subprocess.run(["git", "fetch", "origin", "ta5py/spec-v9-integration"], cwd=repo, check=True, capture_output=True)
+    remote_after = subprocess.run(
+        ["git", "rev-parse", "FETCH_HEAD"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    assert remote_after == remote_sha
+
+
 def test_default_repo_root_is_package_checkout():
     from ta5py.governance.gitops import sozialstack_root
 

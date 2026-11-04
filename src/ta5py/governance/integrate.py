@@ -9,7 +9,18 @@ from typing import Any
 
 import yaml
 
-from ta5py.governance.gitops import GitOpsError, create_branch, sozialstack_root
+from ta5py.governance.gitops import (
+    GitOpsError,
+    RemoteAheadError,
+    checkout_branch,
+    create_branch,
+    current_branch,
+    local_branch_exists,
+    persist_integration_branch,
+    remote_branch_exists,
+    return_to_branch,
+    sozialstack_root,
+)
 from ta5py.governance.models import IntegrationCandidate
 from ta5py.governance.scope import is_in_scope_bucket
 from ta5py.governance.store import (
@@ -29,6 +40,20 @@ class DuplicateCandidateError(ValueError):
 
 class IntegrateError(RuntimeError):
     pass
+
+
+class AutoIntegrateError(IntegrateError):
+    """A candidate failed after earlier candidates were already handled."""
+
+    def __init__(
+        self,
+        message: str,
+        integrated: list[IntegrationCandidate],
+        skips: list[str],
+    ) -> None:
+        super().__init__(message)
+        self.integrated = integrated
+        self.skips = skips
 
 
 def _utc_now() -> str:
@@ -268,6 +293,11 @@ def integrate_candidate(
             f"duplicate open candidate for {cand.package_label}: package dir exists"
         )
 
+    if create_git_branch and not dry_run and _integration_branch_taken(cand.branch_name, repo):
+        raise DuplicateCandidateError(
+            f"duplicate open candidate for {cand.package_label}: branch {cand.branch_name} exists"
+        )
+
     base_label = base_package
     if not base_label:
         binding = load_live_binding(root)
@@ -351,6 +381,92 @@ def integrate_candidate(
         raise
     except IntegrateError:
         raise
-    except (GitOpsError, OSError, FileExistsError) as exc:
+    except GitOpsError as exc:
+        if "branch already exists" in str(exc):
+            cand.state = "detected"
+            cand.error_message = None
+            cand.updated_at = _utc_now()
+            save_candidate(cand, root)
+            raise DuplicateCandidateError(
+                f"duplicate open candidate for {cand.package_label}: branch {cand.branch_name} exists"
+            ) from exc
         _mark_failed(cand, root, str(exc))
         raise
+    except (OSError, FileExistsError) as exc:
+        _mark_failed(cand, root, str(exc))
+        raise
+
+
+def _integration_branch_taken(branch_name: str, repo_root: Path) -> bool:
+    return local_branch_exists(branch_name, repo_root=repo_root) or remote_branch_exists(
+        branch_name, repo_root=repo_root
+    )
+
+
+def _spec_relpath(repo_root: Path, spec_root: Path) -> str:
+    return spec_root.resolve().relative_to(repo_root.resolve()).as_posix()
+
+
+def integrate_detected_candidates(
+    *,
+    repo_root: Path,
+    spec_root: Path,
+    known_manifest: Path | None,
+    create_git_branch: bool,
+    push: bool,
+) -> tuple[list[IntegrationCandidate], list[str]]:
+    """Scaffold each detected candidate on its own branch.
+
+    Multiple candidates used to stay uncommitted until a single commit on the
+    last branch, so one rejected push dropped every scaffold. Each candidate
+    is committed (and optionally pushed) before the next one starts from the
+    original branch. An existing remote integration branch is skipped.
+    """
+    detected = [c for c in list_candidates(spec_root) if c.state == "detected"]
+    integrated: list[IntegrationCandidate] = []
+    skips: list[str] = []
+    if not detected:
+        return integrated, skips
+
+    base_branch: str | None = None
+    spec_relpath: str | None = None
+    isolate = create_git_branch and len(detected) > 1
+    if create_git_branch:
+        base_branch = current_branch(repo_root)
+        spec_relpath = _spec_relpath(repo_root, spec_root)
+        if isolate:
+            persist_integration_branch(
+                repo_root,
+                message="chore(ta5py): record publication detection",
+                push=False,
+                spec_relpath=spec_relpath,
+            )
+
+    for cand in detected:
+        try:
+            if isolate and base_branch:
+                checkout_branch(base_branch, repo_root=repo_root)
+            result = integrate_candidate(
+                cand.id,
+                create_git_branch=create_git_branch,
+                repo_root=repo_root,
+                spec_root=spec_root,
+                known_manifest=known_manifest,
+            )
+            if create_git_branch and spec_relpath:
+                persist_integration_branch(
+                    repo_root,
+                    push=push,
+                    spec_relpath=spec_relpath,
+                )
+            integrated.append(result)
+        except DuplicateCandidateError as exc:
+            skips.append(f"auto-integrate skip duplicate: {exc}")
+        except RemoteAheadError as exc:
+            skips.append(f"auto-integrate skip remote ahead: {exc}")
+        except Exception as exc:
+            raise AutoIntegrateError(str(exc), integrated, skips) from exc
+        finally:
+            if isolate and base_branch and spec_relpath:
+                return_to_branch(base_branch, repo_root=repo_root, spec_relpath=spec_relpath)
+    return integrated, skips

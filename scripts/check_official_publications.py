@@ -9,9 +9,8 @@ import sys
 from pathlib import Path
 
 from ta5py.governance.detect import run_detection, should_auto_integrate
-from ta5py.governance.integrate import DuplicateCandidateError, integrate_candidate
-from ta5py.governance.gitops import persist_integration_branch
-from ta5py.governance.store import list_candidates, load_live_binding
+from ta5py.governance.integrate import AutoIntegrateError, integrate_detected_candidates
+from ta5py.governance.store import load_live_binding
 from ta5py.spec_loader import SPEC_ROOT
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -121,33 +120,35 @@ def main() -> int:
     )
     live_before = load_live_binding(SPEC_ROOT)
     if auto and run.new_or_changed_ids:
-        detected = [c for c in list_candidates(SPEC_ROOT) if c.state == "detected"]
-        for cand in detected:
-            try:
-                result = integrate_candidate(
-                    cand.id,
-                    create_git_branch=not args.no_git,
-                    repo_root=REPO_ROOT,
-                    spec_root=SPEC_ROOT,
-                    known_manifest=args.known,
-                )
+        try:
+            integrated, skips = integrate_detected_candidates(
+                repo_root=REPO_ROOT,
+                spec_root=SPEC_ROOT,
+                known_manifest=args.known,
+                create_git_branch=not args.no_git,
+                push=args.push,
+            )
+        except AutoIntegrateError as exc:
+            integrated, skips = exc.integrated, exc.skips
+            for message in skips:
+                print(message, file=sys.stderr)
+            for result in integrated:
                 print(
                     f"auto-integrate candidate={result.id} state={result.state} "
                     f"branch={result.branch_name}"
                 )
-            except DuplicateCandidateError as exc:
-                print(f"auto-integrate skip duplicate: {exc}", file=sys.stderr)
-            except Exception as exc:  # noqa: BLE001
-                print(f"auto-integrate ERROR: {exc}", file=sys.stderr)
-                return 1
-        if not args.no_git:
-            try:
-                persisted = persist_integration_branch(REPO_ROOT, push=args.push)
-                if persisted:
-                    print(f"persisted integration branch={persisted}")
-            except Exception as exc:  # noqa: BLE001
-                print(f"persist integration branch ERROR: {exc}", file=sys.stderr)
-                return 1
+            print(f"auto-integrate ERROR: {exc}", file=sys.stderr)
+            return 1
+        except Exception as exc:  # noqa: BLE001
+            print(f"auto-integrate ERROR: {exc}", file=sys.stderr)
+            return 1
+        for message in skips:
+            print(message, file=sys.stderr)
+        for result in integrated:
+            print(
+                f"auto-integrate candidate={result.id} state={result.state} "
+                f"branch={result.branch_name}"
+            )
         live_after = load_live_binding(SPEC_ROOT)
         before_label = live_before.package_label if live_before else None
         after_label = live_after.package_label if live_after else None
