@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download official GKV SLE PDFs into spec/docs/."""
+"""Download official GKV SLE PDFs into specs/docs/."""
 
 from __future__ import annotations
 
@@ -16,8 +16,8 @@ except ImportError:  # pragma: no cover
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT
-MANIFEST = ROOT / "spec" / "docs" / "sources.manifest.yaml"
-OUT_ROOT = ROOT / "spec" / "docs"
+MANIFEST = ROOT / "specs" / "docs" / "sources.manifest.yaml"
+OUT_ROOT = ROOT / "specs" / "docs"
 CONVERT_SCRIPT = REPO_ROOT / "scripts" / "convert_pdfs_to_md.py"
 
 

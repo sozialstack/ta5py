@@ -28,7 +28,7 @@ Registry check against the loaded GKV-Spitzenverband SLE Kostenträgerdatei (EDI
 - Live/default: `src/ta5py/spec/governance/live-version.yaml` (bootstrap `v21`) — **human approve + go-live required to change**
 - Preview packages: e.g. `src/ta5py/spec/v22/` (selectable explicitly; not live until approved)
 - Legacy stub: `src/ta5py/spec/v20/` (non-default JSON schema)
-- Official PDFs (tracked): `spec/docs/` — refresh with `make download-format-pdfs` (also writes Markdown companions; PDFs kept)
+- Official PDFs (tracked): `specs/docs/` — refresh with `make download-format-pdfs` (also writes Markdown companions; PDFs kept)
 - Refresh Markdown for all local PDFs: `make convert-pdfs` (never deletes PDFs)
 - Current SLE Kostenträgerdateien (gitignored cache): `make download-kostentraeger` → `var/kostentraeger/` + `store.json`
 

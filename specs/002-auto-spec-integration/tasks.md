@@ -241,7 +241,7 @@ Task: "CLI check_official_publications.py"
 
 ## Phase 10: Convergence
 
-- [x] T050 CRITICAL: Point `check_official_publications.py` (and integrate/manifest-metadata) at the real known catalog `packages/ta5py/spec/docs/sources.manifest.yaml` so `--scheduled --network` no longer fails on missing `spec/official/sources.manifest.yaml` per FR-001 / plan:storage / residual T044 / US1 (contradicts)
+- [x] T050 CRITICAL: Point `check_official_publications.py` (and integrate/manifest-metadata) at the real known catalog `specs/docs/sources.manifest.yaml` so `--scheduled --network` no longer fails on missing `spec/official/sources.manifest.yaml` per FR-001 / plan:storage / residual T044 / US1 (contradicts)
 - [x] T051 Fix `packages/ta5py/src/ta5py/governance/validate_state.py` `SCHEMA_PATH` to `specs/ta5py/002-auto-spec-integration/contracts/governance-state.schema.json`, catch load failures, and add a test that loads the real schema per T008 / T046 / plan:contracts (contradicts)
 - [x] T052 Persist scheduled auto-integrate output (commit + push `ta5py/spec-vN-integration`, or document a non-CI host that keeps the branch) so CI does not discard the scaffold per FR-004 / US2 / residual T047 / T048 (partial)
 - [x] T053 Fix `integrate_candidate` default `repo_root` (`root.parents[3]` resolves outside this repo) to the sozialstack root and cover with a test per plan:integrate gitops / research R3 (partial)

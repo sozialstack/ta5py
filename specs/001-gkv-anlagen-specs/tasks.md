@@ -32,7 +32,7 @@
 - [x] T002 [P] Create machine-readable package skeleton dirs `packages/ta5py/spec/v21/{messages,segments,catalogs}/` and leave stub note in `packages/ta5py/spec/v21/catalogs/README.md` (Slice B)
 - [x] T003 [P] Add PyYAML dependency to `packages/ta5py/pyproject.toml` and sync via root `uv sync --group dev`
 - [x] T004 [P] Add `packages/ta5py/spec/official/**/*.pdf` to root `.gitignore` (keep manifest + README tracked; PDFs fetched locally/CI)
-  - **Superseded**: official PDFs under `packages/ta5py/spec/docs/` are now tracked in git.
+  - **Superseded**: official PDFs under `specs/docs/` are now tracked in git.
 - [x] T005 Write URL manifest `packages/ta5py/spec/official/sources.manifest.yaml` listing base `https://www.gkv-datenaustausch.de` and relative paths for: Anlage 1 v21 (`…/technische_anlagen_aktuell_4/Anlage_1_TP5_V21_20260115.pdf`), Anlage 1 v22 (`…/Anlage_1_TP5_V22_20260521.pdf`), Anlage 3 v21 (`…/Anlage_3_TP5_V21_20250919.pdf`), Anlage 3 v22 (`…/Anlage_3_TP5_V22_20260521.pdf`), Anlage 5 (`…/Anlage_5_TP5_V4_0_20180927.pdf`), Anhang 3 latest (`…/Anhang_03_Anlage_1_TP5_V10_20260414.pdf`)
 
 ---
@@ -257,7 +257,7 @@ Task: "T021 Transcribe KTL/EKT/TXT/MWS/ZUK/ZKT/SKZ/BES into packages/ta5py/spec/
 ## Notes
 
 - Official PDF base URL: `https://www.gkv-datenaustausch.de`
-- Official PDFs under `packages/ta5py/spec/docs/` are tracked in git; always commit `sources.manifest.yaml` + download script
+- Official PDFs under `specs/docs/` are tracked in git; always commit `sources.manifest.yaml` + download script
 - Transcribe **Krankentransport / SLLA:E only** from shared SLE PDFs
 - Synthetic fixtures only — never real Versichertendaten
 - Next command after tasks: `/speckit-implement` (or implement MVP T001–T029 manually)

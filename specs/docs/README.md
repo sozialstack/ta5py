@@ -22,7 +22,7 @@ make convert-pdfs
 ```
 
 See `sources.manifest.yaml` for exact URLs and stand dates. Governance detection
-defaults to this file (`packages/ta5py/spec/docs/sources.manifest.yaml`).
+defaults to this file (`specs/docs/sources.manifest.yaml`).
 
 ## Checking for new publications
 
@@ -36,5 +36,5 @@ New packages are integrated on a **new branch**; live default changes only after
 
 Scheduled/periodic checks (`--scheduled` / `--periodic`) auto-integrate unless `--detect-only`.
 On-demand CLI remains detect-only unless `--auto-integrate`. See
-[`specs/ta5py/002-auto-spec-integration/quickstart.md`](../../../../specs/ta5py/002-auto-spec-integration/quickstart.md)
+[`specs/002-auto-spec-integration/quickstart.md`](../002-auto-spec-integration/quickstart.md)
 for the daily cron recipe.

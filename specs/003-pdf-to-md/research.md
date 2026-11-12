@@ -47,7 +47,7 @@ Output path: same directory as PDF, `{stem}.md`.
 
 ## R5 — Git tracking policy for Markdown
 
-**Decision**: Track both official PDFs and Markdown companions under `packages/ta5py/spec/docs/` (do not add a blanket ignore for either). PDFs stay authoritative; `.md` files are reading/search aids.
+**Decision**: Track both official PDFs and Markdown companions under `specs/docs/` (do not add a blanket ignore for either). PDFs stay authoritative; `.md` files are reading/search aids.
 
 **Rationale**: Agents and greppable reviews benefit from text without fetching PDFs; PDF remains authoritative binary.
 

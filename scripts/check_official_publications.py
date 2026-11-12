@@ -14,7 +14,7 @@ from ta5py.governance.store import load_live_binding
 from ta5py.spec_loader import SPEC_ROOT
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_KNOWN = ROOT / "spec" / "docs" / "sources.manifest.yaml"
+DEFAULT_KNOWN = ROOT / "specs" / "docs" / "sources.manifest.yaml"
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -40,7 +40,7 @@ def main() -> int:
         "--known",
         type=Path,
         default=DEFAULT_KNOWN,
-        help="Known sources manifest (default: spec/docs/sources.manifest.yaml)",
+        help="Known sources manifest (default: specs/docs/sources.manifest.yaml)",
     )
     parser.add_argument(
         "--network",
